@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Main Colors -->
+    <item name="primary" type="color">#3f51b5</item>
+    <item name="primary_dark" type="color">#303f9f</item>
+    <item name="accent" type="color">#536dfe</item>
+
+    <!-- Text Color -->
+    <item name="primaryText" type="color">#DEFFFFFF</item>
+    <item name="secondaryText" type="color">#8AFFFFFF</item>
+    <item name="iconText" type="color">#8AFFFFFF</item>
+    <item name="hintText" type="color">#42FFFFFF</item>
+    <item name="dividersText" type="color">#1FFFFFFF</item>
+
+</resources>
