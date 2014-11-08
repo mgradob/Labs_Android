@@ -6,7 +6,7 @@ package com.itesm.labs.models;
 public class CategoryInformation {
 
     private String title;
-    private int imageResource;
+    private Integer imageResource;
 
     public CategoryInformation(String title, int imageResource) {
         this.title = title;
@@ -21,11 +21,11 @@ public class CategoryInformation {
         this.title = title;
     }
 
-    public int getImageResource() {
+    public Integer getImageResource() {
         return imageResource;
     }
 
-    public void setImageResource(int imageResource) {
+    public void setImageResource(Integer imageResource) {
         this.imageResource = imageResource;
     }
 

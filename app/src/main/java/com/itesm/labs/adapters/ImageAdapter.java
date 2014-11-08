@@ -18,9 +18,6 @@ import java.util.ArrayList;
 public class ImageAdapter extends BaseAdapter{
 
     private Context mContext;
-    private Integer[] mThumbsId = {
-        R.drawable.ic_dummy_category
-    };
 
     public ImageAdapter(Context mContext) {
         this.mContext = mContext;
@@ -28,17 +25,17 @@ public class ImageAdapter extends BaseAdapter{
 
     @Override
     public int getCount() {
-        return 0;
+        return images.length;
     }
 
     @Override
     public Object getItem(int position) {
-        return position;
+        return null;
     }
 
     @Override
     public long getItemId(int position) {
-        return position;
+        return 0;
     }
 
     @Override
@@ -46,15 +43,23 @@ public class ImageAdapter extends BaseAdapter{
         ImageView imageView;
         if (convertView == null) {
             imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
+            imageView.setLayoutParams(new GridView.LayoutParams(150, 150));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setPadding(8,8,8,8);
         } else {
             imageView = (ImageView) convertView;
         }
 
-        imageView.setImageResource(this.mThumbsId[position]);
+        imageView.setImageResource(this.images[position]);
 
         return imageView;
     }
+
+    Integer[] images = {
+            R.drawable.ic_dummy_category,
+            R.drawable.ic_dummy_category,
+            R.drawable.ic_dummy_category,
+            R.drawable.ic_dummy_category,
+            R.drawable.ic_dummy_category
+    };
 }

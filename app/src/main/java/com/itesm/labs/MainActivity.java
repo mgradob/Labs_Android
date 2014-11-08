@@ -32,11 +32,7 @@ public class MainActivity extends Activity {
 
     public String ENDPOINT = "http://labs.chi.itesm.mx:8080";
 
-    TextView categoryTV;
-
     GridView mGridView;
-    CategoriesInformationAdapter mCategoriesInformationAdapter;
-    CategoriesContent mCategoriesContent;
     ArrayList<CategoryInformation> mCategoryInformationList;
 
     @Override
@@ -44,21 +40,13 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        categoryTV = (TextView) findViewById(R.id.categoryTV);
         mGridView = (GridView) findViewById(R.id.category_list);
-        mGridView.setAdapter(new ImageAdapter(this));
-
-        /*ArrayList<CategoryInformation> DATA = new ArrayList<CategoryInformation>();
-        DATA.add(new CategoryInformation("Resistencia", R.drawable.ic_launcher));
-        DATA.add(new CategoryInformation("Capacitor", R.drawable.ic_launcher));
-        DATA.add(new CategoryInformation("Inductor", R.drawable.ic_launcher));*/
-
-        /*mListView.setAdapter(new CategoriesInformationAdapter(MainActivity.this, DATA));*/
 
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(MainActivity.this, "position: " + position + " , id: " + id, Toast.LENGTH_LONG ).show();
+                Toast.makeText(MainActivity.this, "position: " + position + " , id: " + id, Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -94,11 +82,7 @@ public class MainActivity extends Activity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-            //mCategoriesContent = new CategoriesContent();
-            //mCategoriesContent.setCATEGORIES(mCategoryInformationList);
-            //mCategoriesInformationAdapter.setDATA(mCategoryInformationList);
-
-            categoryTV.setText("Categorias");
+            mGridView.setAdapter(new CategoriesInformationAdapter(MainActivity.this, mCategoryInformationList));
         }
     }
 }
