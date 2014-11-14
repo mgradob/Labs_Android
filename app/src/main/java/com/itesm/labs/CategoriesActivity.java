@@ -1,21 +1,17 @@
 package com.itesm.labs;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.itesm.labs.adapters.CategoriesInformationAdapter;
-import com.itesm.labs.adapters.ImageAdapter;
-import com.itesm.labs.content.CategoriesContent;
 import com.itesm.labs.models.CategoryInformation;
 import com.itesm.labs.rest.deserializers.CategoryDeserializer;
 import com.itesm.labs.rest.models.Category;
@@ -28,7 +24,7 @@ import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 
 
-public class MainActivity extends Activity {
+public class CategoriesActivity extends ActionBarActivity {
 
     public String ENDPOINT = "http://labs.chi.itesm.mx:8080";
 
@@ -38,15 +34,17 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_categories);
 
-        mGridView = (GridView) findViewById(R.id.category_list);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.categories_toolbar);
+        setSupportActionBar(toolbar);
+
+        mGridView = (GridView) findViewById(R.id.categories_list);
 
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(MainActivity.this, "position: " + position + " , id: " + id, Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(CategoriesActivity.this, "position: " + position + " , id: " + id, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -72,8 +70,17 @@ public class MainActivity extends Activity {
 
             mCategoryInformationList = new ArrayList<CategoryInformation>();
 
-            for (Category category : categoryWrapper.categoryList)
-                mCategoryInformationList.add(new CategoryInformation(category.name, R.drawable.ic_dummy_category));
+            for (Category category : categoryWrapper.categoryList) {
+                CategoryInformation mCategoryInformation = new CategoryInformation(category.name, R.drawable.ic_test_icon);
+
+                if (category.name.equals("Resistencia")) mCategoryInformation.setImageResource(R.drawable.ic_resistencia);
+                else if (category.name.equals("Capacitor")) mCategoryInformation.setImageResource(R.drawable.ic_capacitores);
+                else if (category.name.equals("Equipo")) mCategoryInformation.setImageResource(R.drawable.ic_equipo);
+                else if (category.name.equals("Kit")) mCategoryInformation.setImageResource(R.drawable.ic_kits);
+                else if (category.name.equals("Cables")) mCategoryInformation.setImageResource(R.drawable.cables);
+
+                mCategoryInformationList.add(mCategoryInformation);
+            }
 
             return null;
         }
@@ -82,7 +89,7 @@ public class MainActivity extends Activity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-            mGridView.setAdapter(new CategoriesInformationAdapter(MainActivity.this, mCategoryInformationList));
+            mGridView.setAdapter(new CategoriesInformationAdapter(CategoriesActivity.this, mCategoryInformationList));
         }
     }
 }

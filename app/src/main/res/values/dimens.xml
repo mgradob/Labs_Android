@@ -5,6 +5,7 @@
 
     <!-- Login Activity -->
     <dimen name="login_form_text">20sp</dimen>
+    <dimen name="button_margin">10dp</dimen>
 
     <!-- Category Item -->
     <dimen name="category_item_image">150dp</dimen>

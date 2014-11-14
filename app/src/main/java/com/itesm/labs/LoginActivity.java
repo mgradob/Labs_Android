@@ -1,13 +1,12 @@
 package com.itesm.labs;
 
-import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends ActionBarActivity {
 
     Button loginButton, signupButton;
 
@@ -22,8 +21,9 @@ public class LoginActivity extends Activity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext() , MainActivity.class);
+                Intent intent = new Intent(v.getContext() , CategoriesActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out); // Activity transition animation.
             }
         });
 

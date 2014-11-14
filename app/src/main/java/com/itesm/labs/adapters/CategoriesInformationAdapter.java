@@ -4,11 +4,15 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.itesm.labs.R;
 import com.itesm.labs.models.CategoryInformation;
 
@@ -55,6 +59,8 @@ public class CategoriesInformationAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.category_image = (ImageView) convertView.findViewById(R.id.category_item_icon);
             holder.category_name = (TextView) convertView.findViewById(R.id.category_item_text);
+
+            convertView.startAnimation(new AnimationUtils().loadAnimation(context, R.anim.categories_gridview_anim));
 
             convertView.setTag(holder);
         } else {

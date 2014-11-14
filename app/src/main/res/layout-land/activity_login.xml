@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
     tools:context=".LoginActivity"
     android:gravity="center" >
 
@@ -15,8 +14,8 @@
 
         <ImageView
             android:id="@+id/icon_app"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
             android:layout_margin="@dimen/activity_vertical_margin"
             android:layout_centerHorizontal="true"
             android:src="@drawable/ic_logo"/>
@@ -30,35 +29,29 @@
         android:layout_centerVertical="true">
 
         <EditText
+            style="@style/AppTheme.Login.EditText"
             android:id="@+id/user_id"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:textSize="@dimen/login_form_text"
             android:hint="@string/user_mat"/>
 
         <EditText
+            style="@style/AppTheme.Login.EditText"
             android:id="@+id/user_pass"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
             android:layout_below="@+id/user_id"
             android:layout_centerHorizontal="true"
-            android:textSize="@dimen/login_form_text"
             android:hint="@string/user_pass"
             android:inputType="textPassword"/>
 
         <Button
+            style="@style/AppTheme.Login.Button"
             android:id="@+id/login_sign_up"
             android:text="@string/user_signup"
-            android:layout_width="150dp"
-            android:layout_height="48dp"
             android:layout_below="@id/user_pass"/>
 
         <Button
+            style="@style/AppTheme.Login.Button"
             android:id="@+id/login_button"
             android:text="@string/user_login"
-            android:layout_width="150dp"
-            android:layout_height="48dp"
             android:layout_below="@id/user_pass"
             android:layout_toRightOf="@+id/login_sign_up" />
 
