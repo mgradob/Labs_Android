@@ -23,6 +23,21 @@
             android:name="com.itesm.labs.CategoriesActivity"
             android:label="@string/categories_activity" >
         </activity>
+
+        <service
+            android:name="com.itesm.labs.rest.service.LaboratoryService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+
+        <activity
+            android:name="com.itesm.labs.LaboratoriesActivity"
+            android:label="@string/title_activity_laboratories"
+            android:parentActivityName="com.itesm.labs.LoginActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.itesm.labs.LoginActivity" />
+        </activity>
     </application>
 
 </manifest>

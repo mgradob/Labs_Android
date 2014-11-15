@@ -77,7 +77,6 @@ public class CategoriesActivity extends ActionBarActivity {
                 else if (category.name.equals("Capacitor")) mCategoryInformation.setImageResource(R.drawable.ic_capacitores);
                 else if (category.name.equals("Equipo")) mCategoryInformation.setImageResource(R.drawable.ic_equipo);
                 else if (category.name.equals("Kit")) mCategoryInformation.setImageResource(R.drawable.ic_kits);
-                else if (category.name.equals("Cables")) mCategoryInformation.setImageResource(R.drawable.cables);
 
                 mCategoryInformationList.add(mCategoryInformation);
             }

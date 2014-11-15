@@ -5,17 +5,17 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
- * Created by miguel on 25/10/14.
+ * Created by mgradob on 11/14/14.
  */
-public class CategoryWrapper {
+public class LaboratoryWrapper {
 
     @SerializedName("results")
-    public List<Category> categoryList;
+    public List<Laboratory> laboratoryList;
 
     @Override
     public String toString() {
-        return "CategoryWrapper{" +
-                "categoryList=" + categoryList +
+        return "LaboratoryWrapper{" +
+                "laboratoryList=" + laboratoryList +
                 '}';
     }
 }
