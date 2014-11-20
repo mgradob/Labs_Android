@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Global Strings -->
+    <string name="endpoint">http://labs.chi.itesm.mx:8080</string>
+
     <!-- Login Activity -->
     <string name="user_mat">Matrícula</string>
     <string name="user_pass">Contraseña</string>
@@ -14,5 +17,28 @@
     <!-- Categories Activity -->
     <string name="categories_activity">Categorias</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_dashboard">DashboardActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Drawer Items -->
+    <string-array name="drawer_items">
+        <item>Pedidos</item>
+        <item>Inventario</item>
+        <item>Reportes</item>
+        <item>Usuarios</item>
+    </string-array>
+
+    <!-- Requests Fragment -->
+    <string name="requests_fragment_title">Pedidos</string>
+
+    <!-- Inventory Fragment -->
+    <string name="inventory_fragment_title">Inventario</string>
+
+    <!-- Reports Fragment -->
+    <string name="reports_fragment_title">Reportes</string>
+
+    <!-- Users Fragment -->
+    <string name="users_fragment_title">Usuarios</string>
 
 </resources>

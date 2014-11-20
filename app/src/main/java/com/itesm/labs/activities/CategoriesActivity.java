@@ -1,5 +1,6 @@
-package com.itesm.labs;
+package com.itesm.labs.activities;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -7,12 +8,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
-import android.support.v7.widget.Toolbar;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.itesm.labs.adapters.CategoriesInformationAdapter;
-import com.itesm.labs.models.CategoryInformation;
+import com.itesm.labs.R;
+import com.itesm.labs.adapters.CategoriesModelAdapter;
+import com.itesm.labs.models.CategoryModel;
 import com.itesm.labs.rest.deserializers.CategoryDeserializer;
 import com.itesm.labs.rest.models.Category;
 import com.itesm.labs.rest.models.CategoryWrapper;
@@ -26,18 +27,18 @@ import retrofit.converter.GsonConverter;
 
 public class CategoriesActivity extends ActionBarActivity {
 
-    public String ENDPOINT = "http://labs.chi.itesm.mx:8080";
+    public String ENDPOINT;
 
     GridView mGridView;
-    ArrayList<CategoryInformation> mCategoryInformationList;
+    ArrayList<CategoryModel> mCategoryModelList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categories);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.categories_toolbar);
-        setSupportActionBar(toolbar);
+        Intent intent = getIntent();
+        ENDPOINT = intent.getStringExtra("ENDPOINT");
 
         mGridView = (GridView) findViewById(R.id.categories_list);
 
@@ -68,17 +69,17 @@ public class CategoriesActivity extends ActionBarActivity {
 
             CategoryWrapper categoryWrapper = service.getCategories();
 
-            mCategoryInformationList = new ArrayList<CategoryInformation>();
+            mCategoryModelList = new ArrayList<CategoryModel>();
 
             for (Category category : categoryWrapper.categoryList) {
-                CategoryInformation mCategoryInformation = new CategoryInformation(category.name, R.drawable.ic_test_icon);
+                CategoryModel mCategoryModel = new CategoryModel(category.name, R.drawable.ic_test_icon);
 
-                if (category.name.equals("Resistencia")) mCategoryInformation.setImageResource(R.drawable.ic_resistencia);
-                else if (category.name.equals("Capacitor")) mCategoryInformation.setImageResource(R.drawable.ic_capacitores);
-                else if (category.name.equals("Equipo")) mCategoryInformation.setImageResource(R.drawable.ic_equipo);
-                else if (category.name.equals("Kit")) mCategoryInformation.setImageResource(R.drawable.ic_kits);
+                if (category.name.equals("Resistencia")) mCategoryModel.setImageResource(R.drawable.ic_resistencia);
+                else if (category.name.equals("Capacitor")) mCategoryModel.setImageResource(R.drawable.ic_capacitores);
+                else if (category.name.equals("Equipo")) mCategoryModel.setImageResource(R.drawable.ic_equipo);
+                else if (category.name.equals("Kit")) mCategoryModel.setImageResource(R.drawable.ic_kits);
 
-                mCategoryInformationList.add(mCategoryInformation);
+                mCategoryModelList.add(mCategoryModel);
             }
 
             return null;
@@ -88,7 +89,7 @@ public class CategoriesActivity extends ActionBarActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-            mGridView.setAdapter(new CategoriesInformationAdapter(CategoriesActivity.this, mCategoryInformationList));
+            mGridView.setAdapter(new CategoriesModelAdapter(CategoriesActivity.this, mCategoryModelList));
         }
     }
 }

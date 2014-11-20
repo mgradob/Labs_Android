@@ -4,24 +4,31 @@
     android:layout_height="match_parent"
     tools:context=".LaboratoriesActivity">
 
-    <android.support.v7.widget.Toolbar
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <Toolbar
         android:id="@+id/laboratories_toolbar"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="128dp"
         android:minHeight="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:background="@color/primary"
+        android:gravity="bottom"
+        android:padding="@dimen/abc_action_bar_default_padding_material"
+        android:elevation="5dp"
         android:title="@string/laboratories_activity"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+        android:titleTextAppearance="@style/LabsTheme.v21.Light.Text.Display1"/>
+
+    <ProgressBar
+        android:id="@+id/laboratories_progressbar"
+        android:layout_width="fill_parent"
+        android:layout_height="10dp"
+        android:layout_below="@id/laboratories_toolbar"
+        style="?android:attr/progressBarStyleHorizontal"/>
 
     <GridView
         android:id="@+id/laboratories_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:paddingLeft="@dimen/gridview_margin"
-        android:paddingRight="@dimen/gridview_margin"
         android:layout_below="@+id/laboratories_toolbar"
+        android:padding="@dimen/gridview_margin"
         android:numColumns="1"
         android:stretchMode="columnWidth"
         android:verticalSpacing="1dp"

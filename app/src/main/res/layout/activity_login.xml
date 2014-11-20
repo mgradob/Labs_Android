@@ -34,14 +34,14 @@
         <EditText
             android:id="@+id/user_id"
             android:hint="@string/user_mat"
-            style="@style/AppTheme.Login.EditText"/>
+            style="@style/LabsTheme.Compat.Login.EditText"/>
 
         <EditText
             android:id="@+id/user_pass"
             android:layout_below="@+id/user_id"
             android:hint="@string/user_pass"
             android:inputType="textPassword"
-            style="@style/AppTheme.Login.EditText"/>
+            style="@style/LabsTheme.Compat.Login.EditText"/>
 
     </RelativeLayout>
 
@@ -55,13 +55,13 @@
         <Button
             android:id="@+id/login_sign_up"
             android:text="@string/user_signup"
-            style="@style/AppTheme.Login.Button"/>
+            style="@style/LabsTheme.Compat.Login.Button"/>
 
         <Button
             android:id="@+id/login_button"
             android:text="@string/user_login"
             android:layout_toRightOf="@+id/login_sign_up"
-            style="@style/AppTheme.Login.Button"/>
+            style="@style/LabsTheme.Compat.Login.Button"/>
 
     </RelativeLayout>
 

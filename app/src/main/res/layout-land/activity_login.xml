@@ -29,13 +29,13 @@
         android:layout_centerVertical="true">
 
         <EditText
-            style="@style/AppTheme.Login.EditText"
+            style="@style/LabsTheme.Compat.Login.EditText"
             android:id="@+id/user_id"
             android:layout_centerHorizontal="true"
             android:hint="@string/user_mat"/>
 
         <EditText
-            style="@style/AppTheme.Login.EditText"
+            style="@style/LabsTheme.Compat.Login.EditText"
             android:id="@+id/user_pass"
             android:layout_below="@+id/user_id"
             android:layout_centerHorizontal="true"
@@ -43,13 +43,13 @@
             android:inputType="textPassword"/>
 
         <Button
-            style="@style/AppTheme.Login.Button"
+            style="@style/LabsTheme.Compat.Login.Button"
             android:id="@+id/login_sign_up"
             android:text="@string/user_signup"
             android:layout_below="@id/user_pass"/>
 
         <Button
-            style="@style/AppTheme.Login.Button"
+            style="@style/LabsTheme.Compat.Login.Button"
             android:id="@+id/login_button"
             android:text="@string/user_login"
             android:layout_below="@id/user_pass"

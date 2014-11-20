@@ -1,6 +1,6 @@
 package com.itesm.labs.content;
 
-import com.itesm.labs.models.CategoryInformation;
+import com.itesm.labs.models.CategoryModel;
 
 import java.util.ArrayList;
 
@@ -9,13 +9,13 @@ import java.util.ArrayList;
  */
 public class CategoriesContent {
 
-    public ArrayList<CategoryInformation> CATEGORIES = new ArrayList<CategoryInformation>();
+    public ArrayList<CategoryModel> CATEGORIES = new ArrayList<CategoryModel>();
 
-    public ArrayList<CategoryInformation> getCATEGORIES() {
+    public ArrayList<CategoryModel> getCATEGORIES() {
         return CATEGORIES;
     }
 
-    public void setCATEGORIES(ArrayList<CategoryInformation> CATEGORIES) {
+    public void setCATEGORIES(ArrayList<CategoryModel> CATEGORIES) {
         this.CATEGORIES = CATEGORIES;
     }
 }

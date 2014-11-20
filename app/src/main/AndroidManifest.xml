@@ -8,9 +8,9 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/LabsTheme" >
         <activity
-            android:name="com.itesm.labs.LoginActivity"
+            android:name=".activities.LoginActivity"
             android:icon="@drawable/ic_logo"
             android:label="@string/app_name" >
             <intent-filter>
@@ -20,23 +20,24 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.itesm.labs.CategoriesActivity"
+            android:name=".activities.CategoriesActivity"
             android:label="@string/categories_activity" >
         </activity>
-
-        <service
-            android:name="com.itesm.labs.rest.service.LaboratoryService"
-            android:enabled="true"
-            android:exported="true" >
-        </service>
-
         <activity
-            android:name="com.itesm.labs.LaboratoriesActivity"
-            android:label="@string/title_activity_laboratories"
-            android:parentActivityName="com.itesm.labs.LoginActivity" >
+            android:name=".activities.LaboratoriesActivity"
+            android:label="@string/laboratories_activity"
+            android:parentActivityName=".activities.LoginActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.itesm.labs.LoginActivity" />
+        </activity>
+        <activity
+            android:name=".activities.DashboardActivity"
+            android:label="@string/title_activity_dashboard"
+            android:parentActivityName=".activities.LaboratoriesActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.itesm.labs.LaboratoriesActivity" />
         </activity>
     </application>
 

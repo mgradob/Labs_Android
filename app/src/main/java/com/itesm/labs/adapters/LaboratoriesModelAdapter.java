@@ -5,31 +5,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.view.animation.TranslateAnimation;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.itesm.labs.R;
-import com.itesm.labs.models.CategoryInformation;
+import com.itesm.labs.models.LaboratoryModel;
+import com.itesm.labs.rest.models.Laboratory;
 
 import java.util.ArrayList;
 
 /**
- * Created by miguel on 26/10/14.
+ * Created by miguel on 15/11/14.
  */
-public class CategoriesInformationAdapter extends BaseAdapter {
+public class LaboratoriesModelAdapter extends BaseAdapter {
 
     private Context context;
 
-    private ArrayList<CategoryInformation> DATA = new ArrayList<CategoryInformation>();
+    private ArrayList<Laboratory> DATA = new ArrayList<Laboratory>();
 
-    public CategoriesInformationAdapter(Context context, ArrayList<CategoryInformation> data) {
+    public LaboratoriesModelAdapter(Context context, ArrayList<Laboratory> DATA) {
         this.context = context;
-        this.DATA = data;
+        this.DATA = DATA;
     }
 
     @Override
@@ -54,11 +51,11 @@ public class CategoriesInformationAdapter extends BaseAdapter {
         LayoutInflater mLayoutInflater = (LayoutInflater.from(context));
 
         if (convertView == null) {
-            convertView = mLayoutInflater.inflate(R.layout.category_list_item, parent, false);
+            convertView = mLayoutInflater.inflate(R.layout.laboratory_list_item, parent, false);
 
             holder = new ViewHolder();
-            holder.category_image = (ImageView) convertView.findViewById(R.id.category_item_icon);
-            holder.category_name = (TextView) convertView.findViewById(R.id.category_item_text);
+            holder.laboratory_image = (ImageView) convertView.findViewById(R.id.laboratory_item_icon);
+            holder.laboratory_name = (TextView) convertView.findViewById(R.id.laboratory_item_text);
 
             convertView.startAnimation(new AnimationUtils().loadAnimation(context, R.anim.categories_gridview_anim));
 
@@ -67,14 +64,14 @@ public class CategoriesInformationAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.category_image.setImageResource(DATA.get(position).getImageResource());
-        holder.category_name.setText(DATA.get(position).getTitle());
+        holder.laboratory_image.setImageResource(DATA.get(position).getImageResource());
+        holder.laboratory_name.setText(DATA.get(position).getName());
 
         return convertView;
     }
 
     static class ViewHolder {
-        ImageView category_image;
-        TextView category_name;
+        ImageView laboratory_image;
+        TextView laboratory_name;
     }
 }

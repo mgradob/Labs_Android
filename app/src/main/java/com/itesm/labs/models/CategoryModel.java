@@ -3,12 +3,12 @@ package com.itesm.labs.models;
 /**
  * Created by miguel on 30/10/14.
  */
-public class CategoryInformation {
+public class CategoryModel {
 
     private String title;
     private Integer imageResource;
 
-    public CategoryInformation(String title, int imageResource) {
+    public CategoryModel(String title, int imageResource) {
         this.title = title;
         this.imageResource = imageResource;
     }

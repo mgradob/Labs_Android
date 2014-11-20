@@ -9,6 +9,6 @@ import retrofit.http.GET;
  */
 public interface CategoryService {
 
-    @GET("/elec/category/?format=json")
+    @GET("/category/?format=json")
     CategoryWrapper getCategories();
 }

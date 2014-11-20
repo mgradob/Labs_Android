@@ -7,10 +7,18 @@
     <item name="accent" type="color">#536dfe</item>
 
     <!-- Text Color -->
-    <item name="primaryText" type="color">#DEFFFFFF</item>
-    <item name="secondaryText" type="color">#8AFFFFFF</item>
-    <item name="iconText" type="color">#8AFFFFFF</item>
-    <item name="hintText" type="color">#42FFFFFF</item>
-    <item name="dividersText" type="color">#1FFFFFFF</item>
+    <item name="primary_text" type="color">#212121</item>
+    <item name="secondary_text" type="color">#727272</item>
+    <item name="disabled_text" type="color">#B8B8B8</item>
+    <item name="dividers" type="color">#DADADA</item>
+    
+    <!-- Text Color Light -->
+    <item name="primary_text_light" type="color">#FFFFFF</item>
+    <item name="secondary_text_light" type="color">#FDFDFD</item>
+    <item name="disabled_text_light" type="color">#FBFBFB</item>
+    <item name="dividers_light" type="color">#F9F9F9</item>
+
+    <!-- GridView Item Background -->
+    <item name="grid_text_background" type="color">#70000000</item>
 
 </resources>
