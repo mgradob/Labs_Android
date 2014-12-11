@@ -17,19 +17,26 @@
             android:layout_height="128dp"
             android:minHeight="?attr/actionBarSize"
             android:background="@color/primary"
-            android:gravity="bottom"
             android:padding="4dp"
             android:elevation="5dp"
             android:title="@string/app_name"
             android:titleTextAppearance="@style/LabsTheme.v21.Light.Text.Display1"
             android:subtitle="Electrónica"
-            android:subtitleTextAppearance="@style/LabsTheme.v21.Light.Text.Title"/>
+            android:subtitleTextAppearance="@style/LabsTheme.v21.Light.Text.Title"
+            android:gravity="bottom"/>
 
         <RelativeLayout
             android:id="@+id/fragment_container_dashboard"
-            android:layout_width="fill_parent"
+            android:layout_width="400dp"
             android:layout_height="fill_parent"
             android:layout_below="@+id/toolbar_dashboard"/>
+
+        <RelativeLayout
+            android:id="@+id/fragment_container_dashboard_detail"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@id/toolbar_dashboard"
+            android:layout_toRightOf="@id/fragment_container_dashboard"/>
 
     </RelativeLayout>
 
@@ -38,7 +45,6 @@
         android:layout_width="240dp"
         android:layout_height="fill_parent"
         android:layout_gravity="start"
-        android:layout_marginTop="128dp"
         android:choiceMode="singleChoice"
         android:divider="@color/dividers"
         android:dividerHeight="1dp"

@@ -12,6 +12,10 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.itesm.labs.R;
+import com.itesm.labs.adapters.RequestsModelAdapter;
+import com.itesm.labs.rest.models.Request;
+
+import java.util.ArrayList;
 
 
 /**
@@ -21,9 +25,7 @@ public class RequestsFragment extends Fragment {
 
     ListView mListView;
 
-    String[] values = new String[] {
-      "Pedido 1", "Pedido 2", "Pedido 3"
-    };
+    ArrayList<Request> data = new ArrayList<Request>();
 
     public RequestsFragment() {
         // Required empty public constructor
@@ -40,10 +42,12 @@ public class RequestsFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ArrayAdapter<String> mArrayAdapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_list_item_1, android.R.id.text1, values);
+        data.add(new Request(R.drawable.ic_request_pending, "Miguel Grado Baylon", "A00758435", "21/11/2014"));
+        data.add(new Request(R.drawable.ic_request_pending, "Armando Colomo Baray", "A00758518", "21/11/2014"));
+        data.add(new Request(R.drawable.ic_request_ready, "Mauricio Delgado Montes", "A00758620", "21/11/2014"));
 
         mListView = (ListView) view.findViewById(R.id.request_fragment_list);
-        mListView.setAdapter(mArrayAdapter);
+        mListView.setAdapter(new RequestsModelAdapter(view.getContext(), data));
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
