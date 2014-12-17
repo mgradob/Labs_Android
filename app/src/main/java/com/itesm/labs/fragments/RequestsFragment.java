@@ -1,6 +1,7 @@
 package com.itesm.labs.fragments;
 
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -23,9 +24,9 @@ import java.util.ArrayList;
  */
 public class RequestsFragment extends Fragment {
 
-    ListView mListView;
-
-    ArrayList<Request> data = new ArrayList<Request>();
+    private ListView mListView;
+    private ArrayList<Request> data = new ArrayList<Request>();
+    private RequestFragmentComm mCallback;
 
     public RequestsFragment() {
         // Required empty public constructor
@@ -52,8 +53,24 @@ public class RequestsFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mCallback.loadNewRequestDetail(data.get(position));
                 Toast.makeText(view.getContext(), "Position: " + position, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        try {
+            mCallback = (RequestFragmentComm) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement interface.");
+        }
+    }
+
+    public interface RequestFragmentComm {
+        void loadNewRequestDetail(Request request);
     }
 }

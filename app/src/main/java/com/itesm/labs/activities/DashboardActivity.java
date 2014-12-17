@@ -7,20 +7,24 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.itesm.labs.R;
 import com.itesm.labs.fragments.InventoryFragment;
 import com.itesm.labs.fragments.ReportsFragment;
+import com.itesm.labs.fragments.RequestDetailFragment;
 import com.itesm.labs.fragments.RequestsFragment;
 import com.itesm.labs.fragments.UsersFragment;
+import com.itesm.labs.models.RequestModel;
+import com.itesm.labs.rest.models.Request;
 
 
-public class DashboardActivity extends Activity {
+public class DashboardActivity extends Activity implements RequestsFragment.RequestFragmentComm {
 
     private String[] mDrawerItems;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerListView;
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +42,7 @@ public class DashboardActivity extends Activity {
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                fragment_selector(position);
+                fragmentSelector(position);
             }
         });
 
@@ -54,13 +58,15 @@ public class DashboardActivity extends Activity {
         }
     }
 
-    private void fragment_selector(int idDrawerItem) {
+    private void fragmentSelector(int idDrawerItem) {
         switch (idDrawerItem) {
             case 0:
                 RequestsFragment mRequestsFragment = new RequestsFragment();
                 getFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container_dashboard, mRequestsFragment)
+                        .remove(getFragmentManager()
+                                .findFragmentById(R.id.fragment_container_dashboard_detail))
                         .addToBackStack(null)
                         .commit();
                 break;
@@ -69,6 +75,8 @@ public class DashboardActivity extends Activity {
                 getFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container_dashboard, mInventoryFragment)
+                        .remove(getFragmentManager()
+                                .findFragmentById(R.id.fragment_container_dashboard_detail))
                         .addToBackStack(null)
                         .commit();
                 break;
@@ -77,6 +85,8 @@ public class DashboardActivity extends Activity {
                 getFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container_dashboard, mReportsFragment)
+                        .remove(getFragmentManager()
+                                .findFragmentById(R.id.fragment_container_dashboard_detail))
                         .addToBackStack(null)
                         .commit();
                 break;
@@ -85,10 +95,24 @@ public class DashboardActivity extends Activity {
                 getFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container_dashboard, mUsersFragment)
+                        .remove(getFragmentManager()
+                                .findFragmentById(R.id.fragment_container_dashboard_detail))
                         .addToBackStack(null)
                         .commit();
                 break;
             default: break;
         }
+    }
+
+    @Override
+    public void loadNewRequestDetail(Request request) {
+        RequestDetailFragment requestDetailFragment = new RequestDetailFragment();
+        requestDetailFragment.setmRequestModel(
+                new RequestModel(request.getUserName(), request.getUserId(), null));
+
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container_dashboard_detail,requestDetailFragment)
+                .commit();
     }
 }
