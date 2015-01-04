@@ -1,59 +1,99 @@
 package com.itesm.labs.activities;
 
-import android.app.Activity;
+import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toolbar;
+import android.widget.RelativeLayout;
 
 import com.itesm.labs.R;
 import com.itesm.labs.fragments.InventoryFragment;
 import com.itesm.labs.fragments.ReportsFragment;
 import com.itesm.labs.fragments.RequestDetailFragment;
 import com.itesm.labs.fragments.RequestsFragment;
+import com.itesm.labs.fragments.UserDetailFragment;
 import com.itesm.labs.fragments.UsersFragment;
 import com.itesm.labs.models.RequestModel;
+import com.itesm.labs.models.UserModel;
 import com.itesm.labs.rest.models.Request;
 
 
-public class DashboardActivity extends Activity implements RequestsFragment.RequestFragmentComm {
+public class DashboardActivity extends ActionBarActivity
+        implements RequestsFragment.RequestFragmentComm, UsersFragment.UsersFragmentComm {
 
     private String[] mDrawerItems;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerListView;
-    private Toolbar mToolbar;
+    private Toolbar dashboardToolbar;
+    private String ENDPOINT, LAB_NAME;
+    private RelativeLayout mDrawerRelativeLayout;
+    private ActionBarDrawerToggle mActionBarDrawerToggle;
+
+    // Fragments
+    RequestsFragment mRequestsFragment;
+    InventoryFragment mInventoryFragment;
+    ReportsFragment mReportsFragment;
+    UsersFragment mUsersFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
+        ActionBarDrawerToggle toggle;
+
+        Intent intent = getIntent();
+        ENDPOINT = intent.getStringExtra("ENDPOINT");
+        LAB_NAME = intent.getStringExtra("LAB_NAME");
+
         mDrawerItems = getResources().getStringArray(R.array.drawer_items);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_dashboard);
-        mDrawerLayout.setScrimColor(getResources().getColor(android.R.color.transparent));
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.dashboard_drawer_layout);
 
-        mDrawerListView = (ListView) findViewById(R.id.drawer_list_dashboard);
+        mDrawerRelativeLayout = (RelativeLayout) findViewById(R.id.dashboard_drawer);
+
+        dashboardToolbar = (Toolbar) findViewById(R.id.toolbar_dashboard);
+        setSupportActionBar(dashboardToolbar);
+
+        mActionBarDrawerToggle = new ActionBarDrawerToggle(
+                this,
+                mDrawerLayout,
+                dashboardToolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close
+        );
+        mActionBarDrawerToggle.syncState();
+
+        getSupportActionBar().setTitle(null);
+
+        mDrawerListView = (ListView) findViewById(R.id.dashboard_drawer_list);
         mDrawerListView.setAdapter(
                 new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mDrawerItems));
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 fragmentSelector(position);
+                mDrawerLayout.closeDrawer(mDrawerRelativeLayout);
             }
         });
 
-        if (findViewById(R.id.drawer_layout_dashboard) != null) {
+        if (findViewById(R.id.dashboard_drawer_layout) != null) {
             if (savedInstanceState != null) return;
 
-            RequestsFragment requestsFragment = new RequestsFragment();
+            mRequestsFragment = new RequestsFragment();
 
             getFragmentManager()
                     .beginTransaction()
-                    .add(R.id.fragment_container_dashboard, requestsFragment)
+                    .replace(R.id.fragment_container_dashboard, mRequestsFragment)
                     .commit();
         }
     }
@@ -61,47 +101,45 @@ public class DashboardActivity extends Activity implements RequestsFragment.Requ
     private void fragmentSelector(int idDrawerItem) {
         switch (idDrawerItem) {
             case 0:
-                RequestsFragment mRequestsFragment = new RequestsFragment();
+                mRequestsFragment = new RequestsFragment();
                 getFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container_dashboard, mRequestsFragment)
-                        .remove(getFragmentManager()
-                                .findFragmentById(R.id.fragment_container_dashboard_detail))
-                        .addToBackStack(null)
                         .commit();
                 break;
             case 1:
-                InventoryFragment mInventoryFragment = new InventoryFragment();
+                mInventoryFragment = new InventoryFragment();
+                mInventoryFragment.setENDPOINT(ENDPOINT);
                 getFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container_dashboard, mInventoryFragment)
-                        .remove(getFragmentManager()
-                                .findFragmentById(R.id.fragment_container_dashboard_detail))
-                        .addToBackStack(null)
                         .commit();
                 break;
             case 2:
-                ReportsFragment mReportsFragment = new ReportsFragment();
+                mReportsFragment = new ReportsFragment();
                 getFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container_dashboard, mReportsFragment)
-                        .remove(getFragmentManager()
-                                .findFragmentById(R.id.fragment_container_dashboard_detail))
-                        .addToBackStack(null)
                         .commit();
                 break;
             case 3:
-                UsersFragment mUsersFragment = new UsersFragment();
+                mUsersFragment = new UsersFragment();
+                mUsersFragment.setENDPOINT(ENDPOINT);
                 getFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container_dashboard, mUsersFragment)
-                        .remove(getFragmentManager()
-                                .findFragmentById(R.id.fragment_container_dashboard_detail))
-                        .addToBackStack(null)
                         .commit();
                 break;
-            default: break;
+            default:
+                break;
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_dashboard, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -112,7 +150,23 @@ public class DashboardActivity extends Activity implements RequestsFragment.Requ
 
         getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container_dashboard_detail,requestDetailFragment)
+                .replace(R.id.fragment_requests_detail_container, requestDetailFragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .show(requestDetailFragment)
+                .commit();
+    }
+
+    @Override
+    public void loadNewUsersDetail(UserModel user, int colorCode) {
+        UserDetailFragment userDetailFragment = new UserDetailFragment();
+        userDetailFragment.setUserModel(user);
+        userDetailFragment.setColorCode(colorCode);
+
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_users_detail_container, userDetailFragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .show(userDetailFragment)
                 .commit();
     }
 }

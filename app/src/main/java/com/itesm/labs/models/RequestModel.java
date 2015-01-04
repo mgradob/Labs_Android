@@ -7,45 +7,45 @@ import java.util.ArrayList;
  */
 public class RequestModel {
 
-    private String UserName, UserId;
-    private ArrayList<String> UserRequestList;
+    private String userName, userId;
+    private ArrayList<String> userRequestList;
 
     public RequestModel(String userName, String userId, ArrayList<String> userRequestList) {
-        UserName = userName;
-        UserId = userId;
-        UserRequestList = userRequestList;
+        this.userName = userName;
+        this.userId = userId;
+        this.userRequestList = userRequestList;
     }
 
     public String getUserName() {
-        return UserName;
+        return userName;
     }
 
     public void setUserName(String userName) {
-        UserName = userName;
+        this.userName = userName;
     }
 
     public String getUserId() {
-        return UserId;
+        return userId;
     }
 
     public void setUserId(String userId) {
-        UserId = userId;
+        this.userId = userId;
     }
 
     public ArrayList<String> getUserRequestList() {
-        return UserRequestList;
+        return userRequestList;
     }
 
     public void setUserRequestList(ArrayList<String> userRequestList) {
-        UserRequestList = userRequestList;
+        this.userRequestList = userRequestList;
     }
 
     @Override
     public String toString() {
         return "RequestModel{" +
-                "UserName='" + UserName + '\'' +
-                ", UserId='" + UserId + '\'' +
-                ", UserRequestList=" + UserRequestList +
+                "userName='" + userName + '\'' +
+                ", userId='" + userId + '\'' +
+                ", userRequestList=" + userRequestList +
                 '}';
     }
 }

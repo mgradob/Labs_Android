@@ -15,6 +15,7 @@
         android:stretchMode="none"
         android:verticalSpacing="1dp"
         android:horizontalSpacing="1dp"
-        android:scrollbars="none"/>
+        android:scrollbars="none"
+        android:animateLayoutChanges="true"/>
 
 </RelativeLayout>

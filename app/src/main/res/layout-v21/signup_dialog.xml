@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="24dp"
+    android:paddingRight="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/users_fragment_new_user"
+        android:layout_marginBottom="16dp"
+        style="@style/LabsTheme.v21.Text.Title"/>
+
+    <EditText
+        android:id="@+id/signup_dialog_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/users_fragment_dialog_first_name"
+        android:backgroundTint="@color/material_teal"/>
+
+    <EditText
+        android:id="@+id/signup_dialog_last_name_1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/users_fragment_dialog_last_name_1"
+        android:backgroundTint="@color/material_teal"/>
+
+    <EditText
+        android:id="@+id/signup_dialog_last_name_2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/users_fragment_dialog_last_name_2"
+        android:backgroundTint="@color/material_teal"/>
+
+    <EditText
+        android:id="@+id/signup_dialog_id"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/users_fragment_dialog_id"
+        android:backgroundTint="@color/material_teal"/>
+
+    <EditText
+        android:id="@+id/signup_dialog_career"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/users_fragment_dialog_career"
+        android:backgroundTint="@color/material_teal"/>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:padding="8dp"
+        android:layout_marginRight="-8dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="right">
+        
+        <Button
+            android:id="@+id/signup_dialog_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:text="@string/users_fragment_dialog_cancel"
+            android:textColor="@color/material_blue"
+            style="?android:attr/borderlessButtonStyle"/>
+
+        <Button
+            android:id="@+id/signup_dialog_accept"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:text="@string/users_fragment_dialog_accept"
+            android:textColor="@color/material_blue"
+            style="?android:attr/borderlessButtonStyle"/>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -50,13 +50,13 @@ public class CategoriesModelAdapter extends BaseAdapter {
         LayoutInflater mLayoutInflater = (LayoutInflater.from(context));
 
         if (convertView == null) {
-            convertView = mLayoutInflater.inflate(R.layout.category_list_item, parent, false);
+            convertView = mLayoutInflater.inflate(R.layout.inventory_list_item_category, parent, false);
 
             holder = new ViewHolder();
-            holder.category_image = (ImageView) convertView.findViewById(R.id.category_item_icon);
-            holder.category_name = (TextView) convertView.findViewById(R.id.category_item_text);
+            holder.category_image = (ImageView) convertView.findViewById(R.id.inventory_item_category_icon);
+            holder.category_name = (TextView) convertView.findViewById(R.id.inventory_item_category_text);
 
-            convertView.startAnimation(new AnimationUtils().loadAnimation(context, R.anim.categories_gridview_anim));
+            //convertView.startAnimation(new AnimationUtils().loadAnimation(context, R.anim.categories_gridview_anim));
 
             convertView.setTag(holder);
         } else {

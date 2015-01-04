@@ -21,6 +21,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!-- Drawer -->
     <!-- Drawer Items -->
     <string-array name="drawer_items">
         <item>Pedidos</item>
@@ -28,6 +29,9 @@
         <item>Reportes</item>
         <item>Usuarios</item>
     </string-array>
+    <!-- Drawer strings for accessibility -->
+    <string name="navigation_drawer_open">Drawer Opened</string>
+    <string name="navigation_drawer_close">Drawer Closed</string>
 
     <!-- Requests Fragment -->
     <string name="requests_fragment_title">Pedidos</string>
@@ -40,5 +44,18 @@
 
     <!-- Users Fragment -->
     <string name="users_fragment_title">Usuarios</string>
+    <!--    New User Dialog -->
+    <string name="users_fragment_new_user">Agregar usuario</string>
+    <string name="users_fragment_dialog_id">Matricula</string>
+    <string name="users_fragment_dialog_first_name">Nombre</string>
+    <string name="users_fragment_dialog_last_name_1">Apellido Paterno</string>
+    <string name="users_fragment_dialog_last_name_2">Apellido Materno</string>
+    <string name="users_fragment_dialog_career">Carrera</string>
+    <string name="users_fragment_dialog_cancel">Cancelar</string>
+    <string name="users_fragment_dialog_accept">Registrar</string>
+    <!--    Menu -->
+    <string name="users_fragment_menu_new_user">Agregar Usuario</string>
+    <string name="users_fragment_menu_reload">Acutalizar</string>
+    
 
 </resources>

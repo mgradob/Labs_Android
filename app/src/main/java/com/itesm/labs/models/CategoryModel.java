@@ -6,10 +6,12 @@ package com.itesm.labs.models;
 public class CategoryModel {
 
     private String title;
+    private int idApi;
     private Integer imageResource;
 
-    public CategoryModel(String title, int imageResource) {
+    public CategoryModel(String title, int idApi, Integer imageResource) {
         this.title = title;
+        this.idApi = idApi;
         this.imageResource = imageResource;
     }
 
@@ -19,6 +21,14 @@ public class CategoryModel {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public int getIdApi() {
+        return idApi;
+    }
+
+    public void setIdApi(int idApi) {
+        this.idApi = idApi;
     }
 
     public Integer getImageResource() {
@@ -31,8 +41,9 @@ public class CategoryModel {
 
     @Override
     public String toString() {
-        return "CategoryInformation{" +
+        return "CategoryModel{" +
                 "title='" + title + '\'' +
+                ", idApi=" + idApi +
                 ", imageResource=" + imageResource +
                 '}';
     }

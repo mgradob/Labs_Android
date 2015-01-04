@@ -4,13 +4,14 @@ package com.itesm.labs.fragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.ProgressBar;
+
 
 import com.itesm.labs.R;
 import com.itesm.labs.adapters.RequestsModelAdapter;
@@ -27,9 +28,20 @@ public class RequestsFragment extends Fragment {
     private ListView mListView;
     private ArrayList<Request> data = new ArrayList<Request>();
     private RequestFragmentComm mCallback;
+    private Toolbar mSubtoolbar;
+    ProgressBar mProgressBar;
 
     public RequestsFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        data.add(new Request(R.drawable.ic_request_pending, "Miguel Grado Baylon", "A00758435", "21/11/2014"));
+        data.add(new Request(R.drawable.ic_request_pending, "Armando Colomo Baray", "A00758518", "21/11/2014"));
+        data.add(new Request(R.drawable.ic_request_ready, "Mauricio Delgado Montes", "A00758620", "21/11/2014"));
     }
 
     @Override
@@ -43,20 +55,22 @@ public class RequestsFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        data.add(new Request(R.drawable.ic_request_pending, "Miguel Grado Baylon", "A00758435", "21/11/2014"));
-        data.add(new Request(R.drawable.ic_request_pending, "Armando Colomo Baray", "A00758518", "21/11/2014"));
-        data.add(new Request(R.drawable.ic_request_ready, "Mauricio Delgado Montes", "A00758620", "21/11/2014"));
+        mProgressBar = (ProgressBar) view.findViewById(R.id.fragment_requests_progressbar);
+        mProgressBar.setIndeterminate(true);
 
-        mListView = (ListView) view.findViewById(R.id.request_fragment_list);
+        mListView = (ListView) view.findViewById(R.id.fragment_requests_list);
+        mProgressBar.setVisibility(View.INVISIBLE);
         mListView.setAdapter(new RequestsModelAdapter(view.getContext(), data));
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 mCallback.loadNewRequestDetail(data.get(position));
-                Toast.makeText(view.getContext(), "Position: " + position, Toast.LENGTH_SHORT).show();
             }
         });
+
+        mSubtoolbar = (Toolbar) view.findViewById(R.id.fragment_requests_subtoolbar);
+        mSubtoolbar.setTitle("Pedidos");
     }
 
     @Override

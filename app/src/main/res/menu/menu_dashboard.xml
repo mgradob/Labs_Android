@@ -1,5 +1,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" tools:context="com.itesm.labs.activities.DashboardActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" android:showAsAction="never" />
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.itesm.labs.activities.DashboardActivity"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/dashboard_menu_action_settings"
+        android:orderInCategory="200"
+        app:showAsAction="never"
+        android:title="@string/action_settings"/>
+
 </menu>

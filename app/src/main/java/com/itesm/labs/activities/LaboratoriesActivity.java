@@ -46,6 +46,7 @@ public class LaboratoriesActivity extends ActionBarActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(view.getContext(), DashboardActivity.class);
                 intent.putExtra("ENDPOINT", mLaboratoryModelsList.get(position).getUrl());
+                intent.putExtra("LAB_NAME", mLaboratoryModelsList.get(position).getName());
                 startActivity(intent);
                 overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
             }
@@ -79,7 +80,7 @@ public class LaboratoriesActivity extends ActionBarActivity {
             mLaboratoryModelsList = new ArrayList<Laboratory>();
 
             for (Laboratory laboratory : laboratoryWrapper.laboratoryList) {
-                laboratory.setImageResource(R.drawable.ic_test_icon);
+                laboratory.setImageResource(R.drawable.ic_logo);
                 mLaboratoryModelsList.add(laboratory);
             }
 
@@ -95,5 +96,4 @@ public class LaboratoriesActivity extends ActionBarActivity {
             mGridView.setAdapter(new LaboratoriesModelAdapter(LaboratoriesActivity.this, mLaboratoryModelsList));
         }
     }
-
 }

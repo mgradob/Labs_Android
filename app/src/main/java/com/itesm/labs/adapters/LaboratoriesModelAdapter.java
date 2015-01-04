@@ -57,7 +57,7 @@ public class LaboratoriesModelAdapter extends BaseAdapter {
             holder.laboratory_image = (ImageView) convertView.findViewById(R.id.laboratory_item_icon);
             holder.laboratory_name = (TextView) convertView.findViewById(R.id.laboratory_item_text);
 
-            convertView.startAnimation(new AnimationUtils().loadAnimation(context, R.anim.categories_gridview_anim));
+            //convertView.startAnimation(new AnimationUtils().loadAnimation(context, R.anim.categories_gridview_anim));
 
             convertView.setTag(holder);
         } else {

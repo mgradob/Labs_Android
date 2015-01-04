@@ -1,34 +1,32 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp"
-    android:background="@color/background">
+    android:background="@drawable/ripple_request_list_item"
+    android:padding="16dp">
 
     <ImageView
         android:id="@+id/request_item_image"
         android:layout_width="56dp"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_request_pending"
-        android:layout_gravity="center_vertical"/>
+        android:layout_height="56dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/ic_request_pending" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_gravity="center_vertical"
+        android:layout_toRightOf="@+id/request_item_image"
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
         android:paddingLeft="16dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp">
+        android:paddingTop="10dp">
 
         <TextView
             android:id="@+id/request_item_user_name"
-            android:text="Rodrigo Rodriguez Rodriguez"
+            style="@style/LabsTheme.v21.Text.Body2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            style="@style/LabsTheme.v21.Text.Body2"/>
+            android:text="Rodrigo Rodriguez Rodriguez" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -37,22 +35,20 @@
 
             <TextView
                 android:id="@+id/request_item_user_id"
-                android:text="A01234567"
+                style="@style/LabsTheme.v21.Text.Body1"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                style="@style/LabsTheme.v21.Text.Body1"/>
+                android:text="A01234567" />
 
             <TextView
                 android:id="@+id/request_item_user_date"
-                android:text="10/11/2014"
+                style="@style/LabsTheme.v21.Text.Body1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                style="@style/LabsTheme.v21.Text.Body1"/>
+                android:text="10/11/2014" />
 
         </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

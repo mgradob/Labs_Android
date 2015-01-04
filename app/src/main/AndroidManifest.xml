@@ -12,7 +12,8 @@
         <activity
             android:name=".activities.LoginActivity"
             android:icon="@drawable/ic_logo"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,17 +28,10 @@
             android:name=".activities.LaboratoriesActivity"
             android:label="@string/laboratories_activity"
             android:parentActivityName=".activities.LoginActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.itesm.labs.LoginActivity" />
         </activity>
         <activity
             android:name=".activities.DashboardActivity"
-            android:label="@string/title_activity_dashboard"
             android:parentActivityName=".activities.LaboratoriesActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.itesm.labs.LaboratoriesActivity" />
         </activity>
     </application>
 

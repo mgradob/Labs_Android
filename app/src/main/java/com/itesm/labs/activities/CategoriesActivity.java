@@ -72,7 +72,7 @@ public class CategoriesActivity extends ActionBarActivity {
             mCategoryModelList = new ArrayList<CategoryModel>();
 
             for (Category category : categoryWrapper.categoryList) {
-                CategoryModel mCategoryModel = new CategoryModel(category.name, R.drawable.ic_test_icon);
+                CategoryModel mCategoryModel = new CategoryModel(category.name, category.id, R.drawable.ic_logo);
 
                 /*if (category.name.equals("Resistencia")) mCategoryModel.setImageResource(R.drawable.ic_resistencia);
                 else if (category.name.equals("Capacitor")) mCategoryModel.setImageResource(R.drawable.ic_capacitores);

@@ -57,7 +57,7 @@ public class RequestsModelAdapter extends BaseAdapter {
             holder.requestUserId = (TextView) convertView.findViewById(R.id.request_item_user_id);
             holder.requestUserDate = (TextView) convertView.findViewById(R.id.request_item_user_date);
 
-            convertView.startAnimation(new AnimationUtils().loadAnimation(context, R.anim.categories_gridview_anim));
+            //convertView.startAnimation(new AnimationUtils().loadAnimation(context, R.anim.categories_gridview_anim));
 
             convertView.setTag(holder);
         } else {

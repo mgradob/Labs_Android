@@ -1,13 +1,41 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:context=".RequestsFragment">
 
+    <android.support.v7.widget.Toolbar
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/fragment_requests_subtoolbar"
+        android:layout_width="fill_parent"
+        android:layout_height="72dp"
+        android:background="@color/primary"
+        app:contentInsetStart="72dp"
+        app:title="Users"
+        app:titleTextAppearance="@style/LabsTheme.v21.Light.Text.Display1" />
+
+    <ProgressBar
+        android:id="@+id/fragment_requests_progressbar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="10dp"
+        android:layout_below="@id/fragment_requests_subtoolbar" />
+
     <ListView
-        android:id="@+id/request_fragment_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:id="@+id/fragment_requests_list"
+        android:layout_width="400dp"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/fragment_requests_subtoolbar"
+        android:animateLayoutChanges="true"
+        android:background="@color/background" />
+
+    <RelativeLayout
+        android:id="@+id/fragment_requests_detail_container"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="-48dp"
+        android:layout_marginLeft="-16dp"
+        android:layout_toRightOf="@id/fragment_requests_list"
+        android:gravity="center" />
 
 </RelativeLayout>

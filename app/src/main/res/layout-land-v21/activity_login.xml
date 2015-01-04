@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginActivity"
-    android:gravity="center" >
+    android:gravity="center">
 
     <RelativeLayout
         android:id="@+id/image_relative_layout"
@@ -18,7 +18,7 @@
             android:layout_height="170dp"
             android:layout_margin="@dimen/activity_vertical_margin"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/ic_launcher"/>
+            android:src="@drawable/ic_logo"/>
 
     </RelativeLayout>
 
@@ -28,32 +28,59 @@
         android:layout_toRightOf="@+id/image_relative_layout"
         android:layout_centerVertical="true">
 
-        <EditText
-            style="@style/LabsTheme.Compat.Login.EditText"
-            android:id="@+id/user_id"
+        <TextView
+            android:id="@+id/admin_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:textSize="24dp"
+            android:text="Administrador"/>
+
+        <EditText
+            android:id="@+id/user_id"
+            android:layout_height="wrap_content"
+            android:layout_width="300dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/admin_text"
             android:hint="@string/user_mat"/>
 
         <EditText
-            style="@style/LabsTheme.Compat.Login.EditText"
             android:id="@+id/user_pass"
+            android:layout_height="wrap_content"
+            android:layout_width="300dp"
             android:layout_below="@+id/user_id"
             android:layout_centerHorizontal="true"
             android:hint="@string/user_pass"
             android:inputType="textPassword"/>
 
-        <Button
-            style="@style/LabsTheme.Compat.Login.Button"
-            android:id="@+id/login_sign_up"
-            android:text="@string/user_signup"
-            android:layout_below="@id/user_pass"/>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/user_pass"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="10dp">
 
-        <Button
-            style="@style/LabsTheme.Compat.Login.Button"
-            android:id="@+id/login_button"
-            android:text="@string/user_login"
-            android:layout_below="@id/user_pass"
-            android:layout_toRightOf="@+id/login_sign_up" />
+            <Button
+                android:id="@+id/login_sign_up"
+                android:layout_height="48dp"
+                android:layout_width="150dp"
+                android:layout_margin="5dp"
+                android:text="@string/user_signup"
+                android:textColor="@color/primary_text_light"
+                android:background="@drawable/ripple_button_login"/>
+
+            <Button
+                android:id="@+id/login_button"
+                android:layout_height="48dp"
+                android:layout_width="150dp"
+                android:layout_margin="5dp"
+                android:text="@string/user_login"
+                android:layout_toRightOf="@+id/login_sign_up"
+                android:textColor="@color/primary_text_light"
+                android:background="@drawable/ripple_button_login"/>
+
+        </RelativeLayout>
 
     </RelativeLayout>
 
