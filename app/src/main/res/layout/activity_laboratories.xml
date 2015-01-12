@@ -28,4 +28,11 @@
         android:horizontalSpacing="1dp"
         android:scrollbars="none"/>
 
+    <ProgressBar
+        android:id="@+id/laboratories_progressbar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="10dp"
+        android:layout_below="@id/laboratories_toolbar" />
+
 </RelativeLayout>

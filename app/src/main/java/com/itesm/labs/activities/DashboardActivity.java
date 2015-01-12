@@ -1,19 +1,30 @@
 package com.itesm.labs.activities;
 
+import android.app.ActivityOptions;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.transition.Explode;
+import android.transition.Scene;
+import android.transition.Slide;
+import android.transition.Transition;
+import android.transition.TransitionManager;
+import android.transition.TransitionSet;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.itesm.labs.R;
 import com.itesm.labs.fragments.InventoryFragment;
@@ -43,13 +54,15 @@ public class DashboardActivity extends ActionBarActivity
     InventoryFragment mInventoryFragment;
     ReportsFragment mReportsFragment;
     UsersFragment mUsersFragment;
+    private final String mRequestsFragmentTag = "REQUESTS_FRAGMENT";
+    private final String mInventoryFragmentTag = "INVENTORY_FRAGMENT";
+    private final String mReportsFragmentTag = "REPORTS_FRAGMENT";
+    private final String mUsersFragmentTag = "USERS_FRAGMENT";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-
-        ActionBarDrawerToggle toggle;
 
         Intent intent = getIntent();
         ENDPOINT = intent.getStringExtra("ENDPOINT");
@@ -87,7 +100,7 @@ public class DashboardActivity extends ActionBarActivity
         });
 
         if (findViewById(R.id.dashboard_drawer_layout) != null) {
-            if (savedInstanceState != null) return;
+            if(savedInstanceState != null) return;
 
             mRequestsFragment = new RequestsFragment();
 
@@ -143,6 +156,24 @@ public class DashboardActivity extends ActionBarActivity
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        if(getFragmentManager().findFragmentByTag(mRequestsFragmentTag) != null) {
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction
+                    .remove(getFragmentManager().findFragmentByTag(mRequestsFragmentTag))
+                    .commit();
+        }
+        if(getFragmentManager().findFragmentByTag(mUsersFragmentTag) != null) {
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction
+                    .remove(getFragmentManager().findFragmentByTag(mUsersFragmentTag))
+                    .commit();
+        }
+
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public void loadNewRequestDetail(Request request) {
         RequestDetailFragment requestDetailFragment = new RequestDetailFragment();
         requestDetailFragment.setmRequestModel(
@@ -150,8 +181,7 @@ public class DashboardActivity extends ActionBarActivity
 
         getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_requests_detail_container, requestDetailFragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .replace(R.id.fragment_requests_detail_container, requestDetailFragment, mRequestsFragmentTag)
                 .show(requestDetailFragment)
                 .commit();
     }
@@ -164,8 +194,7 @@ public class DashboardActivity extends ActionBarActivity
 
         getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_users_detail_container, userDetailFragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .replace(R.id.fragment_users_detail_container, userDetailFragment, mUsersFragmentTag)
                 .show(userDetailFragment)
                 .commit();
     }

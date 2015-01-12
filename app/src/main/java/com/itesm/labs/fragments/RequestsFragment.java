@@ -2,19 +2,27 @@ package com.itesm.labs.fragments;
 
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-
+import android.widget.RelativeLayout;
 
 import com.itesm.labs.R;
+import com.itesm.labs.activities.RequestDetailActivity;
 import com.itesm.labs.adapters.RequestsModelAdapter;
+import com.itesm.labs.models.RequestModel;
 import com.itesm.labs.rest.models.Request;
 
 import java.util.ArrayList;
@@ -25,11 +33,13 @@ import java.util.ArrayList;
  */
 public class RequestsFragment extends Fragment {
 
+    ProgressBar mProgressBar;
     private ListView mListView;
     private ArrayList<Request> data = new ArrayList<Request>();
     private RequestFragmentComm mCallback;
     private Toolbar mSubtoolbar;
-    ProgressBar mProgressBar;
+    private String ENDPOINT;
+    private Context mContext;
 
     public RequestsFragment() {
         // Required empty public constructor
@@ -42,6 +52,8 @@ public class RequestsFragment extends Fragment {
         data.add(new Request(R.drawable.ic_request_pending, "Miguel Grado Baylon", "A00758435", "21/11/2014"));
         data.add(new Request(R.drawable.ic_request_pending, "Armando Colomo Baray", "A00758518", "21/11/2014"));
         data.add(new Request(R.drawable.ic_request_ready, "Mauricio Delgado Montes", "A00758620", "21/11/2014"));
+
+        if (savedInstanceState != null) setENDPOINT(savedInstanceState.getString("ENDPOINT"));
     }
 
     @Override
@@ -55,6 +67,8 @@ public class RequestsFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        mContext = view.getContext();
+
         mProgressBar = (ProgressBar) view.findViewById(R.id.fragment_requests_progressbar);
         mProgressBar.setIndeterminate(true);
 
@@ -65,7 +79,20 @@ public class RequestsFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mCallback.loadNewRequestDetail(data.get(position));
+                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    mCallback.loadNewRequestDetail(data.get(position));
+                } else {
+                    //Toast.makeText(DashboardActivity.this, "Portrait mode", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(mContext, RequestDetailActivity.class);
+                    intent.putExtra("USERNAME", data.get(position).getUserName());
+                    intent.putExtra("USERID", data.get(position).getUserId());
+                    ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(
+                            getActivity(),
+                            Pair.create(view.findViewById(R.id.request_item_user_name), getResources().getString(R.string.requests_fragment_transition_name)),
+                            Pair.create(view.findViewById(R.id.request_item_user_id), getResources().getString(R.string.requests_fragment_transition_id))
+                    );
+                    startActivity(intent, activityOptions.toBundle());
+                }
             }
         });
 
@@ -82,6 +109,20 @@ public class RequestsFragment extends Fragment {
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implement interface.");
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("ENDPOINT", ENDPOINT);
+    }
+
+    public String getENDPOINT() {
+        return ENDPOINT;
+    }
+
+    public void setENDPOINT(String ENDPOINT) {
+        this.ENDPOINT = ENDPOINT;
     }
 
     public interface RequestFragmentComm {

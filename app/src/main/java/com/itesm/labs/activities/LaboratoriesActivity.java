@@ -80,7 +80,7 @@ public class LaboratoriesActivity extends ActionBarActivity {
             mLaboratoryModelsList = new ArrayList<Laboratory>();
 
             for (Laboratory laboratory : laboratoryWrapper.laboratoryList) {
-                laboratory.setImageResource(R.drawable.ic_logo);
+                laboratory.setImageResource(R.drawable.ic_dummy_category);
                 mLaboratoryModelsList.add(laboratory);
             }
 

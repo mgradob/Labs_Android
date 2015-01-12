@@ -40,13 +40,13 @@ import retrofit.converter.GsonConverter;
  */
 public class InventoryFragment extends Fragment {
 
+    ProgressBar mProgressBar;
     private ListView categoriesListView, componentsListView;
     private ArrayList<CategoryModel> categoriesData;
     private ArrayList<ComponentModel> componentsData;
     private String ENDPOINT;
     private Context context;
     private Toolbar mSubtoolbar;
-    ProgressBar mProgressBar;
 
     public InventoryFragment() {
         // Required empty public constructor
@@ -64,7 +64,7 @@ public class InventoryFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        context = getActivity().getApplicationContext();
+        if (savedInstanceState != null) setENDPOINT(savedInstanceState.getString("ENDPOINT"));
     }
 
     @Override
@@ -77,6 +77,8 @@ public class InventoryFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        context = view.getContext();
 
         mProgressBar = (ProgressBar) view.findViewById(R.id.fragment_inventory_progressbar);
         mProgressBar.setIndeterminate(true);
@@ -95,6 +97,12 @@ public class InventoryFragment extends Fragment {
 
         mSubtoolbar = (Toolbar) view.findViewById(R.id.fragment_inventory_subtoolbar);
         mSubtoolbar.setTitle("Inventario");
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("ENDPOINT", ENDPOINT);
     }
 
     private class getCategoriesInfo extends AsyncTask<Void, Void, Void> {
@@ -119,10 +127,23 @@ public class InventoryFragment extends Fragment {
             for (Category category : categoryWrapper.categoryList) {
                 CategoryModel mCategoryModel = new CategoryModel(category.name, category.id, R.drawable.rounded_letter);
 
-                /*if (category.name.equals("Resistencia")) mCategoryModel.setImageResource(R.drawable.ic_resistencia);
-                else if (category.name.equals("Capacitor")) mCategoryModel.setImageResource(R.drawable.ic_capacitores);
-                else if (category.name.equals("Equipo")) mCategoryModel.setImageResource(R.drawable.ic_equipo);
-                else if (category.name.equals("Kit")) mCategoryModel.setImageResource(R.drawable.ic_kits);*/
+                if (category.id == 0) mCategoryModel.setImageResource(R.drawable.ic_resistencias);
+                else if (category.id == 1) mCategoryModel.setImageResource(R.drawable.ic_capacitores);
+                else if (category.id == 2) mCategoryModel.setImageResource(R.drawable.ic_equipo);
+                else if (category.id == 3) mCategoryModel.setImageResource(R.drawable.ic_kits);
+                else if (category.id == 4) mCategoryModel.setImageResource(R.drawable.ic_cables);
+                else if (category.id == 5) mCategoryModel.setImageResource(R.drawable.ic_integrados);
+                else if (category.id == 6) mCategoryModel.setImageResource(R.drawable.ic_diodos);
+                else if (category.id == 7) mCategoryModel.setImageResource(R.drawable.ic_herramientas);
+                else if (category.id == 8) mCategoryModel.setImageResource(R.drawable.ic_switches);
+                else if (category.id == 9) mCategoryModel.setImageResource(R.drawable.ic_adaptadores);
+                else if (category.id == 10) mCategoryModel.setImageResource(R.drawable.ic_displays);
+                else if (category.id == 11) mCategoryModel.setImageResource(R.drawable.ic_inductores);
+                else if (category.id == 12) mCategoryModel.setImageResource(R.drawable.ic_sensores);
+                else if (category.id == 13) mCategoryModel.setImageResource(R.drawable.ic_motores);
+                else if (category.id == 14) mCategoryModel.setImageResource(R.drawable.ic_potenciometro);
+                else if (category.id == 15) mCategoryModel.setImageResource(R.drawable.ic_transformadores);
+                else if (category.id == 16) mCategoryModel.setImageResource(R.drawable.ic_transistores);
 
                 categoriesData.add(mCategoryModel);
             }

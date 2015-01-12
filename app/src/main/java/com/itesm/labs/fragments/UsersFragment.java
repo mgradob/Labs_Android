@@ -2,11 +2,15 @@ package com.itesm.labs.fragments;
 
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,6 +24,7 @@ import android.widget.ProgressBar;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.itesm.labs.R;
+import com.itesm.labs.activities.UserDetailActivity;
 import com.itesm.labs.adapters.UsersModelAdapter;
 import com.itesm.labs.dialogs.SignupDialog;
 import com.itesm.labs.models.UserModel;
@@ -43,7 +48,7 @@ public class UsersFragment extends Fragment {
     private ArrayList<UserModel> data = new ArrayList<UserModel>();
     private UsersFragmentComm mCallback;
     private String ENDPOINT;
-    private Context context;
+    private Context mContext;
     private Toolbar mSubToolbar;
     ProgressBar mProgressBar;
 
@@ -56,6 +61,8 @@ public class UsersFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+
+        if (savedInstanceState != null) setENDPOINT(savedInstanceState.getString("ENDPOINT"));
     }
 
     @Override
@@ -70,7 +77,7 @@ public class UsersFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        context = view.getContext();
+        mContext = view.getContext();
 
         mProgressBar = (ProgressBar) view.findViewById(R.id.fragment_users_progressbar);
         mProgressBar.setIndeterminate(true);
@@ -81,7 +88,23 @@ public class UsersFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mCallback.loadNewUsersDetail(data.get(position), data.get(position).getBackgroundColor());
+                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    mCallback.loadNewUsersDetail(data.get(position), data.get(position).getBackgroundColor());
+                } else {
+                    //Toast.makeText(DashboardActivity.this, "Portrait mode", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(mContext, UserDetailActivity.class);
+                    intent.putExtra("USERNAME", data.get(position).getFullName());
+                    intent.putExtra("USERID", data.get(position).getUserId());
+                    intent.putExtra("USERCAREER", data.get(position).getUserCareer());
+                    intent.putExtra("USERCOLOR", data.get(position).getBackgroundColor());
+                    ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(
+                            getActivity(),
+                            Pair.create(view.findViewById(R.id.user_item_user_name), getResources().getString(R.string.users_fragment_transition_name)),
+                            Pair.create(view.findViewById(R.id.user_item_user_id), getResources().getString(R.string.users_fragment_transition_id)),
+                            Pair.create(view.findViewById(R.id.user_item_user_carrer), getResources().getString(R.string.users_fragment_transition_career))
+                    );
+                    startActivity(intent, activityOptions.toBundle());
+                }
             }
         });
 
@@ -103,7 +126,7 @@ public class UsersFragment extends Fragment {
 
         try {
             mCallback = (UsersFragmentComm) activity;
-        } catch (ClassCastException e ) {
+        } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implement interface.");
         }
     }
@@ -116,9 +139,9 @@ public class UsersFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.fragment_users_menu_add_user:
-                SignupDialog signupDialog = new SignupDialog(context, ENDPOINT);
+                SignupDialog signupDialog = new SignupDialog(mContext, ENDPOINT);
                 signupDialog.show();
                 break;
             case R.id.fragment_users_menu_reload:
@@ -126,6 +149,12 @@ public class UsersFragment extends Fragment {
         }
 
         return true;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("ENDPOINT", ENDPOINT);
     }
 
     public interface UsersFragmentComm {
@@ -150,7 +179,7 @@ public class UsersFragment extends Fragment {
 
             data = new ArrayList<UserModel>();
 
-            int[] colors = context.getResources().getIntArray(R.array.material_colors);
+            int[] colors = mContext.getResources().getIntArray(R.array.material_colors);
             for (User user : userWrapper.userList) {
                 UserModel mUserModel = new UserModel(
                         user.getUserName(),
@@ -162,7 +191,7 @@ public class UsersFragment extends Fragment {
                         user.getUserUid()
                 );
 
-                int color = colors[new Random().nextInt(colors.length-1)];
+                int color = colors[new Random().nextInt(colors.length - 1)];
                 mUserModel.setBackgroundColor(color);
 
                 data.add(mUserModel);
@@ -177,7 +206,7 @@ public class UsersFragment extends Fragment {
 
             mProgressBar.setVisibility(View.INVISIBLE);
 
-            mListView.setAdapter(new UsersModelAdapter(context, data));
+            mListView.setAdapter(new UsersModelAdapter(mContext, data));
         }
     }
 }

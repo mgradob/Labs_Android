@@ -1,0 +1,44 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context="com.itesm.labs.fragments.AddMaterialFragment">
+
+    <TextView
+        style="@style/LabsTheme.v21.Text.Display1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/users_activity_add_material" />
+
+    <ListView
+        android:id="@+id/fragment_add_material_list"
+        android:layout_width="fill_parent"
+        android:layout_height="500dp" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/fragment_add_material_cancel"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="@string/users_fragment_dialog_cancel"
+            android:textColor="@color/primary" />
+
+        <Button
+            android:id="@+id/fragment_add_material_accept"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="@string/users_fragment_dialog_accept"
+            android:textColor="@color/primary" />
+
+    </LinearLayout>
+
+</LinearLayout>

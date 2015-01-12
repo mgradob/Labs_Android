@@ -35,6 +35,9 @@
 
     <!-- Requests Fragment -->
     <string name="requests_fragment_title">Pedidos</string>
+    <!-- Requests Transition Names -->
+    <string name="requests_fragment_transition_name">USER_NAME</string>
+    <string name="requests_fragment_transition_id">USER_ID</string>
 
     <!-- Inventory Fragment -->
     <string name="inventory_fragment_title">Inventario</string>
@@ -44,7 +47,7 @@
 
     <!-- Users Fragment -->
     <string name="users_fragment_title">Usuarios</string>
-    <!--    New User Dialog -->
+    <!-- New User Dialog -->
     <string name="users_fragment_new_user">Agregar usuario</string>
     <string name="users_fragment_dialog_id">Matricula</string>
     <string name="users_fragment_dialog_first_name">Nombre</string>
@@ -53,9 +56,17 @@
     <string name="users_fragment_dialog_career">Carrera</string>
     <string name="users_fragment_dialog_cancel">Cancelar</string>
     <string name="users_fragment_dialog_accept">Registrar</string>
-    <!--    Menu -->
+    <!-- Menu -->
     <string name="users_fragment_menu_new_user">Agregar Usuario</string>
     <string name="users_fragment_menu_reload">Acutalizar</string>
-    
+    <string name="title_activity_request_detail">RequestDetailActivity</string>
+    <string name="title_activity_user_detail">UserDetailActivity</string>
+    <!-- Users Transition Names -->
+    <string name="users_fragment_transition_name">USER_NAME</string>
+    <string name="users_fragment_transition_id">USER_ID</string>
+    <string name="users_fragment_transition_career">USER_CAREER</string>
+    <!-- Users Add New Material -->
+    <string name="users_activity_add_material">Agregar Material</string>
+    <string name="users_activity_available_material">Disponible</string>
 
 </resources>

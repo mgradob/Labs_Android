@@ -1,0 +1,71 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.itesm.labs.activities.RequestDetailActivity">
+
+    <View
+        android:id="@+id/activity_request_detail_background"
+        android:layout_width="fill_parent"
+        android:layout_height="200dp"
+        android:background="@color/primary_dark" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/activity_request_detail_background"
+        android:layout_marginLeft="32dp"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/activity_request_detail_user_name"
+            style="@style/LabsTheme.v21.Light.Text.Headline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/activity_request_detail_background"
+            android:text="USERNAME"
+            android:transitionName="@string/requests_fragment_transition_name" />
+
+        <TextView
+            android:id="@+id/activity_request_detail_user_id"
+            style="@style/LabsTheme.v21.Light.Text.Subhead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/activity_request_detail_user_name"
+            android:text="USERID"
+            android:transitionName="@string/requests_fragment_transition_id" />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/activity_request_detail_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/activity_request_detail_background" />
+
+    <FrameLayout
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignBottom="@id/activity_request_detail_list"
+        android:layout_alignRight="@+id/activity_request_detail_list">
+
+        <ImageButton
+            android:id="@+id/activity_request_detail_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/ripple_floating_action_button"
+            android:elevation="5dp"
+            android:src="@drawable/ic_add_white" />
+
+    </FrameLayout>
+
+    <!--<com.github.ksoichiro.android.observablescrollview.ObservableListView
+        android:id="@+id/activity_request_detail_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/activity_request_detail_background"/>
+    -->
+
+</RelativeLayout>
