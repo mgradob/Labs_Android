@@ -2,13 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context="com.itesm.labs.activities.UserDetailActivity">
 
     <View
         android:id="@+id/activity_user_detail_background"
         android:layout_width="fill_parent"
         android:layout_height="200dp"
-        android:background="@color/material_blue" />
+        android:background="@color/material_blue_grey_900" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -83,12 +84,5 @@
             android:src="@drawable/ic_add_white" />
 
     </FrameLayout>
-
-    <!--<com.github.ksoichiro.android.observablescrollview.ObservableListView
-        android:id="@+id/activity_request_detail_list"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@id/activity_request_detail_background"/>
-    -->
 
 </RelativeLayout>

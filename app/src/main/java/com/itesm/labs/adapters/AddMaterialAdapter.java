@@ -6,13 +6,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.itesm.labs.R;
 import com.itesm.labs.models.CategoryModel;
 
 import java.util.ArrayList;
+import java.util.TooManyListenersException;
 
 /**
  * Created by miguel on 26/10/14.
@@ -20,11 +23,12 @@ import java.util.ArrayList;
 public class AddMaterialAdapter extends BaseAdapter {
 
     private Context context;
+    private ArrayList<String> DATA;
 
-    private ArrayList<CategoryModel> DATA = new ArrayList<CategoryModel>();
-
-    public AddMaterialAdapter(Context context) {
+    public AddMaterialAdapter(Context context, ArrayList<String> data) {
         this.context = context;
+
+        this.DATA = data;
     }
 
     @Override
@@ -43,7 +47,7 @@ public class AddMaterialAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         ViewHolder holder;
         LayoutInflater mLayoutInflater = (LayoutInflater.from(context));
@@ -52,24 +56,34 @@ public class AddMaterialAdapter extends BaseAdapter {
             convertView = mLayoutInflater.inflate(R.layout.inventory_list_item_category, parent, false);
 
             holder = new ViewHolder();
-            holder.category_image = (ImageView) convertView.findViewById(R.id.inventory_item_category_icon);
-            holder.category_name = (TextView) convertView.findViewById(R.id.inventory_item_category_text);
-
-            //convertView.startAnimation(new AnimationUtils().loadAnimation(context, R.anim.categories_gridview_anim));
+            holder.addMaterialIcon = (ImageView) convertView.findViewById(R.id.add_material_item_icon);
+            holder.addMaterialCategory = (TextView) convertView.findViewById(R.id.add_material_item_category);
+            holder.addMaterialComponent = (TextView) convertView.findViewById(R.id.add_material_item_component);
+            holder.addMaterialAvailable = (TextView) convertView.findViewById(R.id.add_material_item_available);
+            holder.addMaterialButton = (ImageButton) convertView.findViewById(R.id.add_material_item_button);
 
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.category_image.setImageResource(DATA.get(position).getImageResource());
-        holder.category_name.setText(DATA.get(position).getTitle());
+        // TODO: holder.addMaterialIcon.setImageResource(context.getResources().get);
+        holder.addMaterialCategory.setText(DATA.get(position));
+        holder.addMaterialComponent.setText("Componente Dummy");
+        holder.addMaterialAvailable.setText("53");
+        holder.addMaterialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "" + position, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         return convertView;
     }
 
     static class ViewHolder {
-        ImageView category_image;
-        TextView category_name;
+        ImageView addMaterialIcon;
+        TextView addMaterialCategory, addMaterialComponent, addMaterialAvailable;
+        ImageButton addMaterialButton;
     }
 }

@@ -37,7 +37,7 @@
 
     <ImageButton
         android:id="@+id/add_material_item_button"
-        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="16dp"
         android:layout_width="56dp"
