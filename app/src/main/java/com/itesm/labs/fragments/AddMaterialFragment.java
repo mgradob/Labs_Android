@@ -1,10 +1,13 @@
 package com.itesm.labs.fragments;
 
 
+import android.animation.Animator;
+import android.app.Activity;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -12,6 +15,7 @@ import android.widget.ListView;
 
 import com.itesm.labs.R;
 import com.itesm.labs.adapters.AddMaterialAdapter;
+import com.itesm.labs.animations.RevealAnimation;
 
 import java.util.ArrayList;
 
@@ -31,10 +35,26 @@ public class AddMaterialFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_add_material, container, false);
+        view.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                v.removeOnLayoutChangeListener(this);
+                RevealAnimation revealAnimation = new RevealAnimation(v);
+                revealAnimation.revealFromBottomRight(200);
+            }
+        });
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_material, container, false);
+        return view;
     }
 
     @Override

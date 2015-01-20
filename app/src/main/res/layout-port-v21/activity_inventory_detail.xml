@@ -1,0 +1,56 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.itesm.labs.activities.InventoryDetailActivity">
+
+    <View
+        android:id="@+id/activity_inventory_detail_background"
+        android:layout_width="fill_parent"
+        android:layout_height="200dp"
+        android:background="@color/material_pink" />
+
+    <ImageView
+        android:id="@+id/activity_inventory_detail_image"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignBottom="@+id/activity_inventory_detail_background"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="25dp"
+        android:src="@drawable/adaptadores"
+        android:transitionName="@string/inventory_fragment_transition_icon" />
+
+    <TextView
+        android:id="@+id/activity_inventory_detail_name"
+        style="@style/LabsTheme.v21.Light.Text.Display1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/activity_inventory_detail_background"
+        android:padding="16dp"
+        android:text="CATEGORY" />
+
+    <ListView
+        android:id="@+id/activity_inventory_detail_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/activity_inventory_detail_background"
+        android:animateLayoutChanges="true" />
+
+    <FrameLayout
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignBottom="@id/activity_inventory_detail_list"
+        android:layout_alignRight="@+id/activity_inventory_detail_list">
+
+        <ImageButton
+            android:id="@+id/activity_inventory_detail_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/ripple_floating_action_button"
+            android:elevation="5dp"
+            android:src="@drawable/ic_add_white" />
+
+    </FrameLayout>
+
+</RelativeLayout>

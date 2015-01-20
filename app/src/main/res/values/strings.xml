@@ -41,6 +41,8 @@
 
     <!-- Inventory Fragment -->
     <string name="inventory_fragment_title">Inventario</string>
+    <string name="inventory_fragment_transition_name">CATEGORY_NAME</string>
+    <string name="inventory_fragment_transition_icon">CATEGORY_ICON</string>
 
     <!-- Reports Fragment -->
     <string name="reports_fragment_title">Reportes</string>
@@ -68,5 +70,6 @@
     <!-- Users Add New Material -->
     <string name="users_activity_add_material">Agregar Material</string>
     <string name="users_activity_available_material">Disponible</string>
+    <string name="title_activity_inventory_detail">InventoryDetailActivity</string>
 
 </resources>

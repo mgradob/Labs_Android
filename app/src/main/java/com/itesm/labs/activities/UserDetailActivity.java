@@ -1,10 +1,14 @@
 package com.itesm.labs.activities;
 
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.graphics.Palette;
 import android.transition.AutoTransition;
 import android.transition.ChangeTransform;
 import android.transition.Explode;
@@ -16,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
@@ -24,6 +29,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.itesm.labs.R;
+import com.itesm.labs.animations.RevealAnimation;
 import com.itesm.labs.fragments.AddMaterialFragment;
 
 import java.util.ArrayList;
@@ -53,11 +59,14 @@ public class UserDetailActivity extends ActionBarActivity {
                 getResources().getColor(R.color.material_teal))
         );
 
+        Window window = getWindow();
+        window.setStatusBarColor(getIntent().getIntExtra("USERCOLOR", R.color.primary_dark));
+
         mFab = (ImageButton) findViewById(R.id.activity_user_detail_fab);
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showAddMaterial();
+                showAddMaterial(v);
             }
         });
 
@@ -83,7 +92,7 @@ public class UserDetailActivity extends ActionBarActivity {
      * Replaces the ListView with the layout for adding new users and sets transition animations for
      * the replacement.
      */
-    private void showAddMaterial() {
+    private void showAddMaterial(final View view) {
         FrameLayout listLayoutFrame = (FrameLayout) findViewById(R.id.activity_user_detail_list_frame);
         listLayoutFrame.removeAllViews();
 
@@ -96,16 +105,8 @@ public class UserDetailActivity extends ActionBarActivity {
                 .show(addMaterialFragment)
                 .commit();
 
-        /*View view = getLayoutInflater().inflate(R.layout.signup_dialog, listLayout);
-
-        // Circular reveal for the fragment.
-        int cx = (view.getLeft() + view.getRight()) / 2;
-        int cy = (view.getTop() + view.getBottom()) / 2;
-        int radius = Math.max(view.getWidth(), view.getHeight());
-        Animator anim = ViewAnimationUtils.createCircularReveal(view, cx, cy, 0, radius);
-        anim.setDuration(500);
-        view.setVisibility(View.VISIBLE);
-        anim.start();*/
+        RevealAnimation revealAnimation = new RevealAnimation(view);
+        revealAnimation.unvealFromCenter(200);
     }
 
 

@@ -61,11 +61,4 @@
 
     </FrameLayout>
 
-    <!--<com.github.ksoichiro.android.observablescrollview.ObservableListView
-        android:id="@+id/activity_request_detail_list"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@id/activity_request_detail_background"/>
-    -->
-
 </RelativeLayout>

@@ -27,7 +27,6 @@ public class AddMaterialAdapter extends BaseAdapter {
 
     public AddMaterialAdapter(Context context, ArrayList<String> data) {
         this.context = context;
-
         this.DATA = data;
     }
 
@@ -53,7 +52,7 @@ public class AddMaterialAdapter extends BaseAdapter {
         LayoutInflater mLayoutInflater = (LayoutInflater.from(context));
 
         if (convertView == null) {
-            convertView = mLayoutInflater.inflate(R.layout.inventory_list_item_category, parent, false);
+            convertView = mLayoutInflater.inflate(R.layout.add_material_list_item, parent, false);
 
             holder = new ViewHolder();
             holder.addMaterialIcon = (ImageView) convertView.findViewById(R.id.add_material_item_icon);
@@ -67,10 +66,11 @@ public class AddMaterialAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        // TODO: holder.addMaterialIcon.setImageResource(context.getResources().get);
+        //holder.addMaterialIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_dummy_category));
         holder.addMaterialCategory.setText(DATA.get(position));
         holder.addMaterialComponent.setText("Componente Dummy");
         holder.addMaterialAvailable.setText("53");
+        holder.addMaterialButton.setBackgroundColor(context.getResources().getColor(R.color.primary));
         holder.addMaterialButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

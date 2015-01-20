@@ -182,6 +182,7 @@ public class DashboardActivity extends ActionBarActivity
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_requests_detail_container, requestDetailFragment, mRequestsFragmentTag)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .show(requestDetailFragment)
                 .commit();
     }
@@ -195,6 +196,7 @@ public class DashboardActivity extends ActionBarActivity
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_users_detail_container, userDetailFragment, mUsersFragmentTag)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .show(userDetailFragment)
                 .commit();
     }

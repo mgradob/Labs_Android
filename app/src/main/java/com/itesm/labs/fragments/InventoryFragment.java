@@ -1,11 +1,15 @@
 package com.itesm.labs.fragments;
 
 
+import android.app.ActivityOptions;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +20,7 @@ import android.widget.ProgressBar;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.itesm.labs.R;
+import com.itesm.labs.activities.InventoryDetailActivity;
 import com.itesm.labs.adapters.CategoriesModelAdapter;
 import com.itesm.labs.adapters.ComponentModelAdapter;
 import com.itesm.labs.models.CategoryModel;
@@ -89,7 +94,21 @@ public class InventoryFragment extends Fragment {
         categoriesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                new getComponentInfo().execute(categoriesData.get(position).getIdApi());
+                if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    new getComponentInfo().execute(categoriesData.get(position).getIdApi());
+                } else {
+                    Intent intent = new Intent(context, InventoryDetailActivity.class);
+                    intent.putExtra("CATEGORYID", categoriesData.get(position).getIdApi());
+                    intent.putExtra("CATEGORYTITLE", categoriesData.get(position).getTitle());
+                    intent.putExtra("CATEGORYICON", categoriesData.get(position).getImageResource());
+                    intent.putExtra("ENDPOINT", ENDPOINT);
+                    ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(
+                            getActivity(),
+                            Pair.create(view.findViewById(R.id.inventory_item_category_icon), getResources().getString(R.string.inventory_fragment_transition_icon)),
+                            Pair.create(view.findViewById(R.id.inventory_item_category_text), getResources().getString(R.string.inventory_fragment_transition_name))
+                    );
+                    startActivity(intent, activityOptions.toBundle());
+                }
             }
         });
 

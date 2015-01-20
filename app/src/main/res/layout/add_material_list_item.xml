@@ -1,34 +1,33 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="88dp"
-    android:background="@color/cardview_light_background"
     android:padding="16dp">
-    
+
     <ImageView
         android:id="@+id/add_material_item_icon"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:src="@drawable/ic_cables"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_cables" />
 
     <LinearLayout
-        android:layout_toRightOf="@+id/add_material_item_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="24dp"
-        android:layout_centerVertical="true">
+        android:layout_toRightOf="@+id/add_material_item_icon"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/add_material_item_category"
-            style="@style/LabsTheme.v21.Text.Title"
+            style="@style/LabsTheme.v21.Light.Text.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="CATEGORY" />
 
         <TextView
             android:id="@+id/add_material_item_component"
-            style="@style/LabsTheme.v21.Text.Body1"
+            style="@style/LabsTheme.v21.Light.Text.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="COMPONENT" />
@@ -37,31 +36,31 @@
 
     <ImageButton
         android:id="@+id/add_material_item_button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="16dp"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:src="@drawable/ic_add_white"
-        android:background="@drawable/rounded_letter"/>
+        android:background="@drawable/rounded_letter"
+        android:src="@drawable/ic_add_white" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@id/add_material_item_button"
-        android:gravity="right">
+        android:gravity="right"
+        android:orientation="vertical">
 
         <TextView
-            style="@style/LabsTheme.v21.Text.Title"
+            style="@style/LabsTheme.v21.Light.Text.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/users_activity_available_material" />
 
         <TextView
             android:id="@+id/add_material_item_available"
-            style="@style/LabsTheme.v21.Text.Body1"
+            style="@style/LabsTheme.v21.Light.Text.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="100" />

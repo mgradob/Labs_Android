@@ -15,14 +15,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.itesm.labs.R;
+import com.itesm.labs.animations.RevealAnimation;
 import com.itesm.labs.models.RequestModel;
 
 import java.util.ArrayList;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class RequestDetailFragment extends Fragment {
 
     private RequestModel mRequestModel;
@@ -51,7 +48,17 @@ public class RequestDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_requests_detail, container, false);
+        View view = inflater.inflate(R.layout.fragment_requests_detail, container, false);
+        view.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                v.removeOnLayoutChangeListener(this);
+                RevealAnimation revealAnimation = new RevealAnimation(v);
+                revealAnimation.revealFromTopLeft(400);
+            }
+        });
+
+        return view;
     }
 
     @Override
