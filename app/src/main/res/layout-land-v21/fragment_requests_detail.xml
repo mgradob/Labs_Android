@@ -4,7 +4,7 @@
     android:layout_height="400dp"
     cardview:cardCornerRadius="5dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -40,41 +40,6 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:orientation="horizontal"
-                android:paddingRight="16dp"
-                android:layout_alignParentRight="true"
-                android:gravity="right|center"
-                android:layout_toRightOf="@+id/request_detail_user_data">
-
-                <ImageButton
-                    android:id="@+id/request_detail_complete_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:src="@drawable/ic_done_white"
-                    android:background="@drawable/ripple_button_request_detail"/>
-
-                <ImageButton
-                    android:id="@+id/request_detail_checkout_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:src="@drawable/ic_uid_white"
-                    android:background="@drawable/ripple_button_request_detail"/>
-
-                <ImageButton
-                    android:id="@+id/request_detail_cancel_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:src="@drawable/ic_cancel_white"
-                    android:background="@drawable/ripple_button_request_detail"/>
-
-            </LinearLayout>
-
         </RelativeLayout>
 
         <ListView
@@ -82,8 +47,20 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:divider="@color/dividers"
-            android:background="@color/background"/>
+            android:background="@color/background"
+            android:layout_below="@id/request_detail_info"/>
 
-    </LinearLayout>
+        <com.melnykov.fab.FloatingActionButton xmlns:fab="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/fragment_request_detail_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/request_detail_user_list"
+            android:layout_alignRight="@id/request_detail_user_list"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_done_white"
+            fab:fab_colorNormal="@color/primary"
+            fab:fab_colorRipple="@color/primary_dark" />
+
+    </RelativeLayout>
 
 </android.support.v7.widget.CardView>

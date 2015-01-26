@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.internal.app.ToolbarActionBar;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -28,9 +30,10 @@ public class LaboratoriesActivity extends ActionBarActivity {
 
     public String ENDPOINT = "http://labs.chi.itesm.mx:8080";
 
-    GridView mGridView;
-    ProgressBar mProgressBar;
-    ArrayList<Laboratory> mLaboratoryModelsList;
+    private GridView mGridView;
+    private ProgressBar mProgressBar;
+    private Toolbar mToolbar;
+    private ArrayList<Laboratory> mLaboratoryModelsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,8 @@ public class LaboratoriesActivity extends ActionBarActivity {
         mProgressBar = (ProgressBar) findViewById(R.id.laboratories_progressbar);
         mProgressBar.setIndeterminate(true);
 
+        mToolbar = (Toolbar) findViewById(R.id.laboratories_toolbar);
+
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -48,7 +53,7 @@ public class LaboratoriesActivity extends ActionBarActivity {
                 intent.putExtra("ENDPOINT", mLaboratoryModelsList.get(position).getUrl());
                 intent.putExtra("LAB_NAME", mLaboratoryModelsList.get(position).getName());
                 startActivity(intent);
-                overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
+                overridePendingTransition(R.anim.abc_slide_in_top, R.anim.abc_slide_out_top);
             }
         });
 

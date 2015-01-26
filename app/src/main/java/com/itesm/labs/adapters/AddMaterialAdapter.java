@@ -70,7 +70,7 @@ public class AddMaterialAdapter extends BaseAdapter {
         holder.addMaterialCategory.setText(DATA.get(position));
         holder.addMaterialComponent.setText("Componente Dummy");
         holder.addMaterialAvailable.setText("53");
-        holder.addMaterialButton.setBackgroundColor(context.getResources().getColor(R.color.primary));
+        holder.addMaterialButton.setBackground(context.getResources().getDrawable(R.drawable.add_material));
         holder.addMaterialButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

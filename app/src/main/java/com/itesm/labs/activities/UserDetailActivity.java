@@ -106,7 +106,7 @@ public class UserDetailActivity extends ActionBarActivity {
                 .commit();
 
         RevealAnimation revealAnimation = new RevealAnimation(view);
-        revealAnimation.unvealFromCenter(200);
+        revealAnimation.unvealFromCenter(200, 100);
     }
 
 

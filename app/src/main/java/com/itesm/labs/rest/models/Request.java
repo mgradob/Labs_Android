@@ -9,12 +9,14 @@ public class Request {
     public String userName;
     public String userId;
     public String userDate;
+    public Boolean status;
 
-    public Request(Integer imageResource, String userName, String userId, String userDate) {
+    public Request(Integer imageResource, String userName, String userId, String userDate, Boolean status) {
         this.imageResource = imageResource;
         this.userName = userName;
         this.userId = userId;
         this.userDate = userDate;
+        this.status = status;
     }
 
     public Integer getImageResource() {
@@ -49,12 +51,22 @@ public class Request {
         this.userDate = userDate;
     }
 
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "Request{" +
+                "imageResource=" + imageResource +
                 ", userName='" + userName + '\'' +
                 ", userId='" + userId + '\'' +
                 ", userDate='" + userDate + '\'' +
+                ", status=" + status +
                 '}';
     }
 }

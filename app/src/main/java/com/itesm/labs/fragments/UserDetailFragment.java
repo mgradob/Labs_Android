@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.itesm.labs.R;
 import com.itesm.labs.animations.RevealAnimation;
 import com.itesm.labs.models.UserModel;
+import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -30,6 +31,7 @@ public class UserDetailFragment extends Fragment {
     private TextView userCarrer;
     private ListView userHistoryList;
     private int colorCode;
+    private FloatingActionButton mFab;
 
     public UserModel getmRequestModel() {
         return UserModel;
@@ -61,7 +63,7 @@ public class UserDetailFragment extends Fragment {
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
                 v.removeOnLayoutChangeListener(this);
                 RevealAnimation revealAnimation = new RevealAnimation(v);
-                revealAnimation.revealFromTopLeft(400);
+                revealAnimation.revealFromTopLeft(400, 0);
             }
         });
 
@@ -91,5 +93,9 @@ public class UserDetailFragment extends Fragment {
         userId.setText(UserModel.getUserId());
         userCarrer.setText(UserModel.getUserCareer());
         userHistoryList.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, list));
+
+        mFab = (FloatingActionButton) view.findViewById(R.id.fragment_users_detail_fab);
+        mFab.attachToListView(userHistoryList);
+        mFab.setColorNormal(colorCode);
     }
 }

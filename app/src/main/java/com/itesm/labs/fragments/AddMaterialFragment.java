@@ -49,7 +49,7 @@ public class AddMaterialFragment extends Fragment {
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
                 v.removeOnLayoutChangeListener(this);
                 RevealAnimation revealAnimation = new RevealAnimation(v);
-                revealAnimation.revealFromBottomRight(200);
+                revealAnimation.revealFromBottomRight(200, 0);
             }
         });
 

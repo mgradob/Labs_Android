@@ -49,9 +49,9 @@ public class RequestsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        data.add(new Request(R.drawable.ic_request_pending, "Miguel Grado Baylon", "A00758435", "21/11/2014"));
-        data.add(new Request(R.drawable.ic_request_pending, "Armando Colomo Baray", "A00758518", "21/11/2014"));
-        data.add(new Request(R.drawable.ic_request_ready, "Mauricio Delgado Montes", "A00758620", "21/11/2014"));
+        data.add(new Request(R.drawable.ic_cancel_white, "Miguel Grado Baylon", "A00758435", "21/11/2014", false));
+        data.add(new Request(R.drawable.ic_cancel_white, "Armando Colomo Baray", "A00758518", "21/11/2014", false));
+        data.add(new Request(R.drawable.ic_done_white, "Mauricio Delgado Montes", "A00758620", "21/11/2014", true));
 
         if (savedInstanceState != null) setENDPOINT(savedInstanceState.getString("ENDPOINT"));
     }
@@ -86,6 +86,13 @@ public class RequestsFragment extends Fragment {
                     Intent intent = new Intent(mContext, RequestDetailActivity.class);
                     intent.putExtra("USERNAME", data.get(position).getUserName());
                     intent.putExtra("USERID", data.get(position).getUserId());
+
+                    // Replace when obtaining requests from db.
+                    if(position == 0 || position == 1)
+                        intent.putExtra("STATUS", false);   // Pending request.
+                    else
+                        intent.putExtra("STATUS", true);    // Done request.
+
                     ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(
                             getActivity(),
                             Pair.create(view.findViewById(R.id.request_item_user_name), getResources().getString(R.string.requests_fragment_transition_name)),

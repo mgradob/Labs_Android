@@ -69,6 +69,11 @@ public class RequestsModelAdapter extends BaseAdapter {
         holder.requestUserId.setText(DATA.get(position).getUserId());
         holder.requestUserDate.setText(DATA.get(position).getUserDate());
 
+        if (DATA.get(position).getImageResource() == R.drawable.ic_cancel_white)
+            holder.requestImage.setBackground(context.getResources().getDrawable(R.drawable.request_indicator_pending));
+        else if (DATA.get(position).getImageResource() == R.drawable.ic_done_white)
+            holder.requestImage.setBackground(context.getResources().getDrawable(R.drawable.request_indicator_done));
+
         return convertView;
     }
 

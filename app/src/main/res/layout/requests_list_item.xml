@@ -6,10 +6,10 @@
 
     <ImageView
         android:id="@+id/request_item_image"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/ic_request_pending" />
+        android:background="@drawable/rounded_letter" />
 
     <LinearLayout
         android:layout_width="wrap_content"

@@ -54,14 +54,22 @@
 
         <Button
             android:id="@+id/login_sign_up"
+            android:layout_height="48dp"
+            android:layout_width="150dp"
+            android:layout_margin="5dp"
             android:text="@string/user_signup"
-            style="@style/LabsTheme.Compat.Login.Button"/>
+            android:textColor="@color/primary_text_light"
+            android:background="@drawable/ripple_button_login"/>
 
         <Button
             android:id="@+id/login_button"
+            android:layout_height="48dp"
+            android:layout_width="150dp"
+            android:layout_margin="5dp"
             android:text="@string/user_login"
             android:layout_toRightOf="@+id/login_sign_up"
-            style="@style/LabsTheme.Compat.Login.Button"/>
+            android:textColor="@color/primary_text_light"
+            android:background="@drawable/ripple_button_login"/>
 
     </RelativeLayout>
 
