@@ -7,7 +7,6 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Pair;
@@ -20,24 +19,17 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.itesm.labs.R;
 import com.itesm.labs.activities.UserDetailActivity;
 import com.itesm.labs.adapters.UsersModelAdapter;
+import com.itesm.labs.async_tasks.GetUsersInfo;
 import com.itesm.labs.dialogs.SignupDialog;
-import com.itesm.labs.models.UserModel;
-import com.itesm.labs.rest.deserializers.UserDeserializer;
 import com.itesm.labs.rest.models.User;
-import com.itesm.labs.rest.models.UserWrapper;
-import com.itesm.labs.rest.service.UserService;
 
 import java.util.ArrayList;
-import java.util.Random;
-
-import retrofit.RestAdapter;
-import retrofit.converter.GsonConverter;
+import java.util.concurrent.ExecutionException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,12 +37,12 @@ import retrofit.converter.GsonConverter;
 public class UsersFragment extends Fragment {
 
     private ListView mListView;
-    private ArrayList<UserModel> data = new ArrayList<UserModel>();
+    private ArrayList<User> usersList = new ArrayList<User>();
     private UsersFragmentComm mCallback;
     private String ENDPOINT;
     private Context mContext;
     private Toolbar mSubToolbar;
-    ProgressBar mProgressBar;
+    private ProgressBar mProgressBar;
 
     public UsersFragment() {
         // Required empty public constructor
@@ -82,21 +74,30 @@ public class UsersFragment extends Fragment {
         mProgressBar = (ProgressBar) view.findViewById(R.id.fragment_users_progressbar);
         mProgressBar.setIndeterminate(true);
 
-        new GetDbInfo().execute();
-
         mListView = (ListView) view.findViewById(R.id.fragment_users_list);
+
+        GetUsersInfo getUsersInfo = new GetUsersInfo();
+        getUsersInfo.setContext(mContext);
+
+        try {
+            usersList = getUsersInfo.execute(ENDPOINT).get();
+            mListView.setAdapter(new UsersModelAdapter(mContext, usersList));
+        } catch (ExecutionException | InterruptedException ex) {
+            Toast.makeText(mContext, "Unable to get the data", Toast.LENGTH_SHORT).show();
+        }
+
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    mCallback.loadNewUsersDetail(data.get(position), data.get(position).getBackgroundColor());
+                    mCallback.loadNewUsersDetail(usersList.get(position), usersList.get(position).getUserColor());
                 } else {
                     //Toast.makeText(DashboardActivity.this, "Portrait mode", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(mContext, UserDetailActivity.class);
-                    intent.putExtra("USERNAME", data.get(position).getFullName());
-                    intent.putExtra("USERID", data.get(position).getUserId());
-                    intent.putExtra("USERCAREER", data.get(position).getUserCareer());
-                    intent.putExtra("USERCOLOR", data.get(position).getBackgroundColor());
+                    intent.putExtra("USERNAME", usersList.get(position).getFullName());
+                    intent.putExtra("USERID", usersList.get(position).getUserId());
+                    intent.putExtra("USERCAREER", usersList.get(position).getUserCareer());
+                    intent.putExtra("USERCOLOR", usersList.get(position).getUserColor());
                     ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(
                             getActivity(),
                             Pair.create(view.findViewById(R.id.user_item_user_name), getResources().getString(R.string.users_fragment_transition_name)),
@@ -110,6 +111,8 @@ public class UsersFragment extends Fragment {
 
         mSubToolbar = (Toolbar) view.findViewById(R.id.fragment_users_subtoolbar);
         mSubToolbar.setTitle("Usuarios");
+
+        mProgressBar.setVisibility(View.INVISIBLE);
     }
 
     public String getENDPOINT() {
@@ -145,7 +148,14 @@ public class UsersFragment extends Fragment {
                 signupDialog.show();
                 break;
             case R.id.fragment_users_menu_reload:
-                new GetDbInfo().execute();
+                GetUsersInfo getUsersInfo = new GetUsersInfo();
+                getUsersInfo.setContext(mContext);
+                try {
+                    usersList = getUsersInfo.execute(ENDPOINT).get();
+                    mListView.setAdapter(new UsersModelAdapter(mContext, usersList));
+                } catch (ExecutionException | InterruptedException ex) {
+                    Toast.makeText(mContext, "Unable to get the data", Toast.LENGTH_SHORT).show();
+                }
         }
 
         return true;
@@ -158,55 +168,6 @@ public class UsersFragment extends Fragment {
     }
 
     public interface UsersFragmentComm {
-        void loadNewUsersDetail(UserModel user, int colorCode);
-    }
-
-    private class GetDbInfo extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected Void doInBackground(Void... params) {
-            Gson gson = new GsonBuilder()
-                    .registerTypeAdapter(UserWrapper.class, new UserDeserializer())
-                    .create();
-
-            RestAdapter restAdapter = new RestAdapter.Builder()
-                    .setEndpoint(ENDPOINT)
-                    .setConverter(new GsonConverter(gson))
-                    .build();
-
-            UserService service = restAdapter.create(UserService.class);
-
-            UserWrapper userWrapper = service.getUsers();
-
-            data = new ArrayList<UserModel>();
-
-            int[] colors = mContext.getResources().getIntArray(R.array.material_colors);
-            for (User user : userWrapper.userList) {
-                UserModel mUserModel = new UserModel(
-                        user.getUserName(),
-                        user.getUserLastName1(),
-                        user.getUserLastName2(),
-                        user.getUserId(),
-                        user.getUserCarrer(),
-                        user.getUserMail(),
-                        user.getUserUid()
-                );
-
-                int color = colors[new Random().nextInt(colors.length - 1)];
-                mUserModel.setBackgroundColor(color);
-
-                data.add(mUserModel);
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-
-            mProgressBar.setVisibility(View.INVISIBLE);
-
-            mListView.setAdapter(new UsersModelAdapter(mContext, data));
-        }
+        void loadNewUsersDetail(User user, int colorCode);
     }
 }

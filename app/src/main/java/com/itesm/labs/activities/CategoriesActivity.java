@@ -13,10 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.itesm.labs.R;
 import com.itesm.labs.adapters.CategoriesModelAdapter;
-import com.itesm.labs.models.CategoryModel;
-import com.itesm.labs.rest.deserializers.CategoryDeserializer;
 import com.itesm.labs.rest.models.Category;
-import com.itesm.labs.rest.models.CategoryWrapper;
 import com.itesm.labs.rest.service.CategoryService;
 
 import java.util.ArrayList;
@@ -30,7 +27,7 @@ public class CategoriesActivity extends ActionBarActivity {
     public String ENDPOINT;
 
     GridView mGridView;
-    ArrayList<CategoryModel> mCategoryModelList;
+    ArrayList<Category> mCategoryModelList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +54,6 @@ public class CategoriesActivity extends ActionBarActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             Gson gson = new GsonBuilder()
-                    .registerTypeAdapter(CategoryWrapper.class, new CategoryDeserializer())
                     .create();
 
             RestAdapter restAdapter = new RestAdapter.Builder()
@@ -67,20 +63,7 @@ public class CategoriesActivity extends ActionBarActivity {
 
             CategoryService service = restAdapter.create(CategoryService.class);
 
-            CategoryWrapper categoryWrapper = service.getCategories();
-
-            mCategoryModelList = new ArrayList<CategoryModel>();
-
-            for (Category category : categoryWrapper.categoryList) {
-                CategoryModel mCategoryModel = new CategoryModel(category.name, category.id, R.drawable.ic_dummy_category);
-
-                /*if (category.name.equals("Resistencia")) mCategoryModel.setImageResource(R.drawable.ic_resistencia);
-                else if (category.name.equals("Capacitor")) mCategoryModel.setImageResource(R.drawable.ic_capacitores);
-                else if (category.name.equals("Equipo")) mCategoryModel.setImageResource(R.drawable.ic_equipo);
-                else if (category.name.equals("Kit")) mCategoryModel.setImageResource(R.drawable.ic_kits);*/
-
-                mCategoryModelList.add(mCategoryModel);
-            }
+            mCategoryModelList = service.getCategories();
 
             return null;
         }

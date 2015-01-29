@@ -1,9 +1,9 @@
 package com.itesm.labs.fragments;
 
 
+import android.app.Fragment;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.itesm.labs.R;
 import com.itesm.labs.animations.RevealAnimation;
-import com.itesm.labs.models.UserModel;
+import com.itesm.labs.rest.models.User;
 import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ import java.util.ArrayList;
  */
 public class UserDetailFragment extends Fragment {
 
-    private UserModel UserModel;
+    private User user;
     private TextView userName;
     private TextView userId;
     private TextView userCarrer;
@@ -33,12 +33,12 @@ public class UserDetailFragment extends Fragment {
     private int colorCode;
     private FloatingActionButton mFab;
 
-    public UserModel getmRequestModel() {
-        return UserModel;
+    public User getmRequestModel() {
+        return user;
     }
 
-    public void setUserModel(UserModel userModel) {
-        this.UserModel = userModel;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public int getColorCode() {
@@ -89,9 +89,9 @@ public class UserDetailFragment extends Fragment {
         userCarrer = (TextView) view.findViewById(R.id.users_detail_user_career);
         userHistoryList = (ListView) view.findViewById(R.id.user_detail_history_list);
 
-        userName.setText(UserModel.getFullName());
-        userId.setText(UserModel.getUserId());
-        userCarrer.setText(UserModel.getUserCareer());
+        userName.setText(user.getFullName());
+        userId.setText(user.getUserId());
+        userCarrer.setText(user.getUserCareer());
         userHistoryList.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, list));
 
         mFab = (FloatingActionButton) view.findViewById(R.id.fragment_users_detail_fab);

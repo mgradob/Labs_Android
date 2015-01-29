@@ -16,18 +16,19 @@ public class User {
     @SerializedName("id_student")
     private String userId;
     @SerializedName("career")
-    private String userCarrer;
+    private String userCareer;
     @SerializedName("id_credential")
     private Integer userUid;
     @SerializedName("mail")
     private String userMail;
+    private Integer userColor;
 
     public User(String userName, String userLastName1, String userLastName2, String userId, String userCarrer, Integer userUid, String userMail) {
         this.userName = userName;
         this.userLastName1 = userLastName1;
         this.userLastName2 = userLastName2;
         this.userId = userId;
-        this.userCarrer = userCarrer;
+        this.userCareer = userCarrer;
         this.userUid = userUid;
         this.userMail = userMail;
     }
@@ -64,12 +65,12 @@ public class User {
         this.userId = userId;
     }
 
-    public String getUserCarrer() {
-        return userCarrer;
+    public String getUserCareer() {
+        return userCareer;
     }
 
-    public void setUserCarrer(String userCarrer) {
-        this.userCarrer = userCarrer;
+    public void setUserCareer(String userCareer) {
+        this.userCareer = userCareer;
     }
 
     public Integer getUserUid() {
@@ -98,6 +99,14 @@ public class User {
         this.userLastName2 = ln2;
     }
 
+    public Integer getUserColor() {
+        return userColor;
+    }
+
+    public void setUserColor(Integer userColor) {
+        this.userColor = userColor;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -105,9 +114,10 @@ public class User {
                 ", userLastName1='" + userLastName1 + '\'' +
                 ", userLastName2='" + userLastName2 + '\'' +
                 ", userId='" + userId + '\'' +
-                ", userCarrer='" + userCarrer + '\'' +
-                ", userUid='" + userUid + '\'' +
+                ", userCareer='" + userCareer + '\'' +
+                ", userUid=" + userUid +
                 ", userMail='" + userMail + '\'' +
+                ", userColor=" + userColor +
                 '}';
     }
 }

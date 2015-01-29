@@ -1,7 +1,8 @@
 package com.itesm.labs.rest.service;
 
-import com.itesm.labs.models.UserModel;
-import com.itesm.labs.rest.models.UserWrapper;
+import com.itesm.labs.rest.models.User;
+
+import java.util.ArrayList;
 
 import retrofit.Callback;
 import retrofit.http.Body;
@@ -14,8 +15,8 @@ import retrofit.http.POST;
 public interface UserService {
 
     @GET("/student/?format=json")
-    UserWrapper getUsers();
+    ArrayList<User> getUsers();
 
     @POST("/student")
-    void postNewUser(@Body UserModel user, Callback<String> cb);
+    void postNewUser(@Body User user, Callback<String> cb);
 }

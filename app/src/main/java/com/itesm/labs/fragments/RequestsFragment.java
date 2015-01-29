@@ -4,7 +4,6 @@ package com.itesm.labs.fragments;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -17,12 +16,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 
 import com.itesm.labs.R;
 import com.itesm.labs.activities.RequestDetailActivity;
 import com.itesm.labs.adapters.RequestsModelAdapter;
-import com.itesm.labs.models.RequestModel;
 import com.itesm.labs.rest.models.Request;
 
 import java.util.ArrayList;
@@ -88,7 +85,7 @@ public class RequestsFragment extends Fragment {
                     intent.putExtra("USERID", data.get(position).getUserId());
 
                     // Replace when obtaining requests from db.
-                    if(position == 0 || position == 1)
+                    if (position == 0 || position == 1)
                         intent.putExtra("STATUS", false);   // Pending request.
                     else
                         intent.putExtra("STATUS", true);    // Done request.

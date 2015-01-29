@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="dummy_login">Just click the button</string>
+
     <!-- Global Strings -->
     <string name="endpoint">http://labs.chi.itesm.mx:8080</string>
 

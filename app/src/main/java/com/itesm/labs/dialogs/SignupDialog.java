@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.itesm.labs.R;
-import com.itesm.labs.models.UserModel;
 import com.itesm.labs.rest.models.User;
 import com.itesm.labs.rest.service.UserService;
 
@@ -30,7 +29,7 @@ public class SignupDialog extends Dialog {
     private String ENDPOINT;
     private String mUserName, mUserLastName1, mUserLastName2, mUserId, mUserCareer, mUserMail;
     private Integer mUserUid;
-    private UserModel mUserModel;
+    private User mUserModel;
 
     public SignupDialog(Context context, String endpoint) {
         super(context);
@@ -43,13 +42,13 @@ public class SignupDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup_dialog);
-        
+
         userName = (EditText) findViewById(R.id.signup_dialog_name);
         userLastName1 = (EditText) findViewById(R.id.signup_dialog_last_name_1);
         userLastName2 = (EditText) findViewById(R.id.signup_dialog_last_name_2);
         userId = (EditText) findViewById(R.id.signup_dialog_id);
         userCareer = (EditText) findViewById(R.id.signup_dialog_career);
-        
+
         cancel = (Button) findViewById(R.id.signup_dialog_cancel);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,14 +74,14 @@ public class SignupDialog extends Dialog {
         mUserMail = mUserId + "@itesm.mx";
         mUserUid = 0;
 
-        mUserModel = new UserModel(
+        mUserModel = new User(
                 mUserName,
                 mUserLastName1,
                 mUserLastName2,
                 mUserId,
                 mUserCareer,
-                mUserMail,
-                mUserUid
+                mUserUid,
+                mUserMail
         );
 
         RequestInterceptor requestInterceptor = new RequestInterceptor() {

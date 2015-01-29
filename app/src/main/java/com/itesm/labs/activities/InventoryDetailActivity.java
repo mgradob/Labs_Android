@@ -4,8 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.graphics.Palette;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,10 +19,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.itesm.labs.R;
 import com.itesm.labs.adapters.ComponentModelAdapter;
-import com.itesm.labs.models.ComponentModel;
-import com.itesm.labs.rest.deserializers.ComponentDeserializer;
 import com.itesm.labs.rest.models.Component;
-import com.itesm.labs.rest.models.ComponentWrapper;
 import com.itesm.labs.rest.service.ComponentService;
 
 import java.util.ArrayList;
@@ -39,7 +36,7 @@ public class InventoryDetailActivity extends ActionBarActivity {
     private ListView mCategoryList;
     private Context mContext;
     private String ENDPOINT;
-    private ArrayList<ComponentModel> componentsData;
+    private ArrayList<Component> componentsData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +52,7 @@ public class InventoryDetailActivity extends ActionBarActivity {
 
         mCategoryIcon.setImageDrawable(getResources().getDrawable(
                 getIntent().getIntExtra("CATEGORYICON", R.drawable.ic_dummy_category)
-                ));
+        ));
         mCategoryName.setText(getIntent().getStringExtra("CATEGORYTITLE"));
 
         Bitmap iconBitmap = BitmapFactory.decodeResource(
@@ -103,7 +100,6 @@ public class InventoryDetailActivity extends ActionBarActivity {
         @Override
         protected Void doInBackground(Integer... params) {
             Gson gson = new GsonBuilder()
-                    .registerTypeAdapter(ComponentWrapper.class, new ComponentDeserializer())
                     .create();
 
             RestAdapter restAdapter = new RestAdapter.Builder()
@@ -113,28 +109,7 @@ public class InventoryDetailActivity extends ActionBarActivity {
 
             ComponentService service = restAdapter.create(ComponentService.class);
 
-            //ComponentWrapper componentWrapper = service.getComponents(params[0]);
-            ComponentWrapper componentWrapper = service.getComponents();
-
-            componentsData = new ArrayList<>();
-
-            for (Component component : componentWrapper.componentList) {
-                ComponentModel mComponentModel = new ComponentModel(
-                        component.id,
-                        component.name,
-                        component.note,
-                        component.total,
-                        component.available,
-                        R.drawable.rounded_letter
-                );
-
-                /*if (category.name.equals("Resistencia")) mCategoryModel.setImageResource(R.drawable.ic_resistencia);
-                else if (category.name.equals("Capacitor")) mCategoryModel.setImageResource(R.drawable.ic_capacitores);
-                else if (category.name.equals("Equipo")) mCategoryModel.setImageResource(R.drawable.ic_equipo);
-                else if (category.name.equals("Kit")) mCategoryModel.setImageResource(R.drawable.ic_kits);*/
-
-                componentsData.add(mComponentModel);
-            }
+            componentsData = service.getComponents();
 
             return null;
         }

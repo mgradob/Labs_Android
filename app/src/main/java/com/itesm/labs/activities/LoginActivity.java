@@ -11,7 +11,7 @@ import com.itesm.labs.dialogs.SignupDialog;
 
 public class LoginActivity extends ActionBarActivity {
 
-    Button loginButton, signupButton;
+    private Button loginButton;
     public String ENDPOINT = "http://labs.chi.itesm.mx:8080/elec";
 
     @Override
@@ -20,7 +20,6 @@ public class LoginActivity extends ActionBarActivity {
         setContentView(R.layout.activity_login);
 
         loginButton = (Button) findViewById(R.id.login_button);
-        signupButton = (Button) findViewById(R.id.login_sign_up);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -28,14 +27,6 @@ public class LoginActivity extends ActionBarActivity {
                 Intent intent = new Intent(v.getContext() , LaboratoriesActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.abc_slide_in_top, R.anim.abc_slide_out_bottom); // Activity transition animation.
-            }
-        });
-
-        signupButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SignupDialog signupDialog = new SignupDialog(v.getContext(), ENDPOINT);
-                signupDialog.show();
             }
         });
     }

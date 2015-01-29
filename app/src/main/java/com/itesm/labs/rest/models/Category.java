@@ -13,12 +13,38 @@ public class Category implements Serializable {
     public int id;
     @SerializedName("name")
     public String name;
+    public Integer imageResource;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getImageResource() {
+        return imageResource;
+    }
+
+    public void setImageResource(Integer imageResource) {
+        this.imageResource = imageResource;
+    }
 
     @Override
     public String toString() {
         return "Category{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", imageResource=" + imageResource +
                 '}';
     }
 }

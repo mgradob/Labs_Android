@@ -9,8 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.itesm.labs.R;
-import com.itesm.labs.models.CategoryModel;
-import com.itesm.labs.models.ComponentModel;
+import com.itesm.labs.rest.models.Component;
 
 import java.util.ArrayList;
 
@@ -21,9 +20,9 @@ public class ComponentModelAdapter extends BaseAdapter {
 
     private Context context;
 
-    private ArrayList<ComponentModel> DATA = new ArrayList<>();
+    private ArrayList<Component> DATA = new ArrayList<>();
 
-    public ComponentModelAdapter(Context context, ArrayList<ComponentModel> data) {
+    public ComponentModelAdapter(Context context, ArrayList<Component> data) {
         this.context = context;
         this.DATA = data;
     }
@@ -66,7 +65,7 @@ public class ComponentModelAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.component_image.setImageResource(DATA.get(position).getImageResource());
+        holder.component_image.setImageResource(R.drawable.ic_dummy_category);
         holder.component_name.setText(DATA.get(position).getName());
         holder.component_note.setText(DATA.get(position).getNote());
         holder.component_total.setText("" + DATA.get(position).getTotal());

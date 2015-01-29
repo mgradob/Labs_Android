@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.itesm.labs.R;
 import com.itesm.labs.animations.RevealAnimation;
-import com.itesm.labs.models.RequestModel;
+import com.itesm.labs.rest.models.Request;
 import com.itesm.labs.util.Snackbar;
 import com.melnykov.fab.FloatingActionButton;
 
@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 public class RequestDetailFragment extends Fragment {
 
-    private RequestModel mRequestModel;
+    private Request request;
     private TextView userName;
     private TextView userId;
     private ListView userRequestList;
@@ -40,12 +40,12 @@ public class RequestDetailFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public RequestModel getmRequestModel() {
-        return mRequestModel;
+    public Request getRequest() {
+        return request;
     }
 
-    public void setmRequestModel(RequestModel mRequestModel) {
-        this.mRequestModel = mRequestModel;
+    public void setRequest(Request request) {
+        this.request = request;
     }
 
     @Override
@@ -103,8 +103,8 @@ public class RequestDetailFragment extends Fragment {
         userId = (TextView) view.findViewById(R.id.request_detail_user_id);
         userRequestList = (ListView) view.findViewById(R.id.request_detail_user_list);
 
-        userName.setText(mRequestModel.getUserName());
-        userId.setText(mRequestModel.getUserId());
+        userName.setText(request.getUserName());
+        userId.setText(request.getUserId());
         userRequestList.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, list));
 
         mFab = (FloatingActionButton) view.findViewById(R.id.fragment_request_detail_fab);
@@ -112,11 +112,11 @@ public class RequestDetailFragment extends Fragment {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                validateRequest(mRequestModel.getRequestStatus());
+                validateRequest(request.getStatus());
             }
         });
 
-        if (!mRequestModel.getRequestStatus())
+        if (!request.getStatus())
             mFab.setImageDrawable(getResources().getDrawable(R.drawable.ic_done_white));
         else
             mFab.setImageDrawable(getResources().getDrawable(R.drawable.ic_uid_white));

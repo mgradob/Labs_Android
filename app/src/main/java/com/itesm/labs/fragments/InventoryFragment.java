@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -26,18 +27,14 @@ import com.itesm.labs.R;
 import com.itesm.labs.activities.InventoryDetailActivity;
 import com.itesm.labs.adapters.CategoriesModelAdapter;
 import com.itesm.labs.adapters.ComponentModelAdapter;
-import com.itesm.labs.models.CategoryModel;
-import com.itesm.labs.models.ComponentModel;
-import com.itesm.labs.rest.deserializers.CategoryDeserializer;
-import com.itesm.labs.rest.deserializers.ComponentDeserializer;
+import com.itesm.labs.async_tasks.GetCategoriesInfo;
+import com.itesm.labs.async_tasks.GetComponentsInfo;
 import com.itesm.labs.rest.models.Category;
-import com.itesm.labs.rest.models.CategoryWrapper;
 import com.itesm.labs.rest.models.Component;
-import com.itesm.labs.rest.models.ComponentWrapper;
-import com.itesm.labs.rest.service.CategoryService;
 import com.itesm.labs.rest.service.ComponentService;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
@@ -50,10 +47,10 @@ public class InventoryFragment extends Fragment {
 
     ProgressBar mProgressBar;
     private ListView categoriesListView, componentsListView;
-    private ArrayList<CategoryModel> categoriesData;
-    private ArrayList<ComponentModel> componentsData;
+    private ArrayList<Category> categoriesData;
+    private ArrayList<Component> componentsData;
     private String ENDPOINT;
-    private Context context;
+    private Context mContext;
     private Toolbar mSubtoolbar;
 
     public InventoryFragment() {
@@ -88,23 +85,33 @@ public class InventoryFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        context = view.getContext();
+        mContext = view.getContext();
 
         mProgressBar = (ProgressBar) view.findViewById(R.id.fragment_inventory_progressbar);
         mProgressBar.setIndeterminate(true);
-
-        new getCategoriesInfo().execute();
-
         categoriesListView = (ListView) view.findViewById(R.id.fragment_inventory_categories_list);
+
+        try {
+            categoriesData = new GetCategoriesInfo().execute(ENDPOINT).get();
+            categoriesListView.setAdapter(new CategoriesModelAdapter(mContext, categoriesData));
+        } catch (ExecutionException | InterruptedException ex){
+            Toast.makeText(mContext, "Unable to get the data", Toast.LENGTH_SHORT).show();
+        }
+
         categoriesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    new getComponentInfo().execute(categoriesData.get(position).getIdApi());
+                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    try {
+                        componentsData = new GetComponentsInfo().execute(ENDPOINT).get();
+                        componentsListView.setAdapter(new ComponentModelAdapter(mContext, componentsData));
+                    } catch (ExecutionException | InterruptedException ex){
+                        Toast.makeText(mContext, "Unable to get the data", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Intent intent = new Intent(context, InventoryDetailActivity.class);
-                    intent.putExtra("CATEGORYID", categoriesData.get(position).getIdApi());
-                    intent.putExtra("CATEGORYTITLE", categoriesData.get(position).getTitle());
+                    Intent intent = new Intent(mContext, InventoryDetailActivity.class);
+                    intent.putExtra("CATEGORYID", categoriesData.get(position).getId());
+                    intent.putExtra("CATEGORYTITLE", categoriesData.get(position).getName());
                     intent.putExtra("CATEGORYICON", categoriesData.get(position).getImageResource());
                     intent.putExtra("ENDPOINT", ENDPOINT);
                     ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(
@@ -142,119 +149,5 @@ public class InventoryFragment extends Fragment {
                 break;
         }
         return true;
-    }
-
-    private class getCategoriesInfo extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            Gson gson = new GsonBuilder()
-                    .registerTypeAdapter(CategoryWrapper.class, new CategoryDeserializer())
-                    .create();
-
-            RestAdapter restAdapter = new RestAdapter.Builder()
-                    .setEndpoint(ENDPOINT)
-                    .setConverter(new GsonConverter(gson))
-                    .build();
-
-            CategoryService service = restAdapter.create(CategoryService.class);
-
-            CategoryWrapper categoryWrapper = service.getCategories();
-
-            categoriesData = new ArrayList<>();
-
-            for (Category category : categoryWrapper.categoryList) {
-                CategoryModel mCategoryModel = new CategoryModel(category.name, category.id, R.drawable.rounded_letter);
-
-                if (category.id == 0) mCategoryModel.setImageResource(R.drawable.ic_resistencias);
-                else if (category.id == 1) mCategoryModel.setImageResource(R.drawable.ic_capacitores);
-                else if (category.id == 2) mCategoryModel.setImageResource(R.drawable.ic_equipo);
-                else if (category.id == 3) mCategoryModel.setImageResource(R.drawable.ic_kits);
-                else if (category.id == 4) mCategoryModel.setImageResource(R.drawable.ic_cables);
-                else if (category.id == 5) mCategoryModel.setImageResource(R.drawable.ic_integrados);
-                else if (category.id == 6) mCategoryModel.setImageResource(R.drawable.ic_diodos);
-                else if (category.id == 7) mCategoryModel.setImageResource(R.drawable.ic_herramientas);
-                else if (category.id == 8) mCategoryModel.setImageResource(R.drawable.ic_switches);
-                else if (category.id == 9) mCategoryModel.setImageResource(R.drawable.ic_adaptadores);
-                else if (category.id == 10) mCategoryModel.setImageResource(R.drawable.ic_displays);
-                else if (category.id == 11) mCategoryModel.setImageResource(R.drawable.ic_inductores);
-                else if (category.id == 12) mCategoryModel.setImageResource(R.drawable.ic_sensores);
-                else if (category.id == 13) mCategoryModel.setImageResource(R.drawable.ic_motores);
-                else if (category.id == 14) mCategoryModel.setImageResource(R.drawable.ic_potenciometro);
-                else if (category.id == 15) mCategoryModel.setImageResource(R.drawable.ic_transformadores);
-                else if (category.id == 16) mCategoryModel.setImageResource(R.drawable.ic_transistores);
-
-                categoriesData.add(mCategoryModel);
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-
-            mProgressBar.setVisibility(View.INVISIBLE);
-
-            categoriesListView.setAdapter(new CategoriesModelAdapter(context, categoriesData));
-        }
-    }
-
-    private class getComponentInfo extends AsyncTask<Integer, Void, Void> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            mProgressBar.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected Void doInBackground(Integer... params) {
-            Gson gson = new GsonBuilder()
-                    .registerTypeAdapter(ComponentWrapper.class, new ComponentDeserializer())
-                    .create();
-
-            RestAdapter restAdapter = new RestAdapter.Builder()
-                    .setEndpoint(ENDPOINT)
-                    .setConverter(new GsonConverter(gson))
-                    .build();
-
-            ComponentService service = restAdapter.create(ComponentService.class);
-
-            //ComponentWrapper componentWrapper = service.getComponents(params[0]);
-            ComponentWrapper componentWrapper = service.getComponents();
-
-            componentsData = new ArrayList<>();
-
-            for (Component component : componentWrapper.componentList) {
-                ComponentModel mComponentModel = new ComponentModel(
-                        component.id,
-                        component.name,
-                        component.note,
-                        component.total,
-                        component.available,
-                        R.drawable.rounded_letter
-                );
-
-                /*if (category.name.equals("Resistencia")) mCategoryModel.setImageResource(R.drawable.ic_resistencia);
-                else if (category.name.equals("Capacitor")) mCategoryModel.setImageResource(R.drawable.ic_capacitores);
-                else if (category.name.equals("Equipo")) mCategoryModel.setImageResource(R.drawable.ic_equipo);
-                else if (category.name.equals("Kit")) mCategoryModel.setImageResource(R.drawable.ic_kits);*/
-
-                componentsData.add(mComponentModel);
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-
-            mProgressBar.setVisibility(View.INVISIBLE);
-
-            componentsListView.setAdapter(new ComponentModelAdapter(context, componentsData));
-        }
     }
 }

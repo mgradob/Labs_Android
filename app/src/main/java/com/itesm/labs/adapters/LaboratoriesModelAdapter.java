@@ -4,13 +4,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.itesm.labs.R;
-import com.itesm.labs.models.LaboratoryModel;
 import com.itesm.labs.rest.models.Laboratory;
 
 import java.util.ArrayList;

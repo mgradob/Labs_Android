@@ -1,6 +1,8 @@
 package com.itesm.labs.rest.service;
 
-import com.itesm.labs.rest.models.LaboratoryWrapper;
+import com.itesm.labs.rest.models.Laboratory;
+
+import java.util.ArrayList;
 
 import retrofit.http.GET;
 
@@ -10,5 +12,5 @@ import retrofit.http.GET;
 public interface LaboratoryService {
 
     @GET("/links/?format=json")
-    LaboratoryWrapper getLaboratories();
+    ArrayList<Laboratory> getLaboratories();
 }

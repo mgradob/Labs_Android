@@ -27,9 +27,8 @@ import com.itesm.labs.fragments.RequestDetailFragment;
 import com.itesm.labs.fragments.RequestsFragment;
 import com.itesm.labs.fragments.UserDetailFragment;
 import com.itesm.labs.fragments.UsersFragment;
-import com.itesm.labs.models.RequestModel;
-import com.itesm.labs.models.UserModel;
 import com.itesm.labs.rest.models.Request;
+import com.itesm.labs.rest.models.User;
 import com.itesm.labs.util.NfcHandler;
 
 
@@ -184,7 +183,7 @@ public class DashboardActivity extends ActionBarActivity
     protected void onResume() {
         super.onResume();
 
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
             if (!nfcHandler.getmNfcAdapter().isEnabled())
                 startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS));
     }
@@ -193,8 +192,7 @@ public class DashboardActivity extends ActionBarActivity
     @Override
     public void loadNewRequestDetail(Request request) {
         RequestDetailFragment requestDetailFragment = new RequestDetailFragment();
-        requestDetailFragment.setmRequestModel(
-                new RequestModel(request.getUserName(), request.getUserId(), null, request.getStatus()));
+        requestDetailFragment.setRequest(request);
 
         getFragmentManager()
                 .beginTransaction()
@@ -207,9 +205,9 @@ public class DashboardActivity extends ActionBarActivity
 
     //region UsersFragment.UsersFragmentCommunication interface methods.
     @Override
-    public void loadNewUsersDetail(UserModel user, int colorCode) {
+    public void loadNewUsersDetail(User user, int colorCode) {
         UserDetailFragment userDetailFragment = new UserDetailFragment();
-        userDetailFragment.setUserModel(user);
+        userDetailFragment.setUser(user);
         userDetailFragment.setColorCode(colorCode);
 
         getFragmentManager()
@@ -236,7 +234,7 @@ public class DashboardActivity extends ActionBarActivity
     //region NfcHandler methods.
     @Override
     public void onNewIntent(Intent intent) {
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
             UID = nfcHandler.bytesToHex(tag.getId());
         }

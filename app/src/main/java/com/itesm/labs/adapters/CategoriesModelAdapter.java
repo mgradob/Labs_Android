@@ -4,13 +4,12 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.itesm.labs.R;
-import com.itesm.labs.models.CategoryModel;
+import com.itesm.labs.rest.models.Category;
 
 import java.util.ArrayList;
 
@@ -21,9 +20,9 @@ public class CategoriesModelAdapter extends BaseAdapter {
 
     private Context context;
 
-    private ArrayList<CategoryModel> DATA = new ArrayList<CategoryModel>();
+    private ArrayList<Category> DATA = new ArrayList<Category>();
 
-    public CategoriesModelAdapter(Context context, ArrayList<CategoryModel> data) {
+    public CategoriesModelAdapter(Context context, ArrayList<Category> data) {
         this.context = context;
         this.DATA = data;
     }
@@ -64,7 +63,7 @@ public class CategoriesModelAdapter extends BaseAdapter {
         }
 
         holder.category_image.setImageResource(DATA.get(position).getImageResource());
-        holder.category_name.setText(DATA.get(position).getTitle());
+        holder.category_name.setText(DATA.get(position).getName());
 
         return convertView;
     }

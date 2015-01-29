@@ -1,6 +1,8 @@
 package com.itesm.labs.rest.service;
 
-import com.itesm.labs.rest.models.CategoryWrapper;
+import com.itesm.labs.rest.models.Category;
+
+import java.util.ArrayList;
 
 import retrofit.http.GET;
 
@@ -10,5 +12,5 @@ import retrofit.http.GET;
 public interface CategoryService {
 
     @GET("/category/?format=json")
-    CategoryWrapper getCategories();
+    ArrayList<Category> getCategories();
 }

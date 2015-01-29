@@ -2,8 +2,6 @@ package com.itesm.labs.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +9,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.itesm.labs.R;
-import com.itesm.labs.models.UserModel;
+import com.itesm.labs.rest.models.User;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Created by miguel on 26/10/14.
@@ -23,10 +20,9 @@ public class UsersModelAdapter extends BaseAdapter {
 
     private Context context;
 
-    private ArrayList<UserModel> DATA = new ArrayList<UserModel>();
-    int[] colors;
+    private ArrayList<User> DATA = new ArrayList<User>();
 
-    public UsersModelAdapter(Context context, ArrayList<UserModel> data) {
+    public UsersModelAdapter(Context context, ArrayList<User> data) {
         this.context = context;
         this.DATA = data;
     }
@@ -68,10 +64,10 @@ public class UsersModelAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        char[] letters = DATA.get(position).getFirstName().toCharArray();
+        char[] letters = DATA.get(position).getUserName().toCharArray();
         holder.user_initial.setText("" + letters[0]);
         GradientDrawable gradientDrawable = (GradientDrawable) holder.user_initial.getBackground();
-        gradientDrawable.setColor(DATA.get(position).getBackgroundColor());
+        gradientDrawable.setColor(DATA.get(position).getUserColor());
 
         holder.user_name.setText(DATA.get(position).getFullName());
         holder.user_id.setText(DATA.get(position).getUserId());
