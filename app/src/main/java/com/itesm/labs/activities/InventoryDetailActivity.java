@@ -3,7 +3,6 @@ package com.itesm.labs.activities;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.graphics.Palette;
@@ -15,17 +14,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.itesm.labs.R;
 import com.itesm.labs.adapters.ComponentModelAdapter;
+import com.itesm.labs.async_tasks.GetComponentsInfo;
 import com.itesm.labs.rest.models.Component;
-import com.itesm.labs.rest.service.ComponentService;
 
 import java.util.ArrayList;
-
-import retrofit.RestAdapter;
-import retrofit.converter.GsonConverter;
 
 
 public class InventoryDetailActivity extends ActionBarActivity {
@@ -43,7 +37,7 @@ public class InventoryDetailActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inventory_detail);
 
-        mBackground = (View) findViewById(R.id.activity_inventory_detail_background);
+        mBackground = findViewById(R.id.activity_inventory_detail_background);
         mCategoryIcon = (ImageView) findViewById(R.id.activity_inventory_detail_image);
         mCategoryName = (TextView) findViewById(R.id.activity_inventory_detail_name);
         mCategoryList = (ListView) findViewById(R.id.activity_inventory_detail_list);
@@ -64,7 +58,15 @@ public class InventoryDetailActivity extends ActionBarActivity {
         Window window = getWindow();
         window.setStatusBarColor(palette.getDarkVibrantColor(getResources().getColor(R.color.primary_dark)));
 
-        new getComponentInfo().execute(0);
+        GetComponentsInfo componentsInfo = new GetComponentsInfo() {
+            @Override
+            protected void onPostExecute(ArrayList<Component> components) {
+                super.onPostExecute(components);
+                componentsData = components;
+                mCategoryList.setAdapter(new ComponentModelAdapter(mContext, componentsData));
+            }
+        };
+        componentsInfo.execute(ENDPOINT);
     }
 
 
@@ -88,37 +90,5 @@ public class InventoryDetailActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private class getComponentInfo extends AsyncTask<Integer, Void, Void> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Void doInBackground(Integer... params) {
-            Gson gson = new GsonBuilder()
-                    .create();
-
-            RestAdapter restAdapter = new RestAdapter.Builder()
-                    .setEndpoint(ENDPOINT)
-                    .setConverter(new GsonConverter(gson))
-                    .build();
-
-            ComponentService service = restAdapter.create(ComponentService.class);
-
-            componentsData = service.getComponents();
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-
-            mCategoryList.setAdapter(new ComponentModelAdapter(mContext, componentsData));
-        }
     }
 }

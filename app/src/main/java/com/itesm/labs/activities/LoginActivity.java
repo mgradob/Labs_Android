@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.itesm.labs.R;
-import com.itesm.labs.dialogs.SignupDialog;
 
 public class LoginActivity extends ActionBarActivity {
 
@@ -24,7 +23,7 @@ public class LoginActivity extends ActionBarActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext() , LaboratoriesActivity.class);
+                Intent intent = new Intent(v.getContext(), LaboratoriesActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.abc_slide_in_top, R.anim.abc_slide_out_bottom); // Activity transition animation.
             }

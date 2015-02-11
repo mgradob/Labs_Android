@@ -1,56 +1,30 @@
 package com.itesm.labs.util;
 
-import android.app.Activity;
-import android.app.PendingIntent;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.nfc.NfcAdapter;
-import android.nfc.tech.NfcA;
+import android.nfc.Tag;
+
+import java.lang.ref.WeakReference;
 
 /**
  * Created by mgradob on 1/22/15.
  */
-public class NfcHandler {
+public class NfcHandler implements NfcAdapter.ReaderCallback {
 
-    private NfcAdapter mNfcAdapter;
-
-    private Activity mActivity;
-    private IntentFilter mIntentFilterArray[];
-    private PendingIntent mPendingIntent;
-    private String cardTypeListArray[][];
-
-    public NfcHandler(Activity mActivity) {
-        super();
-        this.mActivity = mActivity;
-
-        mNfcAdapter = NfcAdapter.getDefaultAdapter(mActivity.getApplicationContext());
-        mPendingIntent = PendingIntent.getActivity(
-                mActivity,
-                0,
-                new Intent(
-                        mActivity,
-                        mActivity.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP),
-                0);
-
-        IntentFilter nDef = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
-        mIntentFilterArray = new IntentFilter[] { nDef };
-        cardTypeListArray = new String[][] { new String[] {NfcA.class.getName() } };
+    public interface UidCallback {
+        void getUid(String uid);
     }
 
-    public void enableForeground() {
-        mNfcAdapter.enableForegroundDispatch(
-                mActivity,
-                mPendingIntent,
-                mIntentFilterArray,
-                cardTypeListArray);
+    private WeakReference<UidCallback> mCallback;
+
+    public NfcHandler(UidCallback mCallback) {
+        this.mCallback = new WeakReference<UidCallback>(mCallback);
     }
 
-    public void disableForeground() {
-        mNfcAdapter.disableForegroundDispatch(mActivity);
-    }
-
-    public NfcAdapter getmNfcAdapter() {
-        return mNfcAdapter;
+    @Override
+    public void onTagDiscovered(Tag tag) {
+        String tagUid = bytesToHex(tag.getId());
+        mCallback.get().getUid(tagUid);
+        tagUid = "";
     }
 
     /**

@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,16 +14,18 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.itesm.labs.R;
 import com.itesm.labs.animations.RevealAnimation;
 import com.itesm.labs.rest.models.Request;
-import com.itesm.labs.util.Snackbar;
+import com.itesm.labs.util.NfcHandler;
+import com.itesm.labs.util.NfcHandler.UidCallback;
 import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
 
-public class RequestDetailFragment extends Fragment {
+public class RequestDetailFragment extends Fragment implements UidCallback {
 
     private Request request;
     private TextView userName;
@@ -34,7 +37,8 @@ public class RequestDetailFragment extends Fragment {
     private Activity mActivity;
     private Context mContext;
 
-    private NfcCommunication mCallback;
+    private UidCallback mCallback;
+    private NfcHandler nfcHandler;
 
     public RequestDetailFragment() {
         // Required empty public constructor
@@ -67,18 +71,14 @@ public class RequestDetailFragment extends Fragment {
             }
         });
 
+        nfcHandler = new NfcHandler(this);
+
         return view;
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-
-        try {
-            mCallback = (NfcCommunication) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement interface.");
-        }
 
         mActivity = activity;
     }
@@ -118,29 +118,45 @@ public class RequestDetailFragment extends Fragment {
 
         if (!request.getStatus())
             mFab.setImageDrawable(getResources().getDrawable(R.drawable.ic_done_white));
-        else
+        else {
             mFab.setImageDrawable(getResources().getDrawable(R.drawable.ic_uid_white));
-    }
-
-    private void validateRequest(Boolean requestStatus) {
-        if (requestStatus) {
-            userUid = "";
-            userUid = mCallback.getUid();
-            if (userUid.isEmpty()) {
-                Snackbar snackbar = new Snackbar(
-                        mActivity,
-                        "Read card again.",
-                        Snackbar.LENGTH_SHORT,
-                        Snackbar.NO_ACTION);
-                snackbar.show();
-            }
-            mCallback.resetUid();
+            enableReader();
         }
     }
 
-    public interface NfcCommunication {
-        String getUid();
+    private void validateRequest(Boolean requestStatus) {
+        if (requestStatus)
+            Toast.makeText(mContext, "UID: " + userUid, Toast.LENGTH_SHORT).show();
+    }
 
-        void resetUid();
+    @Override
+    public void onPause() {
+        super.onPause();
+        disableReader();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        enableReader();
+    }
+
+    private void enableReader() {
+        Activity activity = getActivity();
+        NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(activity);
+        if (nfcAdapter != null)
+            nfcAdapter.enableReaderMode(activity, nfcHandler, NfcAdapter.FLAG_READER_NFC_A, null);
+    }
+
+    private void disableReader() {
+        Activity activity = getActivity();
+        NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(activity);
+        if (nfcAdapter != null)
+            nfcAdapter.disableReaderMode(getActivity());
+    }
+
+    @Override
+    public void getUid(String uid) {
+        this.userUid = uid;
     }
 }

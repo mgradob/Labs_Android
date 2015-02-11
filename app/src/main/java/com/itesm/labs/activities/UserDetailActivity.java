@@ -1,27 +1,13 @@
 package com.itesm.labs.activities;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.v7.graphics.Palette;
-import android.transition.AutoTransition;
-import android.transition.ChangeTransform;
-import android.transition.Explode;
-import android.transition.Scene;
-import android.transition.Slide;
-import android.transition.TransitionManager;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewAnimationUtils;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -55,8 +41,8 @@ public class UserDetailActivity extends ActionBarActivity {
         userCareer.setText(getIntent().getStringExtra("USERCAREER"));
         userBackgroud = findViewById(R.id.activity_user_detail_background);
         userBackgroud.setBackgroundColor(getIntent().getIntExtra(
-                "USERCOLOR",
-                getResources().getColor(R.color.material_teal))
+                        "USERCOLOR",
+                        getResources().getColor(R.color.material_teal))
         );
 
         Window window = getWindow();

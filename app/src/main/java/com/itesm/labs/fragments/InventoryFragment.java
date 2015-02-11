@@ -91,17 +91,24 @@ public class InventoryFragment extends Fragment {
         mProgressBar.setIndeterminate(true);
         categoriesListView = (ListView) view.findViewById(R.id.fragment_inventory_categories_list);
 
-        try {
-            categoriesData = new GetCategoriesInfo().execute(ENDPOINT).get();
-            categoriesListView.setAdapter(new CategoriesModelAdapter(mContext, categoriesData));
-        } catch (ExecutionException | InterruptedException ex){
-            Toast.makeText(mContext, "Unable to get the data", Toast.LENGTH_SHORT).show();
-        }
+        GetCategoriesInfo getCategoriesInfo = new GetCategoriesInfo(){
+            @Override
+            protected void onPostExecute(ArrayList<Category> categories) {
+                super.onPostExecute(categories);
+                categoriesData = categories;
+                categoriesListView.setAdapter(new CategoriesModelAdapter(mContext, categoriesData));
+
+                mProgressBar.setVisibility(View.INVISIBLE);
+            }
+        };
+
+        getCategoriesInfo.execute(ENDPOINT);
 
         categoriesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE &&
+                        getResources().getConfiguration().screenLayout == Configuration.SCREENLAYOUT_SIZE_LARGE) {
                     try {
                         componentsData = new GetComponentsInfo().execute(ENDPOINT).get();
                         componentsListView.setAdapter(new ComponentModelAdapter(mContext, componentsData));

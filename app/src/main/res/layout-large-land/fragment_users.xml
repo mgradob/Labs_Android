@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     tools:context=".UsersFragment">
 
-    <android.support.v7.widget.Toolbar xmlns:app="http://schemas.android.com/apk/res-auto"
+    <android.support.v7.widget.Toolbar
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/fragment_users_subtoolbar"
         android:layout_width="fill_parent"
         android:layout_height="72dp"
@@ -22,10 +23,19 @@
 
     <ListView
         android:id="@+id/fragment_users_list"
-        android:layout_width="fill_parent"
+        android:layout_width="400dp"
         android:layout_height="fill_parent"
         android:layout_below="@id/fragment_users_subtoolbar"
         android:animateLayoutChanges="true"
         android:background="@color/background" />
+
+    <RelativeLayout
+        android:id="@+id/fragment_users_detail_container"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="-48dp"
+        android:layout_marginLeft="-48dp"
+        android:layout_toRightOf="@id/fragment_users_list"
+        android:gravity="center" />
 
 </RelativeLayout>

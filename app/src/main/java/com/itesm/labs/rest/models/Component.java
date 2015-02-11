@@ -17,7 +17,6 @@ public class Component {
     public int total;
     @SerializedName("available")
     public int available;
-    public Integer imageResource;
 
     public int getId() {
         return id;
@@ -59,14 +58,6 @@ public class Component {
         this.available = available;
     }
 
-    public Integer getImageResource() {
-        return imageResource;
-    }
-
-    public void setImageResource(Integer imageResource) {
-        this.imageResource = imageResource;
-    }
-
     @Override
     public String toString() {
         return "Component{" +
@@ -75,7 +66,6 @@ public class Component {
                 ", note='" + note + '\'' +
                 ", total=" + total +
                 ", available=" + available +
-                ", imageResource=" + imageResource +
                 '}';
     }
 }

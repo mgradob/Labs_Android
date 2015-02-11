@@ -52,7 +52,6 @@ public class ComponentModelAdapter extends BaseAdapter {
             convertView = mLayoutInflater.inflate(R.layout.inventory_list_item_component, parent, false);
 
             holder = new ViewHolder();
-            holder.component_image = (ImageView) convertView.findViewById(R.id.inventory_item_component_icon);
             holder.component_name = (TextView) convertView.findViewById(R.id.inventory_item_component_name);
             holder.component_note = (TextView) convertView.findViewById(R.id.inventory_item_component_note);
             holder.component_total = (TextView) convertView.findViewById(R.id.inventory_item_component_total);
@@ -65,7 +64,6 @@ public class ComponentModelAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.component_image.setImageResource(R.drawable.ic_dummy_category);
         holder.component_name.setText(DATA.get(position).getName());
         holder.component_note.setText(DATA.get(position).getNote());
         holder.component_total.setText("" + DATA.get(position).getTotal());
@@ -75,7 +73,6 @@ public class ComponentModelAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
-        ImageView component_image;
         TextView component_name, component_note, component_total, component_available;
     }
 }

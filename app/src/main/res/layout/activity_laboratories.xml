@@ -28,17 +28,13 @@
         android:layout_height="10dp"
         android:layout_below="@id/laboratories_toolbar" />
 
-    <GridView
-        android:id="@+id/laboratories_list"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/laboratories_toolbar"
-        android:animateLayoutChanges="true"
-        android:horizontalSpacing="1dp"
-        android:numColumns="1"
-        android:padding="@dimen/gridview_margin"
-        android:stretchMode="columnWidth"
-        android:gravity="center_horizontal"
-        android:verticalSpacing="1dp" />
+    <com.github.ksoichiro.android.observablescrollview.ObservableScrollView
+        android:id="@+id/laboratories_list_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/laboratories_list_content" />
+
+    </com.github.ksoichiro.android.observablescrollview.ObservableScrollView>
 
 </RelativeLayout>

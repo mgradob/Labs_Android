@@ -76,20 +76,24 @@ public class UsersFragment extends Fragment {
 
         mListView = (ListView) view.findViewById(R.id.fragment_users_list);
 
-        GetUsersInfo getUsersInfo = new GetUsersInfo();
-        getUsersInfo.setContext(mContext);
+        GetUsersInfo getUsersInfo = new GetUsersInfo(){
+            @Override
+            protected void onPostExecute(ArrayList<User> users) {
+                super.onPostExecute(users);
+                usersList = users;
+                mListView.setAdapter(new UsersModelAdapter(mContext, usersList));
 
-        try {
-            usersList = getUsersInfo.execute(ENDPOINT).get();
-            mListView.setAdapter(new UsersModelAdapter(mContext, usersList));
-        } catch (ExecutionException | InterruptedException ex) {
-            Toast.makeText(mContext, "Unable to get the data", Toast.LENGTH_SHORT).show();
-        }
+                mProgressBar.setVisibility(View.INVISIBLE);
+            }
+        };
+        getUsersInfo.setContext(getActivity().getApplicationContext());
+        getUsersInfo.execute(ENDPOINT);
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE &&
+                        getResources().getConfiguration().screenLayout == Configuration.SCREENLAYOUT_SIZE_LARGE) {
                     mCallback.loadNewUsersDetail(usersList.get(position), usersList.get(position).getUserColor());
                 } else {
                     //Toast.makeText(DashboardActivity.this, "Portrait mode", Toast.LENGTH_SHORT).show();

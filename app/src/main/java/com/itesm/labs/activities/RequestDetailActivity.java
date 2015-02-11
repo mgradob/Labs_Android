@@ -1,29 +1,25 @@
 package com.itesm.labs.activities;
 
-import android.content.Intent;
-import android.graphics.drawable.Animatable;
-import android.graphics.drawable.Drawable;
+import android.app.Activity;
 import android.nfc.NfcAdapter;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.itesm.labs.R;
 import com.itesm.labs.util.NfcHandler;
-import com.itesm.labs.util.Snackbar;
+import com.itesm.labs.util.NfcHandler.UidCallback;
 import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
 
-public class RequestDetailActivity extends ActionBarActivity {
+public class RequestDetailActivity extends ActionBarActivity implements UidCallback {
 
     private TextView userName, userId;
     private ListView userRequestList;
@@ -31,7 +27,7 @@ public class RequestDetailActivity extends ActionBarActivity {
     private boolean mRequestStatus;
     private String UID;
 
-    private NfcHandler mNfcHandler;
+    public NfcHandler nfcHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,36 +83,39 @@ public class RequestDetailActivity extends ActionBarActivity {
         else
             mFab.setImageDrawable(getResources().getDrawable(R.drawable.ic_uid_white));
 
-        mNfcHandler = new NfcHandler(this);
-        UID = "";
+        nfcHandler = new NfcHandler(this);
+        enableReader();
     }
 
     private void validateRequest(Boolean requestStatus) {
-        if (requestStatus) {
-            if (UID.isEmpty()) {
-                Snackbar snackbar = new Snackbar(
-                        this,
-                        "Read card again.",
-                        Snackbar.LENGTH_SHORT,
-                        Snackbar.NO_ACTION);
-                snackbar.show();
-            }
-            UID = "";
-        }
+        if (requestStatus)
+            Toast.makeText(this, "UID: " + UID, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        disableReader();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        if (!mNfcHandler.getmNfcAdapter().isEnabled())
-            startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS));
+        enableReader();
     }
 
-    @Override
-    public void onNewIntent(Intent intent) {
-        Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-        UID = mNfcHandler.bytesToHex(tag.getId());
+    private void enableReader() {
+        Activity activity = this;
+        NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(activity);
+        if (nfcAdapter != null)
+            nfcAdapter.enableReaderMode(activity, nfcHandler, NfcAdapter.FLAG_READER_NFC_A, null);
+    }
+
+    private void disableReader() {
+        Activity activity = this;
+        NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(activity);
+        if (nfcAdapter != null)
+            nfcAdapter.disableReaderMode(activity);
     }
 
     @Override
@@ -139,5 +138,10 @@ public class RequestDetailActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void getUid(String uid) {
+        this.UID = uid;
     }
 }

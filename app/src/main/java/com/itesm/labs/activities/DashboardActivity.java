@@ -2,9 +2,7 @@ package com.itesm.labs.activities;
 
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.nfc.NfcAdapter;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.widget.DrawerLayout;
@@ -29,13 +27,11 @@ import com.itesm.labs.fragments.UserDetailFragment;
 import com.itesm.labs.fragments.UsersFragment;
 import com.itesm.labs.rest.models.Request;
 import com.itesm.labs.rest.models.User;
-import com.itesm.labs.util.NfcHandler;
 
 
 public class DashboardActivity extends ActionBarActivity
         implements RequestsFragment.RequestFragmentComm,
-        UsersFragment.UsersFragmentComm,
-        RequestDetailFragment.NfcCommunication {
+        UsersFragment.UsersFragmentComm {
 
     private String[] mDrawerItems;
     private DrawerLayout mDrawerLayout;
@@ -55,9 +51,6 @@ public class DashboardActivity extends ActionBarActivity
     private final String mInventoryFragmentTag = "INVENTORY_FRAGMENT";
     private final String mReportsFragmentTag = "REPORTS_FRAGMENT";
     private final String mUsersFragmentTag = "USERS_FRAGMENT";
-
-    NfcHandler nfcHandler;
-    private String UID = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +102,9 @@ public class DashboardActivity extends ActionBarActivity
                     .commit();
         }
 
-        nfcHandler = new NfcHandler(this);
+        NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        if (!nfcAdapter.isEnabled())
+            startActivity(new Intent(Settings.ACTION_NFC_SETTINGS));
     }
 
     private void fragmentSelector(int idDrawerItem) {
@@ -174,20 +169,6 @@ public class DashboardActivity extends ActionBarActivity
         super.onSaveInstanceState(outState);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
-            if (!nfcHandler.getmNfcAdapter().isEnabled())
-                startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS));
-    }
-
     //region RequestFragment.RequestFragmentComm interface methods.
     @Override
     public void loadNewRequestDetail(Request request) {
@@ -216,28 +197,6 @@ public class DashboardActivity extends ActionBarActivity
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .show(userDetailFragment)
                 .commit();
-    }
-    //endregion
-
-    //region RequestDetailFragment.NfcCommunication interface methods.
-    @Override
-    public String getUid() {
-        return UID;
-    }
-
-    @Override
-    public void resetUid() {
-        UID = "";
-    }
-    //endregion
-
-    //region NfcHandler methods.
-    @Override
-    public void onNewIntent(Intent intent) {
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-            UID = nfcHandler.bytesToHex(tag.getId());
-        }
     }
     //endregion
 }
