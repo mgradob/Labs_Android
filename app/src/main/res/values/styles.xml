@@ -2,7 +2,7 @@
 <resources>
     <!-- API 16 up until API 21 -->
     <!-- Login Activity -->
-    <style name="LabsTheme.Compat.Login" parent="LabsTheme.Compat"/>
+    <style name="LabsTheme.Compat.Login" parent="LabsTheme.Compat" />
 
     <style name="LabsTheme.Compat.Login.EditText" parent="LabsTheme.Compat.Login">
         <item name="android:layout_width">300dp</item>

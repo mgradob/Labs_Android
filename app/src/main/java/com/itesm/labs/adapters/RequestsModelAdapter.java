@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -48,7 +47,7 @@ public class RequestsModelAdapter extends BaseAdapter {
         ViewHolder holder;
         LayoutInflater mLayoutInflater = (LayoutInflater.from(context));
 
-        if (convertView == null){
+        if (convertView == null) {
             convertView = mLayoutInflater.inflate(R.layout.requests_list_item, parent, false);
 
             holder = new ViewHolder();
@@ -77,7 +76,7 @@ public class RequestsModelAdapter extends BaseAdapter {
         return convertView;
     }
 
-    static class ViewHolder{
+    static class ViewHolder {
         ImageView requestImage;
         TextView requestUserName;
         TextView requestUserId;

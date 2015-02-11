@@ -21,17 +21,11 @@ import android.widget.TextView;
 import com.itesm.labs.R;
 import com.itesm.labs.fragments.InventoryFragment;
 import com.itesm.labs.fragments.ReportsFragment;
-import com.itesm.labs.fragments.RequestDetailFragment;
 import com.itesm.labs.fragments.RequestsFragment;
-import com.itesm.labs.fragments.UserDetailFragment;
 import com.itesm.labs.fragments.UsersFragment;
-import com.itesm.labs.rest.models.Request;
-import com.itesm.labs.rest.models.User;
 
 
-public class DashboardActivity extends ActionBarActivity
-        implements RequestsFragment.RequestFragmentComm,
-        UsersFragment.UsersFragmentComm {
+public class DashboardActivity extends ActionBarActivity {
 
     private String[] mDrawerItems;
     private DrawerLayout mDrawerLayout;
@@ -168,35 +162,4 @@ public class DashboardActivity extends ActionBarActivity
 
         super.onSaveInstanceState(outState);
     }
-
-    //region RequestFragment.RequestFragmentComm interface methods.
-    @Override
-    public void loadNewRequestDetail(Request request) {
-        RequestDetailFragment requestDetailFragment = new RequestDetailFragment();
-        requestDetailFragment.setRequest(request);
-
-        getFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_requests_detail_container, requestDetailFragment, mRequestsFragmentTag)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .show(requestDetailFragment)
-                .commit();
-    }
-    //endregion
-
-    //region UsersFragment.UsersFragmentCommunication interface methods.
-    @Override
-    public void loadNewUsersDetail(User user, int colorCode) {
-        UserDetailFragment userDetailFragment = new UserDetailFragment();
-        userDetailFragment.setUser(user);
-        userDetailFragment.setColorCode(colorCode);
-
-        getFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_users_detail_container, userDetailFragment, mUsersFragmentTag)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .show(userDetailFragment)
-                .commit();
-    }
-    //endregion
 }

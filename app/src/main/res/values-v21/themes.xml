@@ -1,5 +1,5 @@
 <resources>
-    
+
     <style name="LabsTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:colorPrimary">@color/primary</item>
         <item name="android:colorPrimaryDark">@color/primary_dark</item>
@@ -16,5 +16,5 @@
 
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
     </style>
-    
+
 </resources>

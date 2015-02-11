@@ -4,8 +4,7 @@
     android:layout_height="match_parent"
     tools:context=".CategoriesActivity">
 
-    <android.support.v7.widget.Toolbar
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <android.support.v7.widget.Toolbar xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/categories_toolbar"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
@@ -13,7 +12,7 @@
         android:background="?attr/colorPrimary"
         android:title="@string/categories_activity"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     <GridView
         android:id="@+id/categories_list"
@@ -27,6 +26,6 @@
         android:stretchMode="columnWidth"
         android:verticalSpacing="1dp"
         android:horizontalSpacing="1dp"
-        android:scrollbars="none"/>
+        android:scrollbars="none" />
 
 </RelativeLayout>

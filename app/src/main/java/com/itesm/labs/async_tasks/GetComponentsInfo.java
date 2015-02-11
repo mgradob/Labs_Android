@@ -1,11 +1,9 @@
 package com.itesm.labs.async_tasks;
 
 import android.os.AsyncTask;
-import android.view.View;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.itesm.labs.adapters.ComponentModelAdapter;
 import com.itesm.labs.rest.models.Component;
 import com.itesm.labs.rest.service.ComponentService;
 

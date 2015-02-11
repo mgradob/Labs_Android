@@ -31,7 +31,6 @@ public class Snackbar extends Toast {
     public static final int LENGHT_LONG = Toast.LENGTH_LONG;
 
     /**
-     *
      * @param activity
      * @param message
      * @param duration

@@ -1,13 +1,10 @@
 package com.itesm.labs.async_tasks;
 
 import android.os.AsyncTask;
-import android.view.View;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.itesm.labs.R;
-import com.itesm.labs.activities.LaboratoriesActivity;
-import com.itesm.labs.adapters.LaboratoriesModelAdapter;
 import com.itesm.labs.rest.models.Laboratory;
 import com.itesm.labs.rest.service.LaboratoryService;
 

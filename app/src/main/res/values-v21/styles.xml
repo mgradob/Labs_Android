@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+
     <!-- Global Theme -->
-    <style name="LabsTheme.v21" parent="LabsTheme"/>
+    <style name="LabsTheme.v21" parent="LabsTheme" />
 
     <!-- Drawer Arrow -->
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
@@ -55,7 +55,7 @@
     </style>
 
     <!-- Light Theme -->
-    <style name="LabsTheme.v21.Light" parent="LabsTheme"/>
+    <style name="LabsTheme.v21.Light" parent="LabsTheme" />
 
     <!-- Fonts styles Light-->
     <style name="LabsTheme.v21.Light.Text.Display4" parent="@android:style/TextAppearance.Material.Display4">

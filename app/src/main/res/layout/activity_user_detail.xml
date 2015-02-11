@@ -59,12 +59,12 @@
         android:id="@+id/activity_user_detail_list_frame"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@id/activity_user_detail_background" >
+        android:layout_below="@id/activity_user_detail_background">
 
         <ListView
             android:id="@+id/activity_user_detail_list"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"/>
+            android:layout_height="fill_parent" />
 
     </FrameLayout>
 

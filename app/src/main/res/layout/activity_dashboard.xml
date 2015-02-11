@@ -29,6 +29,6 @@
 
     </RelativeLayout>
 
-    <include layout="@layout/dashboard_navigation_drawer"/>
+    <include layout="@layout/dashboard_navigation_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

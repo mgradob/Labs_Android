@@ -19,7 +19,7 @@
         android:layout_alignBottom="@id/laboratories_toolbar"
         android:text="@string/laboratories_activity"
         android:padding="16dp"
-        style="@style/LabsTheme.v21.Light.Text.Display1"/>
+        style="@style/LabsTheme.v21.Light.Text.Display1" />
 
     <ProgressBar
         android:id="@+id/laboratories_progressbar"

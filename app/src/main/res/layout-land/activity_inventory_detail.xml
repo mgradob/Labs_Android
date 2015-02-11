@@ -6,8 +6,8 @@
 
     <LinearLayout
         android:id="@+id/activity_inventory_detail_background"
-        android:layout_width="fill_parent"
-        android:layout_height="170dp"
+        android:layout_width="200dp"
+        android:layout_height="fill_parent"
         android:background="@color/material_deep_orange"
         android:orientation="vertical"
         android:padding="16dp">
@@ -34,7 +34,7 @@
         android:id="@+id/activity_inventory_detail_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@id/activity_inventory_detail_background"
+        android:layout_toRightOf="@id/activity_inventory_detail_background"
         android:animateLayoutChanges="true" />
 
     <com.melnykov.fab.FloatingActionButton xmlns:fab="http://schemas.android.com/apk/res-auto"

@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:text="SNACKBAR TEXT"
         android:layout_alignParentLeft="true"
-        style="@style/LabsTheme.v21.Light.Text.Body1"/>
+        style="@style/LabsTheme.v21.Light.Text.Body1" />
 
     <TextView
         android:id="@+id/snackbar_action"
@@ -21,6 +21,6 @@
         android:layout_alignParentRight="true"
         style="@style/LabsTheme.v21.Light.Text.Body1"
         android:text="ACTION"
-        android:textColor="@color/material_yellow"/>
+        android:textColor="@color/material_yellow" />
 
 </RelativeLayout>

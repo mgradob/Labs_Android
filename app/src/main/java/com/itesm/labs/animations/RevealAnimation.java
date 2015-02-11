@@ -82,6 +82,17 @@ public class RevealAnimation {
         anim.start();
     }
 
+    public void revealFromPosition(int duration, int delay, int x, int y) {
+        targetView.setVisibility(View.INVISIBLE);
+        int radius = Math.max(targetView.getWidth(), targetView.getHeight());
+        Animator anim = ViewAnimationUtils.createCircularReveal(targetView, x, y, 0, radius);
+        anim.setDuration(duration);
+        anim.setInterpolator(new DecelerateInterpolator(1.5f));
+        anim.setStartDelay(delay);
+        targetView.setVisibility(View.VISIBLE);
+        anim.start();
+    }
+
     public void unvealFromCenter(int duration, int delay) {
         int cx = (targetView.getLeft() + targetView.getRight()) / 2;
         int cy = (targetView.getTop() + targetView.getBottom()) / 2;
@@ -98,6 +109,5 @@ public class RevealAnimation {
             }
         });
         anim.start();
-
     }
 }

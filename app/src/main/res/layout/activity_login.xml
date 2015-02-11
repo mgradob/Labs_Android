@@ -12,7 +12,7 @@
         android:layout_height="170dp"
         android:layout_margin="@dimen/activity_vertical_margin"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/ic_logo"/>
+        android:src="@drawable/ic_logo" />
 
     <TextView
         android:id="@+id/admin"
@@ -21,7 +21,7 @@
         android:layout_below="@id/icon_app"
         android:layout_centerHorizontal="true"
         android:textSize="@dimen/abc_text_size_headline_material"
-        android:text="Administrador"/>
+        android:text="Administrador" />
 
     <RelativeLayout
         android:id="@+id/login_form"
@@ -34,14 +34,14 @@
         <EditText
             android:id="@+id/user_id"
             android:hint="@string/user_mat"
-            style="@style/LabsTheme.Compat.Login.EditText"/>
+            style="@style/LabsTheme.Compat.Login.EditText" />
 
         <EditText
             android:id="@+id/user_pass"
             android:layout_below="@+id/user_id"
             android:hint="@string/user_pass"
             android:inputType="textPassword"
-            style="@style/LabsTheme.Compat.Login.EditText"/>
+            style="@style/LabsTheme.Compat.Login.EditText" />
 
         <Button
             android:id="@+id/login_button"
@@ -52,7 +52,7 @@
             android:layout_margin="5dp"
             android:text="@string/user_login"
             android:textColor="@color/primary_text_light"
-            android:background="@drawable/ripple_button_login"/>
+            android:background="@drawable/ripple_button_login" />
 
     </RelativeLayout>
 

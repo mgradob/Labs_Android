@@ -1,12 +1,10 @@
 package com.itesm.labs.fragments;
 
 
-import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Pair;
@@ -33,7 +31,6 @@ public class RequestsFragment extends Fragment {
     ProgressBar mProgressBar;
     private ListView mListView;
     private ArrayList<Request> data = new ArrayList<Request>();
-    private RequestFragmentComm mCallback;
     private Toolbar mSubtoolbar;
     private String ENDPOINT;
     private Context mContext;
@@ -76,44 +73,27 @@ public class RequestsFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE &&
-                        getResources().getConfiguration().screenLayout == Configuration.SCREENLAYOUT_SIZE_LARGE) {
-                    mCallback.loadNewRequestDetail(data.get(position));
-                } else {
-                    //Toast.makeText(DashboardActivity.this, "Portrait mode", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(mContext, RequestDetailActivity.class);
-                    intent.putExtra("USERNAME", data.get(position).getUserName());
-                    intent.putExtra("USERID", data.get(position).getUserId());
+                Intent intent = new Intent(mContext, RequestDetailActivity.class);
+                intent.putExtra("USERNAME", data.get(position).getUserName());
+                intent.putExtra("USERID", data.get(position).getUserId());
 
-                    // Replace when obtaining requests from db.
-                    if (position == 0 || position == 1)
-                        intent.putExtra("STATUS", false);   // Pending request.
-                    else
-                        intent.putExtra("STATUS", true);    // Done request.
+                // Replace when obtaining requests from db.
+                if (position == 0 || position == 1)
+                    intent.putExtra("STATUS", false);   // Pending request.
+                else
+                    intent.putExtra("STATUS", true);    // Done request.
 
-                    ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(
-                            getActivity(),
-                            Pair.create(view.findViewById(R.id.request_item_user_name), getResources().getString(R.string.requests_fragment_transition_name)),
-                            Pair.create(view.findViewById(R.id.request_item_user_id), getResources().getString(R.string.requests_fragment_transition_id))
-                    );
-                    startActivity(intent, activityOptions.toBundle());
-                }
+                ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(
+                        getActivity(),
+                        Pair.create(view.findViewById(R.id.request_item_user_name), getResources().getString(R.string.requests_fragment_transition_name)),
+                        Pair.create(view.findViewById(R.id.request_item_user_id), getResources().getString(R.string.requests_fragment_transition_id))
+                );
+                startActivity(intent, activityOptions.toBundle());
             }
         });
 
         mSubtoolbar = (Toolbar) view.findViewById(R.id.fragment_requests_subtoolbar);
         mSubtoolbar.setTitle("Pedidos");
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-
-        try {
-            mCallback = (RequestFragmentComm) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement interface.");
-        }
     }
 
     @Override
@@ -128,9 +108,5 @@ public class RequestsFragment extends Fragment {
 
     public void setENDPOINT(String ENDPOINT) {
         this.ENDPOINT = ENDPOINT;
-    }
-
-    public interface RequestFragmentComm {
-        void loadNewRequestDetail(Request request);
     }
 }
