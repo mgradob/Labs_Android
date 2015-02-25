@@ -116,8 +116,7 @@ public class User {
                 ", userId='" + userId + '\'' +
                 ", userCareer='" + userCareer + '\'' +
                 ", userUid=" + userUid +
-                ", userMail='" + userMail + '\'' +
-                ", userColor=" + userColor +
+                ", userMail='" + userMail +
                 '}';
     }
 }

@@ -11,8 +11,6 @@ import retrofit.http.GET;
  */
 public interface ComponentService {
 
-    //@GET("/component/?id_category_fk={id}")
-    //ComponentWrapper getComponents(@Path("id") Integer categoryId);
     @GET("/component/?format=json")
     ArrayList<Component> getComponents();
 }

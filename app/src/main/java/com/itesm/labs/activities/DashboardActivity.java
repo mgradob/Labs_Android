@@ -147,19 +147,6 @@ public class DashboardActivity extends ActionBarActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        if (getFragmentManager().findFragmentByTag(mRequestsFragmentTag) != null) {
-            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction
-                    .remove(getFragmentManager().findFragmentByTag(mRequestsFragmentTag))
-                    .commit();
-        }
-        if (getFragmentManager().findFragmentByTag(mUsersFragmentTag) != null) {
-            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction
-                    .remove(getFragmentManager().findFragmentByTag(mUsersFragmentTag))
-                    .commit();
-        }
-
         super.onSaveInstanceState(outState);
     }
 }

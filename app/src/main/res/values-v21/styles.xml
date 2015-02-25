@@ -39,7 +39,7 @@
     </style>
 
     <style name="LabsTheme.v21.Text.Body1" parent="@android:style/TextAppearance.Material.Body1">
-        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textColor">@color/secondary_text</item>
     </style>
 
     <style name="LabsTheme.v21.Text.Body2" parent="@android:style/TextAppearance.Material.Body2">
@@ -87,7 +87,7 @@
     </style>
 
     <style name="LabsTheme.v21.Light.Text.Body1" parent="@android:style/TextAppearance.Material.Body1">
-        <item name="android:textColor">@color/primary_text_light</item>
+        <item name="android:textColor">@color/secondary_text_light</item>
     </style>
 
     <style name="LabsTheme.v21.Light.Text.Body2" parent="@android:style/TextAppearance.Material.Body2">

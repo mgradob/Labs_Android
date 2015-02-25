@@ -9,6 +9,7 @@
         android:layout_width="fill_parent"
         android:layout_height="72dp"
         android:background="@color/primary"
+        android:elevation="3dp"
         app:contentInsetStart="72dp"
         app:title="Inventory"
         app:titleTextAppearance="@style/LabsTheme.v21.Light.Text.Display1" />
@@ -24,6 +25,9 @@
         android:id="@+id/fragment_inventory_categories_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@id/fragment_inventory_subtoolbar" />
+        android:layout_below="@id/fragment_inventory_subtoolbar"
+        android:animateLayoutChanges="true"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp" />
 
 </RelativeLayout>

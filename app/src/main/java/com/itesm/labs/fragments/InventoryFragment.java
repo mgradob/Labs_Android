@@ -126,6 +126,8 @@ public class InventoryFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.inventory_menu_add:
+                break;
             case R.id.inventory_menu_settings:
                 break;
         }

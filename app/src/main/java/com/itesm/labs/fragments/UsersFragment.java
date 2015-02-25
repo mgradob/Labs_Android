@@ -17,17 +17,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.itesm.labs.R;
+import com.itesm.labs.activities.SignupActivity;
 import com.itesm.labs.activities.UserDetailActivity;
 import com.itesm.labs.adapters.UsersModelAdapter;
 import com.itesm.labs.async_tasks.GetUsersInfo;
-import com.itesm.labs.dialogs.SignupDialog;
 import com.itesm.labs.rest.models.User;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,6 +38,8 @@ public class UsersFragment extends Fragment {
     private Context mContext;
     private Toolbar mSubToolbar;
     private ProgressBar mProgressBar;
+
+    final static int SIGNUP_USER_REQUEST = 1;
 
     public UsersFragment() {
         // Required empty public constructor
@@ -104,10 +104,26 @@ public class UsersFragment extends Fragment {
             }
         });
 
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(mContext, SignupActivity.class);
+                intent.putExtra("ENDPOINT", ENDPOINT);
+                intent.putExtra("ISEDIT", true);
+                intent.putExtra("USERNAME", usersList.get(position).getUserName());
+                intent.putExtra("USERLASTNAME1", usersList.get(position).getUserLastName1());
+                intent.putExtra("USERLASTNAME2", usersList.get(position).getUserLastName2());
+                intent.putExtra("USERID", usersList.get(position).getUserId());
+                intent.putExtra("USERCAREER", usersList.get(position).getUserCareer());
+
+                startActivityForResult(intent, SIGNUP_USER_REQUEST);
+
+                return true;
+            }
+        });
+
         mSubToolbar = (Toolbar) view.findViewById(R.id.fragment_users_subtoolbar);
         mSubToolbar.setTitle("Usuarios");
-
-        mProgressBar.setVisibility(View.INVISIBLE);
     }
 
     public String getENDPOINT() {
@@ -128,18 +144,25 @@ public class UsersFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.fragment_users_menu_add_user:
-                SignupDialog signupDialog = new SignupDialog(mContext, ENDPOINT);
-                signupDialog.show();
+                Intent intent = new Intent(mContext, SignupActivity.class);
+                intent.putExtra("ENDPOINT", ENDPOINT);
+                intent.putExtra("ISEDIT", false);
+                startActivityForResult(intent, SIGNUP_USER_REQUEST);
                 break;
             case R.id.fragment_users_menu_reload:
-                GetUsersInfo getUsersInfo = new GetUsersInfo();
-                getUsersInfo.setContext(mContext);
-                try {
-                    usersList = getUsersInfo.execute(ENDPOINT).get();
-                    mListView.setAdapter(new UsersModelAdapter(mContext, usersList));
-                } catch (ExecutionException | InterruptedException ex) {
-                    Toast.makeText(mContext, "Unable to get the data", Toast.LENGTH_SHORT).show();
-                }
+                mProgressBar.setVisibility(View.VISIBLE);
+                GetUsersInfo getUsersInfo = new GetUsersInfo() {
+                    @Override
+                    protected void onPostExecute(ArrayList<User> users) {
+                        super.onPostExecute(users);
+                        usersList = users;
+                        mListView.setAdapter(new UsersModelAdapter(mContext, usersList));
+
+                        mProgressBar.setVisibility(View.INVISIBLE);
+                    }
+                };
+                getUsersInfo.setContext(getActivity().getApplicationContext());
+                getUsersInfo.execute(ENDPOINT);
         }
 
         return true;
@@ -149,5 +172,24 @@ public class UsersFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString("ENDPOINT", ENDPOINT);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        mProgressBar.setVisibility(View.VISIBLE);
+        GetUsersInfo getUsersInfo = new GetUsersInfo() {
+            @Override
+            protected void onPostExecute(ArrayList<User> users) {
+                super.onPostExecute(users);
+                usersList = users;
+                mListView.setAdapter(new UsersModelAdapter(mContext, usersList));
+
+                mProgressBar.setVisibility(View.INVISIBLE);
+            }
+        };
+        getUsersInfo.setContext(getActivity().getApplicationContext());
+        getUsersInfo.execute(ENDPOINT);
     }
 }

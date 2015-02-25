@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.itesm.labs">
+    package="com.itesm.labs" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.NFC" />
@@ -13,72 +13,63 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/LabsTheme">
-
+        android:theme="@style/LabsTheme" >
         <activity
             android:name=".activities.LoginActivity"
             android:label="@string/app_name"
-            android:windowSoftInputMode="stateHidden">
-
+            android:windowSoftInputMode="stateHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
         <activity
             android:name=".activities.CategoriesActivity"
             android:label="@string/categories_activity" />
-
         <activity
             android:name=".activities.LaboratoriesActivity"
             android:label="@string/laboratories_activity"
             android:parentActivityName=".activities.LoginActivity" />
-
         <activity
             android:name=".activities.DashboardActivity"
-            android:parentActivityName=".activities.LaboratoriesActivity">
-
+            android:parentActivityName=".activities.LaboratoriesActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.itesm.labs.activities.LaboratoriesActivity" />
-
         </activity>
-
         <activity
             android:name=".activities.RequestDetailActivity"
             android:label="@string/title_activity_request_detail"
-            android:parentActivityName=".activities.DashboardActivity">
-
+            android:parentActivityName=".activities.DashboardActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.itesm.labs.activities.DashboardActivity" />
-
         </activity>
-
         <activity
             android:name=".activities.UserDetailActivity"
             android:label="@string/title_activity_user_detail"
-            android:parentActivityName=".activities.DashboardActivity">
-
+            android:parentActivityName=".activities.DashboardActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.itesm.labs.activities.DashboardActivity" />
-
         </activity>
-
         <activity
             android:name=".activities.InventoryDetailActivity"
             android:label="@string/title_activity_inventory_detail"
-            android:parentActivityName=".activities.DashboardActivity">
-
+            android:parentActivityName=".activities.DashboardActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.itesm.labs.activities.DashboardActivity" />
-
         </activity>
-
+        <activity
+            android:name=".activities.SignupActivity"
+            android:label="@string/signup_activity"
+            android:parentActivityName=".activities.DashboardActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.itesm.labs.activities.DashboardActivity" />
+        </activity>
     </application>
 
 </manifest>

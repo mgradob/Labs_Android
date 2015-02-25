@@ -46,7 +46,7 @@ public class UserDetailActivity extends ActionBarActivity {
         );
 
         Window window = getWindow();
-        window.setStatusBarColor(getIntent().getIntExtra("USERCOLOR", R.color.primary_dark));
+        window.setStatusBarColor(getIntent().getIntExtra("USERCOLOR", R.color.primary_dark) - 0x0f1216);
 
         mFab = (ImageButton) findViewById(R.id.activity_user_detail_fab);
         mFab.setOnClickListener(new View.OnClickListener() {

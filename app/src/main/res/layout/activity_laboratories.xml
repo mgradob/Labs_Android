@@ -14,12 +14,12 @@
         android:padding="@dimen/abc_action_bar_default_padding_material" />
 
     <TextView
+        style="@style/LabsTheme.v21.Light.Text.Display1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/laboratories_toolbar"
-        android:text="@string/laboratories_activity"
         android:padding="16dp"
-        style="@style/LabsTheme.v21.Light.Text.Display1" />
+        android:text="@string/laboratories_activity" />
 
     <ProgressBar
         android:id="@+id/laboratories_progressbar"
@@ -28,13 +28,17 @@
         android:layout_height="10dp"
         android:layout_below="@id/laboratories_toolbar" />
 
-    <com.github.ksoichiro.android.observablescrollview.ObservableScrollView
-        android:id="@+id/laboratories_list_scroll"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <include layout="@layout/laboratories_list_content" />
-
-    </com.github.ksoichiro.android.observablescrollview.ObservableScrollView>
+    <GridView
+        android:id="@+id/laboratories_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/laboratories_toolbar"
+        android:animateLayoutChanges="true"
+        android:gravity="center_horizontal"
+        android:horizontalSpacing="1dp"
+        android:numColumns="1"
+        android:padding="@dimen/gridview_margin"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="1dp" />
 
 </RelativeLayout>

@@ -40,6 +40,8 @@ public class RequestDetailActivity extends ActionBarActivity implements UidCallb
         userId.setText(getIntent().getStringExtra("USERID"));
         mRequestStatus = getIntent().getBooleanExtra("STATUS", false);
 
+        getWindow().setStatusBarColor(getResources().getColor(R.color.primary_dark));
+
         ArrayList<String> list = new ArrayList<String>();
         list.add("Resistencia");
         list.add("Capacitor");

@@ -60,6 +60,7 @@
     <string name="users_fragment_dialog_career">Carrera</string>
     <string name="users_fragment_dialog_cancel">Cancelar</string>
     <string name="users_fragment_dialog_accept">Registrar</string>
+    <string name="signup_activity_detail_uid">Credencial</string>
     <!-- Menu -->
     <string name="users_fragment_menu_new_user">Agregar Usuario</string>
     <string name="users_fragment_menu_reload">Acutalizar</string>
@@ -73,5 +74,10 @@
     <string name="users_activity_add_material">Agregar Material</string>
     <string name="users_activity_available_material">Disponible</string>
     <string name="title_activity_inventory_detail">InventoryDetailActivity</string>
+    <string name="menu_inventory_add_category">Agregar Categoría</string>
+
+    <!-- SignupActivity -->
+    <string name="signup_activity">SignupActivity</string>
+    <string name="signup_activity_delete">Borrar</string>
 
 </resources>

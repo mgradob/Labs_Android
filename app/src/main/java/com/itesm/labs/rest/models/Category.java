@@ -10,10 +10,10 @@ import java.io.Serializable;
 public class Category implements Serializable {
 
     @SerializedName("id_category")
-    public int id;
+    private int id;
     @SerializedName("name")
-    public String name;
-    public Integer imageResource;
+    private String name;
+    private Integer imageResource;
 
     public int getId() {
         return id;
