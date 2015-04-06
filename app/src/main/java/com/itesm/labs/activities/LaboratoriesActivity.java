@@ -6,7 +6,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.itesm.labs.R;
@@ -21,17 +21,20 @@ public class LaboratoriesActivity extends ActionBarActivity {
 
     public String ENDPOINT = "http://labs.chi.itesm.mx:8080";
 
-    private GridView mGridView;
+    private ListView mListView;
     private ProgressBar mProgressBar;
     private Toolbar mToolbar;
-    private ArrayList<Laboratory> mLaboratoryModelsList;
+    private ArrayList<Laboratory> mLabsModelsList, mLabsFilteredList;
+    private ArrayList<String> mAllowedLabs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_laboratories);
 
-        mGridView = (GridView) findViewById(R.id.laboratories_list);
+        mAllowedLabs = getIntent().getStringArrayListExtra("ALLOWEDLABS");
+
+        mListView = (ListView) findViewById(R.id.laboratories_list);
         mProgressBar = (ProgressBar) findViewById(R.id.laboratories_progressbar);
         mProgressBar.setIndeterminate(true);
 
@@ -41,20 +44,27 @@ public class LaboratoriesActivity extends ActionBarActivity {
             @Override
             protected void onPostExecute(ArrayList<Laboratory> laboratories) {
                 super.onPostExecute(laboratories);
-                mLaboratoryModelsList = laboratories;
-                mGridView.setAdapter(new LaboratoriesModelAdapter(getApplicationContext(), mLaboratoryModelsList));
+                mLabsModelsList = laboratories;
+                mLabsFilteredList = new ArrayList<>();
+
+                for (String labName : mAllowedLabs)
+                    for (Laboratory lab : mLabsModelsList)
+                        if (lab.getUrl().equals(labName))
+                            mLabsFilteredList.add(lab);
+
+                mListView.setAdapter(new LaboratoriesModelAdapter(getApplicationContext(), mLabsFilteredList));
 
                 mProgressBar.setVisibility(View.INVISIBLE);
             }
         };
         getLabsInfo.execute(ENDPOINT);
 
-        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(view.getContext(), DashboardActivity.class);
-                intent.putExtra("ENDPOINT", mLaboratoryModelsList.get(position).getUrl());
-                intent.putExtra("LAB_NAME", mLaboratoryModelsList.get(position).getName());
+                intent.putExtra("ENDPOINT", mLabsModelsList.get(position).getLink());
+                intent.putExtra("LAB_NAME", mLabsModelsList.get(position).getName());
                 startActivity(intent);
                 overridePendingTransition(R.anim.abc_slide_in_top, R.anim.abc_slide_out_top);
             }

@@ -7,6 +7,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -92,6 +94,28 @@ public class RequestDetailActivity extends ActionBarActivity implements UidCallb
     private void validateRequest(Boolean requestStatus) {
         if (requestStatus)
             Toast.makeText(this, "UID: " + UID, Toast.LENGTH_SHORT).show();
+
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.test_fab_dismiss);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mFab.clearAnimation();
+
+                finish();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        mFab.startAnimation(animation);
+        mFab.setVisibility(View.INVISIBLE);
     }
 
     @Override

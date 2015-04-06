@@ -11,6 +11,6 @@ import retrofit.http.GET;
  */
 public interface ComponentService {
 
-    @GET("/component/?format=json")
+    @GET("/component/")
     ArrayList<Component> getComponents();
 }

@@ -2,9 +2,10 @@
 <resources>
 
     <!-- Main Colors -->
-    <item name="primary" type="color">#607D8B</item>
-    <item name="primary_dark" type="color">#455A64</item>
-    <item name="accent" type="color">#B0BEC5</item>
+    <item name="primary" type="color">@color/material_teal</item>
+    <item name="primary_dark" type="color">@color/material_teal_dark</item>
+    <item name="primary_light" type="color">#CFD8DC</item>
+    <item name="accent" type="color">#FF5722</item>
     <item name="background" type="color">#FFFFFF</item>
 
     <!-- Text Color -->
@@ -59,6 +60,45 @@
         <item>@color/material_brown</item>
         <item>@color/material_grey</item>
         <item>@color/material_blue_grey</item>
+    </array>
+
+    <!-- Material Design Colors 700, for custom RoundedLetterView -->
+    <color name="material_red_dark">#D32F2F</color>
+    <color name="material_pink_dark">#C2185B</color>
+    <color name="material_purple_dark">#7B1FA2</color>
+    <color name="material_deep_purple_dark">#512DA8</color>
+    <color name="material_indigo_dark">#303F9F</color>
+    <color name="material_blue_dark">#1976D2</color>
+    <color name="material_light_blue_dark">#0288D1</color>
+    <color name="material_cyan_dark">#0097A7</color>
+    <color name="material_teal_dark">#00796B</color>
+    <color name="material_green_dark">#388E3C</color>
+    <color name="material_light_green_dark">#689F38</color>
+    <color name="material_lime_dark">#AFB42B</color>
+    <color name="material_yellow_dark">#FBC02D</color>
+    <color name="material_amber_dark">#FFA000</color>
+    <color name="material_orange_dark">#F57C00</color>
+    <color name="material_deep_orange_dark">#E64A19</color>
+    <color name="material_brown_dark">#5D4037</color>
+    <color name="material_grey_dark">#616161</color>
+    <color name="material_blue_grey_dark">#455A64</color>
+
+    <array name="material_colors_dark">
+        <item>@color/material_red_dark</item>
+        <item>@color/material_pink_dark</item>
+        <item>@color/material_purple_dark</item>
+        <item>@color/material_deep_purple_dark</item>
+        <item>@color/material_indigo_dark</item>
+        <item>@color/material_blue_dark</item>
+        <item>@color/material_light_blue_dark</item>
+        <item>@color/material_cyan_dark</item>
+        <item>@color/material_teal_dark</item>
+        <item>@color/material_green_dark</item>
+        <item>@color/material_light_green_dark</item>
+        <item>@color/material_deep_orange_dark</item>
+        <item>@color/material_brown_dark</item>
+        <item>@color/material_grey_dark</item>
+        <item>@color/material_blue_grey_dark</item>
     </array>
 
 </resources>

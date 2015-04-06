@@ -42,11 +42,6 @@ public class RequestsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        data.add(new Request(R.drawable.ic_cancel_white, "Miguel Grado Baylon", "A00758435", "21/11/2014", false));
-        data.add(new Request(R.drawable.ic_cancel_white, "Armando Colomo Baray", "A00758518", "21/11/2014", false));
-        data.add(new Request(R.drawable.ic_done_white, "Mauricio Delgado Montes", "A00758620", "21/11/2014", true));
-
         if (savedInstanceState != null) setENDPOINT(savedInstanceState.getString("ENDPOINT"));
     }
 

@@ -16,6 +16,8 @@ import com.itesm.labs.rest.service.UserService;
 import com.melnykov.fab.FloatingActionButton;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import java.util.ArrayList;
+
 import retrofit.Callback;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
@@ -29,7 +31,7 @@ public class SignupActivity extends ActionBarActivity {
             userLastName2EditText, userCareerEditText, userIdEditText;
     private Button deleteButton;
     private String mUserName, mUserLastName1, mUserLastName2, mUserId, mUserCareer, mUserMail;
-    private int mUserUid;
+    private long mUserUid;
     private String ENDPOINT;
     private FloatingActionButton mFab;
     private Activity mActivity;
@@ -130,7 +132,8 @@ public class SignupActivity extends ActionBarActivity {
                     mUserId,
                     mUserCareer,
                     mUserUid,
-                    mUserMail
+                    mUserMail,
+                    new ArrayList<String>()
             );
 
             RequestInterceptor requestInterceptor = new RequestInterceptor() {

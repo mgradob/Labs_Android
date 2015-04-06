@@ -39,7 +39,7 @@ public class UsersFragment extends Fragment {
     private Toolbar mSubToolbar;
     private ProgressBar mProgressBar;
 
-    final static int SIGNUP_USER_REQUEST = 1;
+    private final static int SIGNUP_USER_REQUEST = 1;
 
     public UsersFragment() {
         // Required empty public constructor

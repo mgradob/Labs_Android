@@ -9,15 +9,25 @@ import java.io.Serializable;
  */
 public class Laboratory implements Serializable {
 
+    @SerializedName("url")
+    public String url;
     @SerializedName("name")
     public String name;
     @SerializedName("link")
-    public String url;
+    public String link;
     public Integer imageResource;
 
     public Laboratory(String name, Integer imageResource) {
         this.name = name;
         this.imageResource = imageResource;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getName() {
@@ -28,12 +38,12 @@ public class Laboratory implements Serializable {
         this.name = name;
     }
 
-    public String getUrl() {
-        return url;
+    public String getLink() {
+        return link;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setLink(String link) {
+        this.link = link;
     }
 
     public Integer getImageResource() {
@@ -47,8 +57,10 @@ public class Laboratory implements Serializable {
     @Override
     public String toString() {
         return "Laboratory{" +
-                "name='" + name + '\'' +
-                ", url='" + url + '\'' +
+                "url='" + url + '\'' +
+                ", name='" + name + '\'' +
+                ", link='" + link + '\'' +
+                ", imageResource=" + imageResource +
                 '}';
     }
 }

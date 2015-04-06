@@ -11,6 +11,6 @@ import retrofit.http.GET;
  */
 public interface LaboratoryService {
 
-    @GET("/links/?format=json")
+    @GET("/labs/?format=json")
     ArrayList<Laboratory> getLaboratories();
 }

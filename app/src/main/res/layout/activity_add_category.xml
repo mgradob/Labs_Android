@@ -1,0 +1,72 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.itesm.labs.activities.AddCategoryActivity">
+
+    <LinearLayout
+        android:id="@+id/activity_add_category_data"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/primary"
+        android:elevation="3dp"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/LabsTheme.v21.Text.Display1"
+            android:id="@+id/activity_add_category_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="72dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="100dp"
+            android:text="@string/add_category_text"
+            android:textColor="@color/primary_text_light" />
+
+        <com.rengwuxian.materialedittext.MaterialEditText xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/activity_add_category_name"
+            style="@style/LabsTheme.v21.Light.Text.Title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="72dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:hint="@string/add_category_name"
+            app:baseColor="@color/primary_text_light"
+            app:floatingLabel="highlight"
+            app:floatingLabelText="@string/add_category_name"
+            app:primaryColor="@color/primary_text_light" />
+
+    </LinearLayout>
+
+    <!--android.support.v7.widget.RecyclerView
+        android:id="@+id/activity_add_category_icon"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/activity_add_category_data" /-->
+
+    <Button
+        android:id="@+id/activity_add_category_delete"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_height="wrap_content"
+        android:text="@string/signup_activity_delete"
+        style="?android:attr/borderlessButtonStyle"
+        android:textColor="@color/primary_dark" />
+
+    <com.melnykov.fab.FloatingActionButton xmlns:fab="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/activity_add_category_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_done_white"
+        fab:fab_colorNormal="@color/primary"
+        fab:fab_colorRipple="@color/primary_dark" />
+
+</RelativeLayout>

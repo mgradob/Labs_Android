@@ -12,7 +12,9 @@ import com.itesm.labs.rest.service.UserService;
 import java.util.ArrayList;
 import java.util.Random;
 
+import retrofit.ErrorHandler;
 import retrofit.RestAdapter;
+import retrofit.RetrofitError;
 import retrofit.converter.GsonConverter;
 
 /**
@@ -48,7 +50,7 @@ public class GetUsersInfo extends AsyncTask<String, Void, ArrayList<User>> {
 
         int[] colors = context.getResources().getIntArray(R.array.material_colors);
         for (User user : usersList) {
-            int color = colors[new Random().nextInt(colors.length - 1)];
+            int color = new Random().nextInt(colors.length - 1);
             user.setUserColor(color);
         }
 

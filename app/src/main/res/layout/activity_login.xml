@@ -2,78 +2,125 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primary"
+    android:orientation="vertical"
     tools:context=".LoginActivity">
 
-    <android.support.v7.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        app:cardElevation="3dp"
-        app:cardCornerRadius="5dp">
+        android:background="@color/material_teal"
+        android:elevation="3dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="16dp"
+        android:paddingTop="56dp">
 
-        <RelativeLayout
+        <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:padding="2dp"
+            android:src="@drawable/ic_architecture_white" />
 
-            <ImageView
-                android:id="@+id/icon_app"
-                android:layout_width="170dp"
-                android:layout_height="170dp"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="@dimen/activity_vertical_margin"
-                android:src="@drawable/ic_logo" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:padding="2dp"
+            android:src="@drawable/ic_civil_white" />
 
-            <TextView
-                android:id="@+id/admin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/icon_app"
-                android:layout_centerHorizontal="true"
-                android:text="Administrador"
-                android:textSize="@dimen/abc_text_size_headline_material" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:padding="2dp"
+            android:src="@drawable/ic_electronics_white" />
 
-            <RelativeLayout
-                android:id="@+id/login_form"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/admin"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="@dimen/activity_vertical_margin">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:padding="2dp"
+            android:src="@drawable/ic_chemistry_white" />
 
-                <com.rengwuxian.materialedittext.MaterialEditText xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/user_id"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/user_mat"
-                    app:baseColor="@color/primary_text"
-                    app:errorColor="@color/material_red"
-                    app:floatingLabel="highlight"
-                    app:primaryColor="@color/secondary_text" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:padding="2dp"
+            android:src="@drawable/ic_mechatronics_white" />
 
-                <com.rengwuxian.materialedittext.MaterialEditText
-                    android:id="@+id/user_pass"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/user_id"
-                    android:hint="@string/user_pass"
-                    android:inputType="textPassword" />
+    </LinearLayout>
 
-                <Button
-                    android:id="@+id/login_button"
-                    android:layout_width="150dp"
-                    android:layout_height="48dp"
-                    android:layout_below="@id/user_pass"
-                    android:layout_centerHorizontal="true"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/ripple_button_login"
-                    android:text="@string/user_login"
-                    android:textColor="@color/primary_text_light" />
+    <LinearLayout
+        android:id="@+id/login_frame"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="16dp"
+        android:background="@color/dividers"
+        android:gravity="center"
+        android:orientation="vertical">
 
-            </RelativeLayout>
+        <com.rengwuxian.materialedittext.MaterialEditText xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/user_id"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="@string/user_mat"
+            app:baseColor="@color/primary_text"
+            app:errorColor="@color/material_red"
+            app:floatingLabel="highlight"
+            app:floatingLabelText="@string/user_mat"
+            app:helperText="Ej: A00123456 ó A01234567"
+            app:helperTextColor="@color/primary_text"
+            app:primaryColor="@color/material_teal" />
 
-        </RelativeLayout>
+        <com.rengwuxian.materialedittext.MaterialEditText xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/user_pass"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/user_id"
+            android:layout_marginTop="8dp"
+            android:hint="@string/user_pass"
+            android:inputType="textPassword"
+            app:baseColor="@color/primary_text"
+            app:errorColor="@color/material_red"
+            app:floatingLabel="highlight"
+            app:floatingLabelText="@string/user_pass"
+            app:primaryColor="@color/material_teal" />
 
-    </android.support.v7.widget.CardView>
+        <Button
+            android:id="@+id/login_button"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="150dp"
+            android:layout_height="48dp"
+            android:layout_below="@id/user_pass"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="5dp"
+            android:text="@string/user_login"
+            android:textColor="@color/material_teal" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/login_admin"
+        style="@style/LabsTheme.v21.Text.Title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/login_frame"
+        android:gravity="center"
+        android:text="Administrador"
+        android:textColor="@color/primary_dark_material_light" />
+
+    <TextView
+        android:id="@+id/login_title"
+        style="@style/LabsTheme.v21.Text.Display2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/login_admin"
+        android:gravity="center"
+        android:text="Laboratorios"
+        android:textColor="@color/primary_dark_material_light" />
 
 </RelativeLayout>

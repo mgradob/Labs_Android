@@ -1,6 +1,5 @@
 package com.itesm.labs.activities;
 
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
@@ -32,6 +31,7 @@ public class DashboardActivity extends ActionBarActivity {
     private ListView mDrawerListView;
     private Toolbar dashboardToolbar;
     private String ENDPOINT, LAB_NAME;
+    private String USERS_ENDPOINT = "http://labs.chi.itesm.mx:8080/";
     private RelativeLayout mDrawerRelativeLayout;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
     private TextView mDrawerTitle;
@@ -127,7 +127,7 @@ public class DashboardActivity extends ActionBarActivity {
                 break;
             case 3:
                 mUsersFragment = new UsersFragment();
-                mUsersFragment.setENDPOINT(ENDPOINT);
+                mUsersFragment.setENDPOINT(USERS_ENDPOINT);
                 getFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container_dashboard, mUsersFragment, mUsersFragmentTag)

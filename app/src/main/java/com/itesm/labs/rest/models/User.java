@@ -2,6 +2,8 @@ package com.itesm.labs.rest.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 /**
  * Created by mgrad_000 on 12/29/2014.
  */
@@ -18,19 +20,22 @@ public class User {
     @SerializedName("career")
     private String userCareer;
     @SerializedName("id_credential")
-    private Integer userUid;
+    private long userUid;
     @SerializedName("mail")
     private String userMail;
+    @SerializedName("labs")
+    private ArrayList<String> allowedLabs;
     private Integer userColor;
 
-    public User(String userName, String userLastName1, String userLastName2, String userId, String userCarrer, Integer userUid, String userMail) {
+    public User(String userName, String userLastName1, String userLastName2, String userId, String userCareer, long userUid, String userMail, ArrayList<String> allowedLabs) {
         this.userName = userName;
         this.userLastName1 = userLastName1;
         this.userLastName2 = userLastName2;
         this.userId = userId;
-        this.userCareer = userCarrer;
+        this.userCareer = userCareer;
         this.userUid = userUid;
         this.userMail = userMail;
+        this.allowedLabs = allowedLabs;
     }
 
     public String getUserName() {
@@ -39,6 +44,10 @@ public class User {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getFullName(){
+        return this.userName + " " + this.userLastName1 + " " + this.userLastName2;
     }
 
     public String getUserLastName1() {
@@ -73,11 +82,11 @@ public class User {
         this.userCareer = userCareer;
     }
 
-    public Integer getUserUid() {
+    public long getUserUid() {
         return userUid;
     }
 
-    public void setUserUid(Integer userUid) {
+    public void setUserUid(long userUid) {
         this.userUid = userUid;
     }
 
@@ -89,14 +98,12 @@ public class User {
         this.userMail = userMail;
     }
 
-    public String getFullName() {
-        return userName + ' ' + userLastName1 + ' ' + userLastName2;
+    public ArrayList<String> getAllowedLabs() {
+        return allowedLabs;
     }
 
-    public void setFullName(String fn, String ln1, String ln2) {
-        this.userName = fn;
-        this.userLastName1 = ln1;
-        this.userLastName2 = ln2;
+    public void setAllowedLabs(ArrayList<String> allowedLabs) {
+        this.allowedLabs = allowedLabs;
     }
 
     public Integer getUserColor() {
@@ -116,7 +123,9 @@ public class User {
                 ", userId='" + userId + '\'' +
                 ", userCareer='" + userCareer + '\'' +
                 ", userUid=" + userUid +
-                ", userMail='" + userMail +
+                ", userMail='" + userMail + '\'' +
+                ", allowedLabs=" + allowedLabs +
+                ", userColor=" + userColor +
                 '}';
     }
 }

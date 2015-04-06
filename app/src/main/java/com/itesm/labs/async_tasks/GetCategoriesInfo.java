@@ -50,8 +50,10 @@ public class GetCategoriesInfo extends AsyncTask<String, Void, ArrayList<Categor
             else if (category.getId() == 12) category.setImageResource(R.drawable.ic_sensores);
             else if (category.getId() == 13) category.setImageResource(R.drawable.ic_motores);
             else if (category.getId() == 14) category.setImageResource(R.drawable.ic_potenciometro);
-            else if (category.getId() == 15) category.setImageResource(R.drawable.ic_transformadores);
+            else if (category.getId() == 15)
+                category.setImageResource(R.drawable.ic_transformadores);
             else if (category.getId() == 16) category.setImageResource(R.drawable.ic_transistores);
+            else category.setImageResource(R.drawable.ic_add_black);
         }
 
         return categoriesData;

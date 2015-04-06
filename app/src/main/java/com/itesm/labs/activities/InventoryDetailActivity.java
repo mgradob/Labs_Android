@@ -6,10 +6,13 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.graphics.Palette;
+import android.transition.Transition;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -18,6 +21,7 @@ import com.itesm.labs.R;
 import com.itesm.labs.adapters.ComponentModelAdapter;
 import com.itesm.labs.async_tasks.GetComponentsInfo;
 import com.itesm.labs.rest.models.Component;
+import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -31,6 +35,7 @@ public class InventoryDetailActivity extends ActionBarActivity {
     private Context mContext;
     private String ENDPOINT;
     private ArrayList<Component> componentsData;
+    private FloatingActionButton mFab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +46,9 @@ public class InventoryDetailActivity extends ActionBarActivity {
         mCategoryIcon = (ImageView) findViewById(R.id.activity_inventory_detail_image);
         mCategoryName = (TextView) findViewById(R.id.activity_inventory_detail_name);
         mCategoryList = (ListView) findViewById(R.id.activity_inventory_detail_list);
+        mFab = (FloatingActionButton) findViewById(R.id.activity_inventory_detail_fab);
+        mFab.attachToListView(mCategoryList);
+
         mContext = getApplicationContext();
         ENDPOINT = getIntent().getStringExtra("ENDPOINT");
 
@@ -55,6 +63,7 @@ public class InventoryDetailActivity extends ActionBarActivity {
         );
         Palette palette = Palette.generate(iconBitmap);
         mBackground.setBackgroundColor(palette.getVibrantColor(getResources().getColor(R.color.primary)));
+        mFab.setBackgroundColor(palette.getVibrantColor(getResources().getColor(R.color.accent)));
         Window window = getWindow();
         window.setStatusBarColor(palette.getDarkVibrantColor(getResources().getColor(R.color.primary_dark)));
 
@@ -67,8 +76,84 @@ public class InventoryDetailActivity extends ActionBarActivity {
             }
         };
         componentsInfo.execute(ENDPOINT);
+
+        window.getEnterTransition().addListener(new Transition.TransitionListener() {
+            @Override
+            public void onTransitionStart(Transition transition) {
+                mBackground.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_in_from_top));
+                mFab.setVisibility(View.INVISIBLE);
+                mCategoryList.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onTransitionEnd(Transition transition) {
+                Animation fabAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_in_from_bottom);
+                fabAnim.setStartOffset(500);
+                mFab.startAnimation(fabAnim);
+                mFab.setVisibility(View.VISIBLE);
+                mCategoryList.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.grow_from_top));
+                mCategoryList.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onTransitionCancel(Transition transition) {
+
+            }
+
+            @Override
+            public void onTransitionPause(Transition transition) {
+
+            }
+
+            @Override
+            public void onTransitionResume(Transition transition) {
+
+            }
+        });
     }
 
+    @Override
+    public void onBackPressed() {
+        mFab.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_out_to_bottom));
+        mFab.setVisibility(View.INVISIBLE);
+        Animation listAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_out_to_top);
+        listAnim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mCategoryList.setVisibility(View.INVISIBLE);
+
+                Animation bkgAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_out_to_top);
+                bkgAnim.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        mBackground.setVisibility(View.INVISIBLE);
+                        finish();
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                mBackground.startAnimation(bkgAnim);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        mCategoryList.startAnimation(listAnim);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

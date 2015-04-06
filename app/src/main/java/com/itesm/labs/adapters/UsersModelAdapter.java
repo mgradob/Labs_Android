@@ -19,12 +19,14 @@ import java.util.ArrayList;
 public class UsersModelAdapter extends BaseAdapter {
 
     private Context context;
+    private int[] colors;
 
     private ArrayList<User> DATA = new ArrayList<User>();
 
     public UsersModelAdapter(Context context, ArrayList<User> data) {
         this.context = context;
         this.DATA = data;
+        this.colors = context.getResources().getIntArray(R.array.material_colors);
     }
 
     @Override
@@ -67,7 +69,7 @@ public class UsersModelAdapter extends BaseAdapter {
         char[] letters = DATA.get(position).getUserName().toCharArray();
         holder.user_initial.setText("" + letters[0]);
         GradientDrawable gradientDrawable = (GradientDrawable) holder.user_initial.getBackground();
-        gradientDrawable.setColor(DATA.get(position).getUserColor());
+        gradientDrawable.setColor(colors[DATA.get(position).getUserColor()]);
 
         holder.user_name.setText(DATA.get(position).getFullName());
         holder.user_id.setText(DATA.get(position).getUserId());

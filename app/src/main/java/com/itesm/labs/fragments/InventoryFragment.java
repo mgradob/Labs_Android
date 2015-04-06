@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.itesm.labs.R;
+import com.itesm.labs.activities.AddCategoryActivity;
 import com.itesm.labs.activities.InventoryDetailActivity;
 import com.itesm.labs.adapters.CategoriesModelAdapter;
 import com.itesm.labs.async_tasks.GetCategoriesInfo;
@@ -32,12 +33,14 @@ import java.util.ArrayList;
  */
 public class InventoryFragment extends Fragment {
 
-    ProgressBar mProgressBar;
+    private ProgressBar mProgressBar;
     private ListView categoriesListView;
     private ArrayList<Category> categoriesData;
     private String ENDPOINT;
     private Context mContext;
     private Toolbar mSubtoolbar;
+
+    private final static int ADD_CATEGORY_REQUEST = 1;
 
     public InventoryFragment() {
         // Required empty public constructor
@@ -87,7 +90,6 @@ public class InventoryFragment extends Fragment {
                 mProgressBar.setVisibility(View.INVISIBLE);
             }
         };
-
         getCategoriesInfo.execute(ENDPOINT);
 
         categoriesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -106,6 +108,18 @@ public class InventoryFragment extends Fragment {
                 startActivity(intent, activityOptions.toBundle());
             }
         });
+        categoriesListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(mContext, AddCategoryActivity.class);
+                intent.putExtra("INDEX", categoriesData.get(position).getId());
+                intent.putExtra("CATEGORYNAME", categoriesData.get(position).getName());
+                intent.putExtra("ISEDIT", true);
+                intent.putExtra("ENDPOINT", ENDPOINT);
+                startActivityForResult(intent, ADD_CATEGORY_REQUEST);
+                return true;
+            }
+        });
 
         mSubtoolbar = (Toolbar) view.findViewById(R.id.fragment_inventory_subtoolbar);
         mSubtoolbar.setTitle("Inventario");
@@ -118,6 +132,24 @@ public class InventoryFragment extends Fragment {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        mProgressBar.setVisibility(View.VISIBLE);
+        GetCategoriesInfo getCategoriesInfo = new GetCategoriesInfo() {
+            @Override
+            protected void onPostExecute(ArrayList<Category> categories) {
+                super.onPostExecute(categories);
+                categoriesData = categories;
+                categoriesListView.setAdapter(new CategoriesModelAdapter(mContext, categoriesData));
+
+                mProgressBar.setVisibility(View.INVISIBLE);
+            }
+        };
+        getCategoriesInfo.execute(ENDPOINT);
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_inventory, menu);
         super.onCreateOptionsMenu(menu, inflater);
@@ -127,6 +159,10 @@ public class InventoryFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.inventory_menu_add:
+                Intent intent = new Intent(mContext, AddCategoryActivity.class);
+                intent.putExtra("ENDPOINT", ENDPOINT);
+                intent.putExtra("INDEX", categoriesData.size());
+                startActivity(intent);
                 break;
             case R.id.inventory_menu_settings:
                 break;

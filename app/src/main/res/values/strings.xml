@@ -79,5 +79,8 @@
     <!-- SignupActivity -->
     <string name="signup_activity">SignupActivity</string>
     <string name="signup_activity_delete">Borrar</string>
+    <string name="title_activity_add_category">AddCategoryActivity</string>
+    <string name="add_category_name">Nombre</string>
+    <string name="add_category_text">Nueva Categoría</string>
 
 </resources>

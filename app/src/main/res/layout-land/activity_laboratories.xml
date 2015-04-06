@@ -4,22 +4,17 @@
     android:layout_height="match_parent"
     tools:context=".LaboratoriesActivity">
 
-    <android.support.v7.widget.Toolbar
+    <android.support.v7.widget.Toolbar xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/laboratories_toolbar"
         android:layout_width="fill_parent"
         android:layout_height="128dp"
         android:background="@color/primary"
         android:gravity="bottom"
         android:minHeight="?attr/actionBarSize"
-        android:padding="@dimen/abc_action_bar_default_padding_material" />
-
-    <TextView
-        style="@style/LabsTheme.v21.Light.Text.Display1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/laboratories_toolbar"
-        android:padding="16dp"
-        android:text="@string/laboratories_activity" />
+        android:padding="@dimen/abc_action_bar_default_padding_material"
+        android:paddingBottom="16dp"
+        app:title="@string/laboratories_activity"
+        app:titleTextAppearance="@style/LabsTheme.v21.Light.Text.Display1" />
 
     <ProgressBar
         android:id="@+id/laboratories_progressbar"
@@ -31,11 +26,9 @@
     <ListView
         android:id="@+id/laboratories_list"
         android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/laboratories_toolbar"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/laboratories_toolbar"
         android:animateLayoutChanges="true"
-        android:gravity="center"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp" />
+        android:gravity="center_horizontal" />
 
 </RelativeLayout>
