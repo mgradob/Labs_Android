@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.itesm.labs.R;
-import com.itesm.labs.rest.models.Request;
+import com.itesm.labs.rest.models.Cart;
 
 import java.util.ArrayList;
 
@@ -20,9 +20,9 @@ public class RequestsModelAdapter extends BaseAdapter {
 
     private Context context;
 
-    private ArrayList<Request> DATA = new ArrayList<Request>();
+    private ArrayList<Cart> DATA = new ArrayList<Cart>();
 
-    public RequestsModelAdapter(Context context, ArrayList<Request> DATA) {
+    public RequestsModelAdapter(Context context, ArrayList<Cart> DATA) {
         this.context = context;
         this.DATA = DATA;
     }
@@ -48,7 +48,7 @@ public class RequestsModelAdapter extends BaseAdapter {
         LayoutInflater mLayoutInflater = (LayoutInflater.from(context));
 
         if (convertView == null) {
-            convertView = mLayoutInflater.inflate(R.layout.requests_list_item, parent, false);
+            convertView = mLayoutInflater.inflate(R.layout.list_item_requests, parent, false);
 
             holder = new ViewHolder();
             holder.requestImage = (ImageView) convertView.findViewById(R.id.request_item_image);
@@ -56,22 +56,22 @@ public class RequestsModelAdapter extends BaseAdapter {
             holder.requestUserId = (TextView) convertView.findViewById(R.id.request_item_user_id);
             holder.requestUserDate = (TextView) convertView.findViewById(R.id.request_item_user_date);
 
-            //convertView.startAnimation(new AnimationUtils().loadAnimation(context, R.anim.categories_gridview_anim));
-
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.requestImage.setImageResource(DATA.get(position).getImageResource());
         holder.requestUserName.setText(DATA.get(position).getUserName());
         holder.requestUserId.setText(DATA.get(position).getUserId());
-        holder.requestUserDate.setText(DATA.get(position).getUserDate());
+        holder.requestUserDate.setText(DATA.get(position).getCartDate());
 
-        if (DATA.get(position).getImageResource() == R.drawable.ic_cancel_white)
-            holder.requestImage.setBackground(context.getResources().getDrawable(R.drawable.request_indicator_pending));
-        else if (DATA.get(position).getImageResource() == R.drawable.ic_done_white)
+        if (DATA.get(position).isReady()) {
+            holder.requestImage.setImageResource(R.drawable.ic_done_white);
             holder.requestImage.setBackground(context.getResources().getDrawable(R.drawable.request_indicator_done));
+        } else {
+            holder.requestImage.setImageResource(R.drawable.ic_cancel_white);
+            holder.requestImage.setBackground(context.getResources().getDrawable(R.drawable.request_indicator_pending));
+        }
 
         return convertView;
     }

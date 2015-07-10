@@ -23,6 +23,7 @@ import com.itesm.labs.activities.SignupActivity;
 import com.itesm.labs.activities.UserDetailActivity;
 import com.itesm.labs.adapters.UsersModelAdapter;
 import com.itesm.labs.async_tasks.GetUsersInfo;
+import com.itesm.labs.rest.models.Laboratory;
 import com.itesm.labs.rest.models.User;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class UsersFragment extends Fragment {
 
     private ListView mListView;
     private ArrayList<User> usersList = new ArrayList<User>();
-    private String ENDPOINT;
+    private String ENDPOINT, DETAIL_ENDPOINT;
     private Context mContext;
     private Toolbar mSubToolbar;
     private ProgressBar mProgressBar;
@@ -73,7 +74,7 @@ public class UsersFragment extends Fragment {
 
         mListView = (ListView) view.findViewById(R.id.fragment_users_list);
 
-        GetUsersInfo getUsersInfo = new GetUsersInfo() {
+        GetUsersInfo getUsersInfo = new GetUsersInfo(mContext) {
             @Override
             protected void onPostExecute(ArrayList<User> users) {
                 super.onPostExecute(users);
@@ -83,13 +84,13 @@ public class UsersFragment extends Fragment {
                 mProgressBar.setVisibility(View.INVISIBLE);
             }
         };
-        getUsersInfo.setContext(getActivity().getApplicationContext());
         getUsersInfo.execute(ENDPOINT);
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(mContext, UserDetailActivity.class);
+                intent.putExtra("ENDPOINT", DETAIL_ENDPOINT);
                 intent.putExtra("USERNAME", usersList.get(position).getFullName());
                 intent.putExtra("USERID", usersList.get(position).getUserId());
                 intent.putExtra("USERCAREER", usersList.get(position).getUserCareer());
@@ -115,6 +116,8 @@ public class UsersFragment extends Fragment {
                 intent.putExtra("USERLASTNAME2", usersList.get(position).getUserLastName2());
                 intent.putExtra("USERID", usersList.get(position).getUserId());
                 intent.putExtra("USERCAREER", usersList.get(position).getUserCareer());
+                intent.putExtra("USERUID", usersList.get(position).getUserUid());
+                intent.putExtra("USERLABS", usersList.get(position).getAllowedLabs());
 
                 startActivityForResult(intent, SIGNUP_USER_REQUEST);
 
@@ -134,6 +137,14 @@ public class UsersFragment extends Fragment {
         this.ENDPOINT = ENDPOINT;
     }
 
+    public String getDETAIL_ENDPOINT() {
+        return DETAIL_ENDPOINT;
+    }
+
+    public void setDETAIL_ENDPOINT(String DETAIL_ENDPOINT) {
+        this.DETAIL_ENDPOINT = DETAIL_ENDPOINT;
+    }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_users, menu);
@@ -151,7 +162,7 @@ public class UsersFragment extends Fragment {
                 break;
             case R.id.fragment_users_menu_reload:
                 mProgressBar.setVisibility(View.VISIBLE);
-                GetUsersInfo getUsersInfo = new GetUsersInfo() {
+                GetUsersInfo getUsersInfo = new GetUsersInfo(mContext) {
                     @Override
                     protected void onPostExecute(ArrayList<User> users) {
                         super.onPostExecute(users);
@@ -161,8 +172,8 @@ public class UsersFragment extends Fragment {
                         mProgressBar.setVisibility(View.INVISIBLE);
                     }
                 };
-                getUsersInfo.setContext(getActivity().getApplicationContext());
                 getUsersInfo.execute(ENDPOINT);
+                break;
         }
 
         return true;
@@ -179,7 +190,7 @@ public class UsersFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         mProgressBar.setVisibility(View.VISIBLE);
-        GetUsersInfo getUsersInfo = new GetUsersInfo() {
+        GetUsersInfo getUsersInfo = new GetUsersInfo(mContext) {
             @Override
             protected void onPostExecute(ArrayList<User> users) {
                 super.onPostExecute(users);
@@ -189,7 +200,6 @@ public class UsersFragment extends Fragment {
                 mProgressBar.setVisibility(View.INVISIBLE);
             }
         };
-        getUsersInfo.setContext(getActivity().getApplicationContext());
         getUsersInfo.execute(ENDPOINT);
     }
 }

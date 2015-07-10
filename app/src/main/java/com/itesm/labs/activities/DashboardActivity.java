@@ -7,6 +7,7 @@ import android.provider.Settings;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,15 +17,17 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.itesm.labs.R;
 import com.itesm.labs.fragments.InventoryFragment;
 import com.itesm.labs.fragments.ReportsFragment;
 import com.itesm.labs.fragments.RequestsFragment;
 import com.itesm.labs.fragments.UsersFragment;
+import com.itesm.labs.sqlite.LabsSqliteHelper;
 
 
-public class DashboardActivity extends ActionBarActivity {
+public class DashboardActivity extends AppCompatActivity {
 
     private String[] mDrawerItems;
     private DrawerLayout mDrawerLayout;
@@ -35,6 +38,8 @@ public class DashboardActivity extends ActionBarActivity {
     private RelativeLayout mDrawerRelativeLayout;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
     private TextView mDrawerTitle;
+
+    private LabsSqliteHelper labsSqliteHelper;
 
     // Fragments
     RequestsFragment mRequestsFragment;
@@ -54,6 +59,8 @@ public class DashboardActivity extends ActionBarActivity {
         Intent intent = getIntent();
         ENDPOINT = intent.getStringExtra("ENDPOINT");
         LAB_NAME = intent.getStringExtra("LAB_NAME");
+
+        labsSqliteHelper = new LabsSqliteHelper(this);
 
         dashboardToolbar = (Toolbar) findViewById(R.id.toolbar_dashboard);
         setSupportActionBar(dashboardToolbar);
@@ -89,6 +96,7 @@ public class DashboardActivity extends ActionBarActivity {
             if (savedInstanceState != null) return;
 
             mRequestsFragment = new RequestsFragment();
+            mRequestsFragment.setENDPOINT(ENDPOINT);
 
             getFragmentManager()
                     .beginTransaction()
@@ -96,15 +104,20 @@ public class DashboardActivity extends ActionBarActivity {
                     .commit();
         }
 
-        NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
-        if (!nfcAdapter.isEnabled())
-            startActivity(new Intent(Settings.ACTION_NFC_SETTINGS));
+        try {
+            NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+            if (!nfcAdapter.isEnabled())
+                startActivity(new Intent(Settings.ACTION_NFC_SETTINGS));
+        } catch (Exception ex) {
+            Toast.makeText(this, "No NFC Adapter available", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void fragmentSelector(int idDrawerItem) {
         switch (idDrawerItem) {
             case 0:
                 mRequestsFragment = new RequestsFragment();
+                mRequestsFragment.setENDPOINT(ENDPOINT);
                 getFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container_dashboard, mRequestsFragment, mRequestsFragmentTag)
@@ -127,6 +140,7 @@ public class DashboardActivity extends ActionBarActivity {
                 break;
             case 3:
                 mUsersFragment = new UsersFragment();
+                mUsersFragment.setDETAIL_ENDPOINT(ENDPOINT);
                 mUsersFragment.setENDPOINT(USERS_ENDPOINT);
                 getFragmentManager()
                         .beginTransaction()

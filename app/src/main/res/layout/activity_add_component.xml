@@ -1,0 +1,123 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.itesm.labs.activities.AddComponentActivity">
+
+    <LinearLayout
+        android:id="@+id/activity_add_component_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/primary"
+        android:elevation="3dp"
+        android:orientation="vertical"
+        android:paddingBottom="8dp"
+        android:paddingLeft="72dp"
+        android:paddingTop="72dp">
+
+        <TextView
+            android:id="@+id/activity_add_component_action"
+            style="@style/LabsTheme.v21.Light.Text.Display1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/add_component_text" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:hintTextAppearance="@color/primary_text_light">
+
+            <EditText
+                android:id="@+id/activity_add_component_name"
+                style="@style/LabsTheme.v21.Light.Text.Title"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:hint="Nombre"
+                android:maxLines="1"
+                android:textColor="@color/primary_text_light"
+                android:textColorHint="@color/primary_text_light" />
+
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/activity_add_component_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Categoría:" />
+
+        <TextView
+            android:id="@+id/activity_add_component_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="ID:" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:hintTextAppearance="@color/primary_dark">
+
+            <EditText
+                android:id="@+id/activity_add_component_note"
+                style="@style/LabsTheme.v21.Text.Body1"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:hint="Descripción" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:hintTextAppearance="@color/primary_dark">
+
+            <EditText
+                android:id="@+id/activity_add_component_total"
+                style="@style/LabsTheme.v21.Text.Body1"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:hint="Cantidad total"
+                android:inputType="number" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:hintTextAppearance="@color/primary_dark">
+
+            <EditText
+                android:id="@+id/activity_add_component_av"
+                style="@style/LabsTheme.v21.Text.Body1"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:hint="Disponibles"
+                android:inputType="number" />
+
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/primary_dark"
+        android:src="@drawable/ic_done_white"
+        app:fab_type="normal" />
+
+</LinearLayout>

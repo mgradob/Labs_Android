@@ -46,7 +46,7 @@ public class User {
         this.userName = userName;
     }
 
-    public String getFullName(){
+    public String getFullName() {
         return this.userName + " " + this.userLastName1 + " " + this.userLastName2;
     }
 

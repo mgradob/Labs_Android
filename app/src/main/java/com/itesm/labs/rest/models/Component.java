@@ -7,16 +7,26 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Component {
 
+    @SerializedName("id_category_fk")
+    private int category;
     @SerializedName("id_component")
-    public int id;
+    private int id;
     @SerializedName("name")
-    public String name;
+    private String name;
     @SerializedName("note")
-    public String note;
+    private String note;
     @SerializedName("total")
-    public int total;
+    private int total;
     @SerializedName("available")
-    public int available;
+    private int available;
+
+    public int getCategory() {
+        return category;
+    }
+
+    public void setCategory(int category) {
+        this.category = category;
+    }
 
     public int getId() {
         return id;
@@ -61,7 +71,8 @@ public class Component {
     @Override
     public String toString() {
         return "Component{" +
-                "id=" + id +
+                "category=" + category +
+                ", id=" + id +
                 ", name='" + name + '\'' +
                 ", note='" + note + '\'' +
                 ", total=" + total +

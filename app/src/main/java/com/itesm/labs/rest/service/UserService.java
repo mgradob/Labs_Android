@@ -1,5 +1,6 @@
 package com.itesm.labs.rest.service;
 
+import com.itesm.labs.rest.models.Admin;
 import com.itesm.labs.rest.models.User;
 
 import java.util.ArrayList;
@@ -18,8 +19,14 @@ import retrofit.http.Path;
  */
 public interface UserService {
 
-    @GET("/students/{user_id}/")
-    User loginUser(@Path("user_id") String userId);
+    @GET("/admins/{admin_id}/")
+    Admin loginAdmin(@Path("admin_id") String adminId);
+
+    @GET("/students/{user_id}")
+    User getUser(@Path("user_id") String userId);
+
+    @GET("/students/{user_uid}")
+    User getUser(@Path("user_uid") long userUid);
 
     @GET("/students/")
     ArrayList<User> getUsers();

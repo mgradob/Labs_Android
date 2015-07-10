@@ -82,5 +82,8 @@
     <string name="title_activity_add_category">AddCategoryActivity</string>
     <string name="add_category_name">Nombre</string>
     <string name="add_category_text">Nueva Categoría</string>
+    <string name="request_item_list_item_quantity">Cantidad:</string>
+    <string name="add_component_text">Nuevo Componente </string>
+    <string name="title_activity_add_component">AddComponentActivity</string>
 
 </resources>

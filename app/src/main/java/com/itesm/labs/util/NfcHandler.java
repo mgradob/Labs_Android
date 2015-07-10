@@ -11,7 +11,7 @@ import java.lang.ref.WeakReference;
 public class NfcHandler implements NfcAdapter.ReaderCallback {
 
     public interface UidCallback {
-        void getUid(String uid);
+        void getUid(long uid);
     }
 
     private WeakReference<UidCallback> mCallback;
@@ -22,9 +22,19 @@ public class NfcHandler implements NfcAdapter.ReaderCallback {
 
     @Override
     public void onTagDiscovered(Tag tag) {
-        String tagUid = bytesToHex(tag.getId());
+        long tagUid = bytesToLong(tag.getId());
         mCallback.get().getUid(tagUid);
-        tagUid = "";
+        tagUid = 0;
+    }
+
+    public static long bytesToLong(byte[] data){
+        long tag = 0;
+        for(byte mByte : data){
+
+            tag = (tag<<8) | (mByte & 0xFF);
+        }
+
+        return tag;
     }
 
     /**

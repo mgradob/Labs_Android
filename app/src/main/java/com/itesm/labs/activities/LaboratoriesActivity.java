@@ -3,6 +3,7 @@ package com.itesm.labs.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,7 +18,7 @@ import com.itesm.labs.rest.models.Laboratory;
 import java.util.ArrayList;
 
 
-public class LaboratoriesActivity extends ActionBarActivity {
+public class LaboratoriesActivity extends AppCompatActivity {
 
     public String ENDPOINT = "http://labs.chi.itesm.mx:8080";
 

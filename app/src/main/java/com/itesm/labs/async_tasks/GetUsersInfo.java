@@ -12,9 +12,7 @@ import com.itesm.labs.rest.service.UserService;
 import java.util.ArrayList;
 import java.util.Random;
 
-import retrofit.ErrorHandler;
 import retrofit.RestAdapter;
-import retrofit.RetrofitError;
 import retrofit.converter.GsonConverter;
 
 /**
@@ -24,11 +22,7 @@ public class GetUsersInfo extends AsyncTask<String, Void, ArrayList<User>> {
 
     private Context context;
 
-    public Context getContext() {
-        return context;
-    }
-
-    public void setContext(Context context) {
+    public GetUsersInfo(Context context) {
         this.context = context;
     }
 

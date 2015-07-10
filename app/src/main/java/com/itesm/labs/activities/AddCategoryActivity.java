@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
@@ -24,16 +24,16 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class AddCategoryActivity extends ActionBarActivity {
+public class AddCategoryActivity extends AppCompatActivity {
 
     private String ENDPOINT;
-    private Activity mActivity;
-    private TextView newCategoryTitleTextView;
-    private MaterialEditText newCategoryNameEditText;
     private Boolean isEditting;
     private String newCategoryName;
     private Integer newCategoryId;
-    private RecyclerView newCategoryIconList;
+
+    private Activity mActivity;
+    private TextView newCategoryTitleTextView;
+    private MaterialEditText newCategoryNameEditText;
     private FloatingActionButton addCategoryFab;
     private SnackBar.OnMessageClickListener postSnackbarClickListener, putSnackbarClickListener, deleteSnackbarClickListener;
     private Button deleteCategoryButton;
@@ -58,7 +58,8 @@ public class AddCategoryActivity extends ActionBarActivity {
                 doDelete();
             }
         });
-        if (!isEditting.equals("ISEDIT")) deleteCategoryButton.setVisibility(View.INVISIBLE);
+        if (isEditting) deleteCategoryButton.setVisibility(View.VISIBLE);
+        else deleteCategoryButton.setVisibility(View.INVISIBLE);
         newCategoryTitleTextView = (TextView) findViewById(R.id.activity_add_category_title);
         addCategoryFab = (FloatingActionButton) findViewById(R.id.activity_add_category_fab);
         addCategoryFab.setOnClickListener(new View.OnClickListener() {
@@ -74,7 +75,7 @@ public class AddCategoryActivity extends ActionBarActivity {
         newCategoryName = callingIntent.getStringExtra("CATEGORYNAME");
         if (newCategoryName != null) {
             newCategoryNameEditText.setText(newCategoryName);
-            newCategoryTitleTextView.setText("Editar");
+            newCategoryTitleTextView.setText("Editar:");
         }
 
         postSnackbarClickListener = new SnackBar.OnMessageClickListener() {

@@ -62,33 +62,32 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <com.rengwuxian.materialedittext.MaterialEditText xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/user_id"
-            android:layout_width="250dp"
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:hint="@string/user_mat"
-            app:baseColor="@color/primary_text"
-            app:errorColor="@color/material_red"
-            app:floatingLabel="highlight"
-            app:floatingLabelText="@string/user_mat"
-            app:helperText="Ej: A00123456 ó A01234567"
-            app:helperTextColor="@color/primary_text"
-            app:primaryColor="@color/material_teal" />
+            android:layout_marginTop="16dp">
 
-        <com.rengwuxian.materialedittext.MaterialEditText xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/user_pass"
-            android:layout_width="250dp"
+            <EditText
+                android:id="@+id/user_id"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/user_mat"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/user_id"
-            android:layout_marginTop="8dp"
-            android:hint="@string/user_pass"
-            android:inputType="textPassword"
-            app:baseColor="@color/primary_text"
-            app:errorColor="@color/material_red"
-            app:floatingLabel="highlight"
-            app:floatingLabelText="@string/user_pass"
-            app:primaryColor="@color/material_teal" />
+            android:layout_marginTop="4dp">
+
+            <EditText
+                android:id="@+id/user_pass"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/user_pass"
+                android:inputType="textPassword" />
+
+        </android.support.design.widget.TextInputLayout>
 
         <Button
             android:id="@+id/login_button"
@@ -105,7 +104,7 @@
 
     <TextView
         android:id="@+id/login_admin"
-        style="@style/LabsTheme.v21.Text.Title"
+        style="@style/LabsTheme.v21.Light.Text.Title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/login_frame"

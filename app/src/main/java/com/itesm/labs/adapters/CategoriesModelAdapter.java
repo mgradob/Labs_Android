@@ -49,7 +49,7 @@ public class CategoriesModelAdapter extends BaseAdapter {
         LayoutInflater mLayoutInflater = (LayoutInflater.from(context));
 
         if (convertView == null) {
-            convertView = mLayoutInflater.inflate(R.layout.inventory_list_item_category, parent, false);
+            convertView = mLayoutInflater.inflate(R.layout.list_item_inventory_category, parent, false);
 
             holder = new ViewHolder();
             holder.category_image = (ImageView) convertView.findViewById(R.id.inventory_item_category_icon);

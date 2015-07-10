@@ -49,7 +49,7 @@ public class AddMaterialAdapter extends BaseAdapter {
         LayoutInflater mLayoutInflater = (LayoutInflater.from(context));
 
         if (convertView == null) {
-            convertView = mLayoutInflater.inflate(R.layout.add_material_list_item, parent, false);
+            convertView = mLayoutInflater.inflate(R.layout.list_item_add_material, parent, false);
 
             holder = new ViewHolder();
             holder.addMaterialIcon = (ImageView) convertView.findViewById(R.id.add_material_item_icon);

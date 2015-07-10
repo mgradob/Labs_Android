@@ -31,7 +31,7 @@ public class GetComponentsInfo extends AsyncTask<String, Void, ArrayList<Compone
 
         ComponentService service = restAdapter.create(ComponentService.class);
 
-        componentsData = service.getComponents();
+        componentsData = service.getComponents(ENDPOINT[1]);
 
         return componentsData;
     }

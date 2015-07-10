@@ -18,8 +18,11 @@ import retrofit.http.Path;
  */
 public interface CategoryService {
 
-    @GET("/category/?format=json")
+    @GET("/category/")
     ArrayList<Category> getCategories();
+
+    @GET("/category/{id_category}")
+    Category getCategory(@Path("id_category") int category);
 
     @POST("/category/")
     void postNewCategory(@Body Category body, Callback<Response> cb);

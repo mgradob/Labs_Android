@@ -49,7 +49,7 @@ public class LaboratoriesModelAdapter extends BaseAdapter {
         LayoutInflater mLayoutInflater = (LayoutInflater.from(context));
 
         if (convertView == null) {
-            convertView = mLayoutInflater.inflate(R.layout.laboratory_list_item, parent, false);
+            convertView = mLayoutInflater.inflate(R.layout.list_item_laboratory, parent, false);
 
             holder = new ViewHolder();
             holder.laboratory_image = (ImageView) convertView.findViewById(R.id.laboratory_item_icon);

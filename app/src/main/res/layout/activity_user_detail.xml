@@ -58,15 +58,4 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
 
-    <com.melnykov.fab.FloatingActionButton xmlns:fab="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/activity_user_detail_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/activity_user_detail_list"
-        android:layout_alignRight="@id/activity_user_detail_list"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_done_white"
-        fab:fab_colorNormal="@color/primary"
-        fab:fab_colorRipple="@color/primary_dark" />
-
 </RelativeLayout>

@@ -55,7 +55,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/signup_info_layout"
+        android:id="@+id/add_component_info_layout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_below="@+id/signup_name_layout">
@@ -121,14 +121,51 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/signup_uid_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="72dp"
+            android:layout_below="@id/signup_id_layout"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/singup_uid_icon"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="8dp"
+                android:src="@drawable/ic_uid_grey" />
+
+            <TextView
+                android:id="@+id/signup_uid_text"
+                style="@style/LabsTheme.v21.Text.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12345678" />
+
+            <Button
+                android:id="@+id/signup_uid_update"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/add_component_info_layout"
+                android:layout_alignLeft="@+id/add_component_info_layout"
+                android:layout_margin="16dp"
+                android:text="Actualizar"
+                android:textColor="@color/primary_dark"
+                android:textSize="16dp" />
+
+        </LinearLayout>
+
     </RelativeLayout>
 
     <com.melnykov.fab.FloatingActionButton xmlns:fab="http://schemas.android.com/apk/res-auto"
         android:id="@+id/activity_signup_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/signup_info_layout"
-        android:layout_alignRight="@id/signup_info_layout"
+        android:layout_alignBottom="@id/add_component_info_layout"
+        android:layout_alignRight="@id/add_component_info_layout"
         android:layout_margin="16dp"
         android:src="@drawable/ic_done_white"
         fab:fab_colorNormal="@color/primary"
@@ -139,8 +176,8 @@
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/signup_info_layout"
-        android:layout_alignLeft="@+id/signup_info_layout"
+        android:layout_alignBottom="@+id/add_component_info_layout"
+        android:layout_alignLeft="@+id/add_component_info_layout"
         android:layout_margin="16dp"
         android:text="@string/signup_activity_delete"
         android:textColor="@color/primary_dark"

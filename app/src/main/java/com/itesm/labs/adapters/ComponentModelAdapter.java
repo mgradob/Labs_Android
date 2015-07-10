@@ -48,7 +48,7 @@ public class ComponentModelAdapter extends BaseAdapter {
         LayoutInflater mLayoutInflater = (LayoutInflater.from(context));
 
         if (convertView == null) {
-            convertView = mLayoutInflater.inflate(R.layout.inventory_list_item_component, parent, false);
+            convertView = mLayoutInflater.inflate(R.layout.list_item_inventory_component, parent, false);
 
             holder = new ViewHolder();
             holder.component_name = (TextView) convertView.findViewById(R.id.inventory_item_component_name);
@@ -65,8 +65,8 @@ public class ComponentModelAdapter extends BaseAdapter {
 
         holder.component_name.setText(DATA.get(position).getName());
         holder.component_note.setText(DATA.get(position).getNote());
-        holder.component_total.setText("" + DATA.get(position).getTotal());
-        holder.component_available.setText("" + DATA.get(position).getAvailable());
+        holder.component_total.setText(" " + DATA.get(position).getTotal());
+        holder.component_available.setText(" " + DATA.get(position).getAvailable());
 
         return convertView;
     }

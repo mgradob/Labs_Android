@@ -51,7 +51,7 @@ public class UsersModelAdapter extends BaseAdapter {
         LayoutInflater mLayoutInflater = (LayoutInflater.from(context));
 
         if (convertView == null) {
-            convertView = mLayoutInflater.inflate(R.layout.users_list_item, parent, false);
+            convertView = mLayoutInflater.inflate(R.layout.list_item_users, parent, false);
 
             holder = new ViewHolder();
             holder.user_initial = (TextView) convertView.findViewById(R.id.user_item_user_initial);

@@ -4,23 +4,34 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.mrengineer13.snackbar.SnackBar;
 import com.itesm.labs.R;
-import com.itesm.labs.async_tasks.GetLoginInfo;
+import com.itesm.labs.async_tasks.GetAdminInfo;
+import com.itesm.labs.async_tasks.GetUsersInfo;
+import com.itesm.labs.rest.models.Admin;
 import com.itesm.labs.rest.models.User;
+import com.itesm.labs.sqlite.LabsSqliteHelper;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
-public class LoginActivity extends ActionBarActivity {
+import java.util.ArrayList;
+
+public class LoginActivity extends AppCompatActivity {
 
     private String ENDPOINT = "http://labs.chi.itesm.mx:8080";
     private Activity mActivity;
 
     private Button loginButton;
-    private MaterialEditText userMat, userPass;
-    private String mUserId, mUserPass;
+    private EditText userMat, userPass;
+
+    private String mAdminId, mAdminPass;
+
+    private LabsSqliteHelper labsSqliteHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,54 +40,68 @@ public class LoginActivity extends ActionBarActivity {
 
         mActivity = this;
 
-        userMat = (MaterialEditText) findViewById(R.id.user_id);
-        userPass = (MaterialEditText) findViewById(R.id.user_pass);
+        userMat = (EditText) findViewById(R.id.user_id);
+        userPass = (EditText) findViewById(R.id.user_pass);
 
         loginButton = (Button) findViewById(R.id.login_button);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                mUserId = userMat.getText().toString();
-                mUserPass = userPass.getText().toString();
-
-                if (mUserId.length() == 6)
-                    mUserId = "A00" + mUserId;
-                else if (mUserId.length() == 7)
-                    mUserId = "A0" + mUserId;
-
-                if(mUserId.contains("a0"))
-                    mUserId = mUserId.replace("a0","A0");
-                else if(mUserId.contains("a00"))
-                    mUserId = mUserId.replace("a00", "A00");
-
-                userMat.setText(mUserId);
-
-                if (mUserId.length() == 9) {
-                    GetLoginInfo getLoginInfo = new GetLoginInfo() {
-                        @Override
-                        protected void onPostExecute(User user) {
-                            super.onPostExecute(user);
-
-                            if (user != null) {
-                                Intent intent = new Intent(mActivity.getApplicationContext(), LaboratoriesActivity.class);
-                                intent.putExtra("ALLOWEDLABS", user.getAllowedLabs());
-                                startActivity(intent);
-                                overridePendingTransition(R.anim.abc_slide_in_top, R.anim.abc_slide_out_bottom); // Activity transition animation.
-                            } else
-                                new SnackBar.Builder(mActivity)
-                                        .withMessage("Matrícula o Contraseña incorrectos.")
-                                        .withTextColorId(R.color.primary_text_light)
-                                        .show();
-                        }
-                    };
-                    getLoginInfo.execute(ENDPOINT, mUserId);
-                } else {
-                    new SnackBar.Builder(mActivity)
-                            .withMessage("Matrícula o Contraseña incorrectos.")
-                            .withTextColorId(R.color.primary_text_light)
-                            .show();
-                }
+                validateUser();
             }
         });
+    }
+
+    /**
+     * Validates if the login data is correct and starts LaboratoriesActivity.
+     */
+    void validateUser() {
+        final MaterialDialog loginDialog = new MaterialDialog.Builder(this)
+                .title("Signing in")
+                .content("Please wait...")
+                .progress(true, 0)
+                .show();
+
+        mAdminId = userMat.getText().toString();
+        mAdminPass = userPass.getText().toString();
+
+        if (mAdminId.contains("l0"))
+            mAdminId = mAdminId.replace("l0", "L0");
+
+        userMat.setText(mAdminId);
+
+        if (mAdminId.length() == 9) {
+            GetAdminInfo getAdminInfo = new GetAdminInfo(getApplicationContext()) {
+
+                @Override
+                protected void onPostExecute(Admin admin) {
+                    super.onPostExecute(admin);
+
+                    if (admin != null) {
+                        loginDialog.dismiss();
+
+                        Intent intent = new Intent(getApplicationContext(), LaboratoriesActivity.class);
+                        intent.putExtra("ALLOWEDLABS", admin.getAllowedLabs());
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.abc_slide_in_top, R.anim.abc_slide_out_top);
+                    } else {
+                        loginDialog.dismiss();
+
+                        new SnackBar.Builder(mActivity)
+                                .withMessage("Matrícula o Contraseña incorrectos.")
+                                .withTextColorId(R.color.primary_text_light)
+                                .show();
+                    }
+                }
+            };
+            getAdminInfo.execute(new String[]{ENDPOINT, mAdminId});
+        } else {
+            loginDialog.dismiss();
+
+            new SnackBar.Builder(mActivity)
+                    .withMessage("Matrícula o Contraseña incorrectos.")
+                    .withTextColorId(R.color.primary_text_light)
+                    .show();
+        }
     }
 }

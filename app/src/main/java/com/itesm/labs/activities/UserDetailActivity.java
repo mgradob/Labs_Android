@@ -1,8 +1,11 @@
 package com.itesm.labs.activities;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.transition.Transition;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,78 +13,89 @@ import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.itesm.labs.R;
+import com.itesm.labs.adapters.HistoryModelAdapter;
+import com.itesm.labs.rest.models.Category;
+import com.itesm.labs.rest.models.Component;
+import com.itesm.labs.rest.models.History;
+import com.itesm.labs.rest.queries.CategoryQuery;
+import com.itesm.labs.rest.queries.ComponentQuery;
+import com.itesm.labs.rest.queries.DetailHistoryQuery;
+import com.itesm.labs.util.SwipeDetector;
 import com.melnykov.fab.FloatingActionButton;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.TimeZone;
 
 
-public class UserDetailActivity extends ActionBarActivity {
+public class UserDetailActivity extends AppCompatActivity {
 
     private TextView userName, userId, userCareer;
     private ListView userHistoryList;
-    private FloatingActionButton mFab;
-    private LinearLayout userBackgroud;
+    private LinearLayout userBackground;
+
+    private Activity mActivity;
+    private String ENDPOINT;
+    private String mUserId;
+    private ArrayList<History> mHistoryList;
+
+    private SwipeDetector mSwipeDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_detail);
 
+        mActivity = this;
+
         int[] colors = getResources().getIntArray(R.array.material_colors);
         int[] colorsDark = getResources().getIntArray(R.array.material_colors_dark);
 
         Intent callingIntent = getIntent();
+        ENDPOINT = callingIntent.getStringExtra("ENDPOINT");
         userName = (TextView) findViewById(R.id.activity_user_detail_user_name);
         userName.setText(callingIntent.getStringExtra("USERNAME"));
         userId = (TextView) findViewById(R.id.activity_user_detail_user_id);
-        userId.setText(callingIntent.getStringExtra("USERID"));
+        mUserId = callingIntent.getStringExtra("USERID");
+        userId.setText(mUserId);
         userCareer = (TextView) findViewById(R.id.activity_user_detail_user_career);
         userCareer.setText(callingIntent.getStringExtra("USERCAREER"));
-        userBackgroud = (LinearLayout) findViewById(R.id.activity_user_detail_background);
-        userBackgroud.setBackgroundColor(colors[callingIntent.getIntExtra("USERCOLOR", 0)]);
+        userBackground = (LinearLayout) findViewById(R.id.activity_user_detail_background);
+        userBackground.setBackgroundColor(colors[callingIntent.getIntExtra("USERCOLOR", 0)]);
 
         Window window = getWindow();
         window.setStatusBarColor(colorsDark[callingIntent.getIntExtra("USERCOLOR", 0)]);
 
-        mFab = (FloatingActionButton) findViewById(R.id.activity_user_detail_fab);
-        mFab.setOnClickListener(new View.OnClickListener() {
+        userHistoryList = (ListView) findViewById(R.id.activity_user_detail_list);
+        mSwipeDetector = new SwipeDetector();
+        userHistoryList.setOnTouchListener(mSwipeDetector);
+        userHistoryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (mSwipeDetector.swipeDetected()) {
+                    if (mSwipeDetector.getAction() == SwipeDetector.Action.LR) {
+                        Toast.makeText(mActivity, "Swiped left to right", Toast.LENGTH_SHORT).show();
+                        updateHistoryItem(mHistoryList.get(position));
+                    }
+                }
             }
         });
-        mFab.setBackgroundColor(colors[callingIntent.getIntExtra("USERCOLOR", 0)]);
 
-        ArrayList<String> list = new ArrayList<String>();
-        list.add("Resistencia");
-        list.add("Capacitor");
-        list.add("Inductor");
-        list.add("PIC16F877A");
-        list.add("Resistencia");
-        list.add("Capacitor");
-        list.add("Inductor");
-        list.add("PIC16F877A");
-        list.add("Resistencia");
-        list.add("Capacitor");
-        list.add("Inductor");
-        list.add("PIC16F877A");
-
-        userHistoryList = (ListView) findViewById(R.id.activity_user_detail_list);
-        userHistoryList.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list));
-
-        mFab.attachToListView(userHistoryList);
+        getUserHistory();
 
         window.getEnterTransition().addListener(new Transition.TransitionListener() {
             @Override
             public void onTransitionStart(Transition transition) {
-                userBackgroud.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_in_from_top));
-                mFab.setVisibility(View.INVISIBLE);
+                userBackground.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_in_from_top));
                 userHistoryList.setVisibility(View.INVISIBLE);
             }
 
@@ -89,8 +103,6 @@ public class UserDetailActivity extends ActionBarActivity {
             public void onTransitionEnd(Transition transition) {
                 Animation fabAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_in_from_bottom);
                 fabAnim.setStartOffset(500);
-                mFab.startAnimation(fabAnim);
-                mFab.setVisibility(View.VISIBLE);
                 userHistoryList.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.grow_from_top));
                 userHistoryList.setVisibility(View.VISIBLE);
             }
@@ -114,8 +126,6 @@ public class UserDetailActivity extends ActionBarActivity {
 
     @Override
     public void onBackPressed() {
-        mFab.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_out_to_bottom));
-        mFab.setVisibility(View.INVISIBLE);
         Animation listAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_out_to_top);
         listAnim.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -135,7 +145,7 @@ public class UserDetailActivity extends ActionBarActivity {
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
-                        userBackgroud.setVisibility(View.INVISIBLE);
+                        userBackground.setVisibility(View.INVISIBLE);
                         finish();
                     }
 
@@ -144,7 +154,7 @@ public class UserDetailActivity extends ActionBarActivity {
 
                     }
                 });
-                userBackgroud.startAnimation(bkgAnim);
+                userBackground.startAnimation(bkgAnim);
             }
 
             @Override
@@ -175,5 +185,58 @@ public class UserDetailActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void getUserHistory(){
+        new AsyncTask<Void, Void, ArrayList<History>>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected ArrayList<History> doInBackground(Void... params) {
+                ArrayList<History> histories = new DetailHistoryQuery(ENDPOINT).getDetailHistoryOf(mUserId);
+                for (History history : histories) {
+                    Component component = new ComponentQuery(ENDPOINT).getComponent(history.getComponentId());
+                    Category category = new CategoryQuery(ENDPOINT).getCategoryOf(component.getCategory());
+
+                    history.setCategoryName(category.getName());
+                    history.setComponentNameNote(component.getName() + component.getNote());
+                }
+
+                return histories;
+            }
+
+            @Override
+            protected void onPostExecute(ArrayList<History> histories) {
+                super.onPostExecute(histories);
+
+                mHistoryList = histories;
+
+                userHistoryList.setAdapter(new HistoryModelAdapter(getApplicationContext(), mHistoryList));
+            }
+        }.execute();
+    }
+
+    private void updateHistoryItem(final History item) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+                df.setTimeZone(TimeZone.getTimeZone("UTC"));
+                item.setDateIn(df.format(new Date()));
+                new DetailHistoryQuery(ENDPOINT).putDetailHistory(item);
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+
+                getUserHistory();
+            }
+        }.execute();
     }
 }
