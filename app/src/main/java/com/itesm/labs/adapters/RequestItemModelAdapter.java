@@ -9,8 +9,6 @@ import android.widget.TextView;
 
 import com.itesm.labs.R;
 import com.itesm.labs.rest.models.CartItem;
-import com.itesm.labs.rest.models.Category;
-import com.itesm.labs.rest.models.Component;
 
 import java.util.ArrayList;
 
@@ -22,14 +20,10 @@ public class RequestItemModelAdapter extends BaseAdapter {
     private Context context;
 
     private ArrayList<CartItem> DATA = new ArrayList<>();
-    private ArrayList<Category> CATEGORIES_DATA = new ArrayList<>();
-    private ArrayList<Component> COMPONENTS_DATA = new ArrayList<>();
 
-    public RequestItemModelAdapter(Context context, ArrayList<CartItem> DATA, ArrayList<Category> CATEGORIES_DATA, ArrayList<Component> COMPONENTS_DATA) {
+    public RequestItemModelAdapter(Context context, ArrayList<CartItem> DATA) {
         this.context = context;
         this.DATA = DATA;
-        this.CATEGORIES_DATA = CATEGORIES_DATA;
-        this.COMPONENTS_DATA = COMPONENTS_DATA;
     }
 
     @Override
@@ -67,17 +61,22 @@ public class RequestItemModelAdapter extends BaseAdapter {
         }
 
         CartItem tempCartItem = DATA.get(position);
-        Category tempCategory = CATEGORIES_DATA.get(position);
-        Component tempComponent = COMPONENTS_DATA.get(position);
 
-        holder.component_category.setText(tempCategory.getName());
-        holder.component_name.setText(tempComponent.getName() + " " + tempComponent.getNote());
+        holder.component_category.setText(tempCartItem.getCategory().getName());
+        holder.component_name.setText(tempCartItem.getComponent().getName() + " " + tempCartItem.getComponent().getNote());
         holder.component_total.setText(" " + tempCartItem.getQuantity());
 
         return convertView;
     }
 
+    public void refresh(ArrayList<CartItem> newData) {
+        DATA = newData;
+        notifyDataSetChanged();
+    }
+
     static class ViewHolder {
-        TextView component_category, component_name, component_total;
+        TextView component_category;
+        TextView component_name;
+        TextView component_total;
     }
 }

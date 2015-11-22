@@ -19,9 +19,6 @@ import java.util.ArrayList;
  */
 public class LabsSqliteHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "Labs.db";
-    private static final int DATABASE_VERSION = 1;
-
     //region USERS Table.
     public static final String USERS_TABLE = "USERS";
     public static final String USERS_COLUMN_ID = "USER_ID";
@@ -31,43 +28,22 @@ public class LabsSqliteHelper extends SQLiteOpenHelper {
     public static final String USERS_COLUMN_UID = "USER_UID";
     public static final String USERS_COLUMN_CAREER = "USER_CAREER";
     public static final String USERS_COLUMN_MAIL = "USER_MAIL";
-
-    private static final String USERS_TABLE_CREATE = "CREATE TABLE " + USERS_TABLE +
-            "(" +
-            USERS_COLUMN_ID + " TEXT PRIMARY KEY, " +
-            USERS_COLUMN_NAME + " TEXT, " +
-            USERS_COLUMN_LAST_NAME_1 + " TEXT, " +
-            USERS_COLUMN_LAST_NAME_2 + " TEXT, " +
-            USERS_COLUMN_UID + " INTEGER, " +
-            USERS_COLUMN_CAREER + " TEXT, " +
-            USERS_COLUMN_MAIL + " TEXT" +
-            ")";
-    //endregion
-
     //region ALLOWED_LABS Table.
     public static final String ALLOWED_LABS_TABLE = "ALLOWED_LABS";
     public static final String ALLOWED_LABS_COLUMN_ID = "LAB_ID";
     public static final String ALLOWED_LABS_COLUMN_USER_ID = "USER_ID";
-    public static final String ALLOWED_LABS_COLUMN_URL = "LAB_URL";
-
-    private static final String ALLOWED_LABS_TABLE_CREATE = "CREATE TABLE " + ALLOWED_LABS_TABLE +
-            "(" +
-            ALLOWED_LABS_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
-            ALLOWED_LABS_COLUMN_USER_ID + " TEXT, " +
-            ALLOWED_LABS_COLUMN_URL + " TEXT" +
-            ")";
     //endregion
-
+    public static final String ALLOWED_LABS_COLUMN_URL = "LAB_URL";
     //region CART_ITEM Table.
     public static final String CART_ITEM_TABLE = "CART_ITEM";
     public static final String CART_ITEM_COLUMN_ID = "CART_ITEM_COLUMN_ID";
     public static final String CART_ITEM_COLUMN_USER_ID = "CART_ITEM_COLUMN_USER_ID";
     public static final String CART_ITEM_COLUMN_COMPONENT_ID = "CART_ITEM_COLUMN_COMPONENT_ID";
+    //endregion
     public static final String CART_ITEM_COLUMN_QUANTITY = "CART_ITEM_COLUMN_QUANTITY";
     public static final String CART_ITEM_COLUMN_CHECKOUT = "CART_ITEM_COLUMN_CHECKOUT";
     public static final String CART_ITEM_COLUMN_READY = "CART_ITEM_COLUMN_READY";
     public static final String CART_ITEM_COLUMN_DATE_CHECKOUT = "CART_ITEM_COLUMN_DATE_CHECKOUT";
-
     public static final String CART_ITEM_TABLE_CREATE = "CREATE TABLE " + CART_ITEM_TABLE +
             "(" +
             CART_ITEM_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
@@ -78,17 +54,15 @@ public class LabsSqliteHelper extends SQLiteOpenHelper {
             CART_ITEM_COLUMN_READY + " INTEGER, " +
             CART_ITEM_COLUMN_DATE_CHECKOUT + " TEXT" +
             ")";
-    //endregion
-
     //region COMPONENT Table.
     public static final String COMPONENT_TABLE = "COMPONENT";
     public static final String COMPONENT_COLUMN_COMPONENT_ID = "COMPONENT_COLUMN_COMPONENT_ID";
     public static final String COMPONENT_COLUMN_CATEGORY_ID = "COMPONENT_COLUMN_CATEGORY_ID";
     public static final String COMPONENT_COLUMN_NAME = "COMPONENT_COLUMN_NAME";
+    //endregion
     public static final String COMPONENT_COLUMN_NOTE = "COMPONENT_COLUMN_NOTE";
     public static final String COMPONENT_COLUMN_TOTAL = "COMPONENT_COLUMN_TOTAL";
     public static final String COMPONENT_COLUMN_AVAILABLE = "COMPONENT_COLUMN_AVAILABLE";
-
     public static final String COMPONENT_TABLE_CREATE = "CREATE TABLE " + COMPONENT_TABLE +
             "(" +
             COMPONENT_COLUMN_COMPONENT_ID + " INTEGER PRIMARY KEY, " +
@@ -98,13 +72,29 @@ public class LabsSqliteHelper extends SQLiteOpenHelper {
             COMPONENT_COLUMN_TOTAL + " INTEGER, " +
             COMPONENT_COLUMN_AVAILABLE + " INTEGER" +
             ")";
-    //endregion
-
     //region CATEGORY Table.
     public static final String CATEGORY_TABLE = "CATEGORY";
     public static final String CATEGORY_COLUMN_ID = "CATEGORY_COLUMN_ID";
     public static final String CATEGORY_COLUMN_NAME = "CATEGORY_COLUMN_NAME";
-
+    private static final String DATABASE_NAME = "Labs.db";
+    //endregion
+    private static final int DATABASE_VERSION = 1;
+    private static final String USERS_TABLE_CREATE = "CREATE TABLE " + USERS_TABLE +
+            "(" +
+            USERS_COLUMN_ID + " TEXT PRIMARY KEY, " +
+            USERS_COLUMN_NAME + " TEXT, " +
+            USERS_COLUMN_LAST_NAME_1 + " TEXT, " +
+            USERS_COLUMN_LAST_NAME_2 + " TEXT, " +
+            USERS_COLUMN_UID + " INTEGER, " +
+            USERS_COLUMN_CAREER + " TEXT, " +
+            USERS_COLUMN_MAIL + " TEXT" +
+            ")";
+    private static final String ALLOWED_LABS_TABLE_CREATE = "CREATE TABLE " + ALLOWED_LABS_TABLE +
+            "(" +
+            ALLOWED_LABS_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+            ALLOWED_LABS_COLUMN_USER_ID + " TEXT, " +
+            ALLOWED_LABS_COLUMN_URL + " TEXT" +
+            ")";
     private static final String CATEGORY_TABLE_CREATE = "CREATE TABLE " + CATEGORY_TABLE +
             "(" +
             CATEGORY_COLUMN_ID + " INTEGER PRIMARY KEY, " +

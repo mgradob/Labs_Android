@@ -68,6 +68,11 @@ public class LaboratoriesModelAdapter extends BaseAdapter {
         return convertView;
     }
 
+    public void refreshList(ArrayList<Laboratory> newData) {
+        DATA = newData;
+        notifyDataSetChanged();
+    }
+
     static class ViewHolder {
         ImageView laboratory_image;
         TextView laboratory_name;

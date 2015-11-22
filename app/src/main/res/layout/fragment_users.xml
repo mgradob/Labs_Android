@@ -1,10 +1,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UsersFragment">
 
-    <android.support.v7.widget.Toolbar xmlns:app="http://schemas.android.com/apk/res-auto"
+    <android.support.v7.widget.Toolbar
         android:id="@+id/fragment_users_subtoolbar"
         android:layout_width="fill_parent"
         android:layout_height="72dp"
@@ -21,13 +22,19 @@
         android:layout_height="10dp"
         android:layout_below="@id/fragment_users_subtoolbar" />
 
-    <ListView
-        android:id="@+id/fragment_users_list"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@id/fragment_users_subtoolbar"
-        android:animateLayoutChanges="true"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp" />
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/fragment_users_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/fragment_users_subtoolbar">
+
+        <ListView
+            android:id="@+id/fragment_users_list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:animateLayoutChanges="true"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

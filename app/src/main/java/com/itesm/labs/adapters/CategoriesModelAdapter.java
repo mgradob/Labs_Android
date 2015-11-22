@@ -22,9 +22,8 @@ public class CategoriesModelAdapter extends BaseAdapter {
 
     private ArrayList<Category> DATA = new ArrayList<Category>();
 
-    public CategoriesModelAdapter(Context context, ArrayList<Category> data) {
+    public CategoriesModelAdapter(Context context) {
         this.context = context;
-        this.DATA = data;
     }
 
     @Override
@@ -66,6 +65,11 @@ public class CategoriesModelAdapter extends BaseAdapter {
         holder.category_name.setText(DATA.get(position).getName());
 
         return convertView;
+    }
+
+    public void refreshList(ArrayList<Category> newData) {
+        DATA = newData;
+        notifyDataSetChanged();
     }
 
     static class ViewHolder {

@@ -21,13 +21,19 @@
         android:layout_height="10dp"
         android:layout_below="@id/fragment_inventory_subtoolbar" />
 
-    <ListView
-        android:id="@+id/fragment_inventory_categories_list"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@id/fragment_inventory_subtoolbar"
-        android:animateLayoutChanges="true"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp" />
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/fragment_inventory_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/fragment_inventory_subtoolbar">
+
+        <ListView
+            android:id="@+id/fragment_inventory_categories_list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:animateLayoutChanges="true"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

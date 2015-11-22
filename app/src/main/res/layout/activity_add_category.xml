@@ -1,5 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_add_category"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -14,8 +16,8 @@
         android:orientation="vertical">
 
         <TextView
-            style="@style/LabsTheme.v21.Text.Display1"
             android:id="@+id/activity_add_category_title"
+            style="@style/LabsTheme.v21.Text.Display1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -25,20 +27,22 @@
             android:text="@string/add_category_text"
             android:textColor="@color/primary_text_light" />
 
-        <com.rengwuxian.materialedittext.MaterialEditText xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/activity_add_category_name"
-            style="@style/LabsTheme.v21.Light.Text.Title"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="72dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="8dp"
-            android:hint="@string/add_category_name"
-            app:baseColor="@color/primary_text_light"
-            app:floatingLabel="highlight"
-            app:floatingLabelText="@string/add_category_name"
-            app:primaryColor="@color/primary_text_light" />
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/activity_add_category_name"
+                style="@style/LabsTheme.v21.Light.Text.Title"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="72dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="8dp"
+                android:hint="@string/add_category_name" />
+
+        </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
 
@@ -50,15 +54,15 @@
 
     <Button
         android:id="@+id/activity_add_category_delete"
-        android:layout_alignParentBottom="true"
-        android:layout_width="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_height="wrap_content"
-        android:text="@string/signup_activity_delete"
         style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:text="@string/signup_activity_delete"
         android:textColor="@color/primary_dark" />
 
-    <com.melnykov.fab.FloatingActionButton xmlns:fab="http://schemas.android.com/apk/res-auto"
+    <candroid.support.design.widget.FloatingActionButton
         android:id="@+id/activity_add_category_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -66,7 +70,6 @@
         android:layout_alignParentRight="true"
         android:layout_margin="16dp"
         android:src="@drawable/ic_done_white"
-        fab:fab_colorNormal="@color/primary"
-        fab:fab_colorRipple="@color/primary_dark" />
+        app:fabSize="normal" />
 
 </RelativeLayout>

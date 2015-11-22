@@ -18,14 +18,11 @@ import java.util.ArrayList;
 public class HistoryModelAdapter extends BaseAdapter {
 
     private Context context;
-    private int[] colors;
 
     private ArrayList<History> DATA = new ArrayList<>();
 
-    public HistoryModelAdapter(Context context, ArrayList<History> data) {
+    public HistoryModelAdapter(Context context) {
         this.context = context;
-        this.DATA = data;
-        this.colors = context.getResources().getIntArray(R.array.material_colors);
     }
 
     @Override
@@ -73,6 +70,11 @@ public class HistoryModelAdapter extends BaseAdapter {
         holder.date_in.setText("Fecha entregado:\n" + DATA.get(position).getDateIn());
 
         return convertView;
+    }
+
+    public void refreh(ArrayList<History> newData) {
+        DATA = newData;
+        notifyDataSetChanged();
     }
 
     static class ViewHolder {

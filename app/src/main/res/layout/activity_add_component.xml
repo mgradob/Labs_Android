@@ -118,6 +118,6 @@
         android:layout_height="wrap_content"
         android:background="@color/primary_dark"
         android:src="@drawable/ic_done_white"
-        app:fab_type="normal" />
+        app:fabSize="normal" />
 
 </LinearLayout>

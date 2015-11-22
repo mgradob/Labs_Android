@@ -21,6 +21,8 @@ public class CartItem {
     private boolean ready;
     @SerializedName("date_checkout")
     private String dateCheckout;
+    private Category category;
+    private Component component;
 
     public int getCartId() {
         return cartId;
@@ -78,6 +80,22 @@ public class CartItem {
         this.dateCheckout = dateCheckout;
     }
 
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Component getComponent() {
+        return component;
+    }
+
+    public void setComponent(Component component) {
+        this.component = component;
+    }
+
     @Override
     public String toString() {
         return "CartItem{" +
@@ -88,6 +106,8 @@ public class CartItem {
                 ", checkout=" + checkout +
                 ", ready=" + ready +
                 ", dateCheckout='" + dateCheckout + '\'' +
+                ", category=" + category +
+                ", component=" + component +
                 '}';
     }
 }

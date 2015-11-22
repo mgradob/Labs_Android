@@ -10,16 +10,24 @@ import java.io.Serializable;
 public class Laboratory implements Serializable {
 
     @SerializedName("url")
-    public String url;
+    private String url;
     @SerializedName("name")
-    public String name;
+    private String name;
     @SerializedName("link")
-    public String link;
-    public Integer imageResource;
+    private String link;
+    private Integer imageResource;
+
+    public Laboratory() {
+    }
 
     public Laboratory(String name, Integer imageResource) {
         this.name = name;
         this.imageResource = imageResource;
+    }
+
+    public static String extractLabEndpoint(String url) {
+        String[] temp = url.split("/");
+        return temp[temp.length - 1];
     }
 
     public String getUrl() {

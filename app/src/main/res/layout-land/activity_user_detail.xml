@@ -6,9 +6,9 @@
     tools:context="com.itesm.labs.activities.UserDetailActivity">
 
     <LinearLayout
+        android:id="@id/activity_user_detail_background"
         android:layout_width="200dp"
         android:layout_height="fill_parent"
-        android:id="@id/activity_user_detail_background"
         android:background="@color/material_blue_grey_900"
         android:orientation="vertical"
         android:padding="16dp">

@@ -1,107 +1,177 @@
 package com.itesm.labs.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
+import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.github.mrengineer13.snackbar.SnackBar;
 import com.itesm.labs.R;
-import com.itesm.labs.async_tasks.GetAdminInfo;
-import com.itesm.labs.async_tasks.GetUsersInfo;
+import com.itesm.labs.application.AppConstants;
+import com.itesm.labs.bases.LabsAppBaseActivity;
+import com.itesm.labs.rest.clients.UserClient;
 import com.itesm.labs.rest.models.Admin;
-import com.itesm.labs.rest.models.User;
-import com.itesm.labs.sqlite.LabsSqliteHelper;
-import com.rengwuxian.materialedittext.MaterialEditText;
+import com.itesm.labs.rest.models.LoginUser;
 
-import java.util.ArrayList;
+import javax.inject.Inject;
 
-public class LoginActivity extends AppCompatActivity {
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
-    private String ENDPOINT = "http://labs.chi.itesm.mx:8080";
-    private Activity mActivity;
+public class LoginActivity extends LabsAppBaseActivity {
 
-    private Button loginButton;
-    private EditText userMat, userPass;
+    private final String TAG = LoginActivity.class.getSimpleName();
 
-    private String mAdminId, mAdminPass;
+    @Bind(R.id.login_button)
+    Button loginButton;
 
-    private LabsSqliteHelper labsSqliteHelper;
+    @Bind(R.id.user_id)
+    EditText userMat;
+
+    @Bind(R.id.user_pass)
+    EditText userPass;
+
+    @Inject
+    UserClient mUserClient;
+
+    private String mAdminId;
+    private String mAdminPass;
+
+    private MaterialDialog loginDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mActivity = this;
-
-        userMat = (EditText) findViewById(R.id.user_id);
-        userPass = (EditText) findViewById(R.id.user_pass);
-
-        loginButton = (Button) findViewById(R.id.login_button);
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                validateUser();
-            }
-        });
+        ButterKnife.bind(this);
     }
 
     /**
      * Validates if the login data is correct and starts LaboratoriesActivity.
      */
+    @OnClick(R.id.login_button)
     void validateUser() {
-        final MaterialDialog loginDialog = new MaterialDialog.Builder(this)
-                .title("Signing in")
-                .content("Please wait...")
-                .progress(true, 0)
-                .show();
-
         mAdminId = userMat.getText().toString();
         mAdminPass = userPass.getText().toString();
 
-        if (mAdminId.contains("l0"))
-            mAdminId = mAdminId.replace("l0", "L0");
+        if (validateFields(mAdminId, mAdminPass)) {
+            getToken();
+        } else {
+            Snackbar.make(findViewById(R.id.activity_login),
+                    getResources().getString(R.string.activity_login_snackbar_login_error),
+                    Snackbar.LENGTH_LONG)
+                    .show();
+        }
+    }
 
-        userMat.setText(mAdminId);
+    boolean validateFields(String id, String pass) {
+        if (id.contains("l0"))
+            id = id.replace("l0", "L0");
 
-        if (mAdminId.length() == 9) {
-            GetAdminInfo getAdminInfo = new GetAdminInfo(getApplicationContext()) {
+        userMat.setText(id);
 
-                @Override
-                protected void onPostExecute(Admin admin) {
-                    super.onPostExecute(admin);
+        return id.length() == 9;
+    }
 
-                    if (admin != null) {
-                        loginDialog.dismiss();
+    void getToken() {
+        mUserClient.loginAdmin(new LoginUser(mAdminId, mAdminPass))
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onStart() {
+                        Log.d(TAG, "Token task started");
+                        eventDialog(true);
+                    }
 
-                        Intent intent = new Intent(getApplicationContext(), LaboratoriesActivity.class);
-                        intent.putExtra("ALLOWEDLABS", admin.getAllowedLabs());
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.abc_slide_in_top, R.anim.abc_slide_out_top);
-                    } else {
-                        loginDialog.dismiss();
+                    @Override
+                    public void onCompleted() {
+                        Log.d(TAG, "Token task completed");
 
-                        new SnackBar.Builder(mActivity)
-                                .withMessage("Matrícula o Contraseña incorrectos.")
-                                .withTextColorId(R.color.primary_text_light)
+                        loginAdmin();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "Token task error");
+                        eventDialog(false);
+
+                        Snackbar.make(findViewById(R.id.activity_login),
+                                getResources().getString(R.string.activity_login_snackbar_login_error),
+                                Snackbar.LENGTH_LONG)
                                 .show();
                     }
-                }
-            };
-            getAdminInfo.execute(new String[]{ENDPOINT, mAdminId});
+
+                    @Override
+                    public void onNext(String s) {
+                        if (s == null)
+                            throw new NullPointerException("Token is null");
+
+                        mSharedPreferences.edit()
+                                .putString(AppConstants.PREFERENCES_KEY_USER_TOKEN, s)
+                                .apply();
+                    }
+                });
+    }
+
+    void loginAdmin() {
+        mUserClient.getAdmin(mSharedPreferences.getString(AppConstants.PREFERENCES_KEY_USER_TOKEN, ""),
+                mAdminId)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Admin>() {
+                    @Override
+                    public void onStart() {
+                        Log.d(TAG, "Login task started");
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        Log.d(TAG, "Login task completed");
+                        eventDialog(false);
+
+                        Intent intent = new Intent(getApplicationContext(), LaboratoriesActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.abc_slide_in_top, R.anim.abc_slide_out_top);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(TAG, "Login task error");
+                        eventDialog(false);
+
+                        Snackbar.make(findViewById(R.id.activity_login),
+                                getResources().getString(R.string.activity_login_snackbar_login_error),
+                                Snackbar.LENGTH_LONG)
+                                .show();
+                    }
+
+                    @Override
+                    public void onNext(Admin admin) {
+                        if (admin == null)
+                            throw new NullPointerException("User was null");
+
+                        mAppGlobals.setAdmin(admin);
+                    }
+                });
+    }
+
+    void eventDialog(boolean show) {
+        if (show) {
+            loginDialog = new MaterialDialog.Builder(this)
+                    .title(getResources().getString(R.string.activity_login_dialog_login_title))
+                    .content(getResources().getString(R.string.activity_login_dialog_login_content))
+                    .progress(true, 0)
+                    .show();
         } else {
             loginDialog.dismiss();
-
-            new SnackBar.Builder(mActivity)
-                    .withMessage("Matrícula o Contraseña incorrectos.")
-                    .withTextColorId(R.color.primary_text_light)
-                    .show();
         }
     }
 }

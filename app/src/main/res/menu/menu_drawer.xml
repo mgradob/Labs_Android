@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navigation_item_requests"
+            android:checked="true"
+            android:title="@string/requests_fragment_title" />
+        <item
+            android:id="@+id/navigation_item_inventory"
+            android:checked="false"
+            android:title="@string/inventory_fragment_title" />
+        <item
+            android:id="@+id/navigation_item_reports"
+            android:checked="false"
+            android:title="@string/reports_fragment_title" />
+        <item
+            android:id="@+id/navigation_item_users"
+            android:checked="false"
+            android:title="@string/users_fragment_title" />
+    </group>
+</menu>

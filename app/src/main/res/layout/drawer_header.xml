@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/drawer_image"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/accent" />
+
+    <TextView
+        android:id="@+id/drawer_lab_title"
+        style="@style/LabsTheme.v21.Light.Text.Subhead"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/drawer_image"
+        android:background="@color/grid_text_background"
+        android:padding="8dp" />
+
+</RelativeLayout>

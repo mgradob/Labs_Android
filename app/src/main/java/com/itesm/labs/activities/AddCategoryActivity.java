@@ -1,153 +1,126 @@
 package com.itesm.labs.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
-import com.github.mrengineer13.snackbar.SnackBar;
 import com.itesm.labs.R;
+import com.itesm.labs.application.AppConstants;
+import com.itesm.labs.bases.LabsAppBaseActivity;
+import com.itesm.labs.rest.clients.CategoryClient;
 import com.itesm.labs.rest.models.Category;
-import com.itesm.labs.rest.service.CategoryService;
-import com.melnykov.fab.FloatingActionButton;
-import com.rengwuxian.materialedittext.MaterialEditText;
 
-import retrofit.Callback;
-import retrofit.RequestInterceptor;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import javax.inject.Inject;
 
-public class AddCategoryActivity extends AppCompatActivity {
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
-    private String ENDPOINT;
+public class AddCategoryActivity extends LabsAppBaseActivity {
+
+    private static String TAG = AddCategoryActivity.class.getSimpleName();
+
+    @Bind(R.id.activity_add_category_title)
+    TextView newCategoryTitleTextView;
+    @Bind(R.id.activity_add_category_name)
+    EditText newCategoryNameEditText;
+    @Bind(R.id.activity_add_category_fab)
+    FloatingActionButton addCategoryFab;
+    @Bind(R.id.activity_add_category_delete)
+    Button deleteCategoryButton;
+
+    @Inject
+    CategoryClient mCategoryClient;
+
     private Boolean isEditting;
     private String newCategoryName;
     private Integer newCategoryId;
-
-    private Activity mActivity;
-    private TextView newCategoryTitleTextView;
-    private MaterialEditText newCategoryNameEditText;
-    private FloatingActionButton addCategoryFab;
-    private SnackBar.OnMessageClickListener postSnackbarClickListener, putSnackbarClickListener, deleteSnackbarClickListener;
-    private Button deleteCategoryButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_category);
 
-        mActivity = this;
+        ButterKnife.bind(this);
 
-        Intent callingIntent = getIntent();
-        ENDPOINT = callingIntent.getStringExtra("ENDPOINT");
+        setupInfoWithIntent(getIntent());
+
+        setupDeleteButton();
+    }
+
+    private void setupInfoWithIntent(Intent callingIntent) {
         newCategoryId = callingIntent.getIntExtra("INDEX", -1);
         isEditting = callingIntent.getBooleanExtra("ISEDIT", false);
-
-        newCategoryNameEditText = (MaterialEditText) findViewById(R.id.activity_add_category_name);
-        deleteCategoryButton = (Button) findViewById(R.id.activity_add_category_delete);
-        deleteCategoryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                doDelete();
-            }
-        });
-        if (isEditting) deleteCategoryButton.setVisibility(View.VISIBLE);
-        else deleteCategoryButton.setVisibility(View.INVISIBLE);
-        newCategoryTitleTextView = (TextView) findViewById(R.id.activity_add_category_title);
-        addCategoryFab = (FloatingActionButton) findViewById(R.id.activity_add_category_fab);
-        addCategoryFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isEditting)
-                    doEdit();
-                else
-                    doCreate();
-            }
-        });
-
         newCategoryName = callingIntent.getStringExtra("CATEGORYNAME");
         if (newCategoryName != null) {
             newCategoryNameEditText.setText(newCategoryName);
             newCategoryTitleTextView.setText("Editar:");
         }
+    }
 
-        postSnackbarClickListener = new SnackBar.OnMessageClickListener() {
-            @Override
-            public void onMessageClick(Parcelable parcelable) {
-                doCreate();
-            }
-        };
-        putSnackbarClickListener = new SnackBar.OnMessageClickListener() {
-            @Override
-            public void onMessageClick(Parcelable parcelable) {
-                doEdit();
-            }
-        };
-        deleteSnackbarClickListener = new SnackBar.OnMessageClickListener() {
-            @Override
-            public void onMessageClick(Parcelable parcelable) {
-                doDelete();
-            }
-        };
+    private void setupDeleteButton() {
+        if (isEditting) deleteCategoryButton.setVisibility(View.VISIBLE);
+        else deleteCategoryButton.setVisibility(View.INVISIBLE);
+    }
+
+    @OnClick(R.id.activity_add_category_fab)
+    void onClickFab() {
+        if (isEditting) doEdit();
+        else doCreate();
+    }
+
+    @OnClick(R.id.activity_add_category_delete)
+    void onClickDelete() {
+        doDelete();
     }
 
     private void doDelete() {
-        RequestInterceptor requestInterceptor = new RequestInterceptor() {
-            @Override
-            public void intercept(RequestFacade request) {
-                request.addHeader("Content-Type", "application/json");
-                request.addHeader("Authorization", "Basic " + Base64.encodeToString("dsp-server:6842ldCC$".getBytes(), Base64.NO_WRAP));
-            }
-        };
+        mCategoryClient.deleteCategory(mSharedPreferences.getString(AppConstants.PREFERENCES_KEY_USER_TOKEN, ""),
+                mAppGlobals.getLabLink(), newCategoryId)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Void>() {
+                    @Override
+                    public void onStart() {
+                        Log.d(TAG, "Task post category started");
+                    }
 
-        RestAdapter restAdapter = new RestAdapter
-                .Builder()
-                .setEndpoint(ENDPOINT)
-                .setRequestInterceptor(requestInterceptor)
-                .build();
+                    @Override
+                    public void onCompleted() {
+                        Log.d(TAG, "Task post category completed");
 
-        CategoryService service = restAdapter.create(CategoryService.class);
+                        Snackbar.make(findViewById(R.id.activity_add_category), getString(R.string.add_category_delete_ok), Snackbar.LENGTH_SHORT)
+                                .setCallback(new Snackbar.Callback() {
+                                    @Override
+                                    public void onDismissed(Snackbar snackbar, int event) {
+                                        super.onDismissed(snackbar, event);
+                                        finish();
+                                    }
+                                }).show();
+                    }
 
-        Callback<Response> callbackDelete = new Callback<Response>() {
-            @Override
-            public void success(Response result, Response response) {
-                new SnackBar.Builder(mActivity)
-                        .withMessage(newCategoryName + " fué eliminada.")
-                        .withTextColorId(R.color.primary_text_light)
-                        .withVisibilityChangeListener(new SnackBar.OnVisibilityChangeListener() {
-                            @Override
-                            public void onShow(int i) {
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(TAG, "Task post category error: " + e.getMessage());
 
-                            }
+                        Snackbar.make(findViewById(R.id.activity_add_category), getString(R.string.add_category_delete_error), Snackbar.LENGTH_SHORT)
+                                .show();
+                    }
 
-                            @Override
-                            public void onHide(int i) {
-                                finish();
-                            }
-                        })
-                        .show();
-            }
+                    @Override
+                    public void onNext(Void aVoid) {
 
-            @Override
-            public void failure(RetrofitError error) {
-                new SnackBar.Builder(mActivity)
-                        .withMessage("Error al eliminar " + newCategoryName)
-                        .withTextColorId(R.color.primary_text_light)
-                        .withActionMessage("Retry")
-                        .withOnClickListener(deleteSnackbarClickListener)
-                        .withStyle(SnackBar.Style.ALERT)
-                        .show();
-            }
-        };
-
-        service.deleteCategory(newCategoryId.toString(), callbackDelete);
+                    }
+                });
     }
 
     private void doEdit() {
@@ -155,55 +128,43 @@ public class AddCategoryActivity extends AppCompatActivity {
         newCategory.setId(newCategoryId);
         newCategory.setName(newCategoryNameEditText.getText().toString());
 
-        RequestInterceptor requestInterceptor = new RequestInterceptor() {
-            @Override
-            public void intercept(RequestFacade request) {
-                request.addHeader("Content-Type", "application/json");
-                request.addHeader("Authorization", "Basic " + Base64.encodeToString("dsp-server:6842ldCC$".getBytes(), Base64.NO_WRAP));
-            }
-        };
+        mCategoryClient.editCategory(mSharedPreferences.getString(AppConstants.PREFERENCES_KEY_USER_TOKEN, ""),
+                mAppGlobals.getLabLink(), newCategory.getId(), newCategory)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Void>() {
+                    @Override
+                    public void onStart() {
+                        Log.d(TAG, "Task post category started");
+                    }
 
-        RestAdapter restAdapter = new RestAdapter
-                .Builder()
-                .setEndpoint(ENDPOINT)
-                .setRequestInterceptor(requestInterceptor)
-                .build();
+                    @Override
+                    public void onCompleted() {
+                        Log.d(TAG, "Task post category completed");
 
-        CategoryService service = restAdapter.create(CategoryService.class);
+                        Snackbar.make(findViewById(R.id.activity_add_category), getString(R.string.add_category_put_ok), Snackbar.LENGTH_SHORT)
+                                .setCallback(new Snackbar.Callback() {
+                                    @Override
+                                    public void onDismissed(Snackbar snackbar, int event) {
+                                        super.onDismissed(snackbar, event);
+                                        finish();
+                                    }
+                                }).show();
+                    }
 
-        Callback<Response> callbackPut = new Callback<Response>() {
-            @Override
-            public void success(Response result, Response response) {
-                new SnackBar.Builder(mActivity)
-                        .withMessage(newCategory.getName() + " fué editada.")
-                        .withTextColorId(R.color.primary_text_light)
-                        .withVisibilityChangeListener(new SnackBar.OnVisibilityChangeListener() {
-                            @Override
-                            public void onShow(int i) {
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(TAG, "Task post category error: " + e.getMessage());
 
-                            }
+                        Snackbar.make(findViewById(R.id.activity_add_category), getString(R.string.add_category_put_error), Snackbar.LENGTH_SHORT)
+                                .show();
+                    }
 
-                            @Override
-                            public void onHide(int i) {
-                                finish();
-                            }
-                        })
-                        .show();
-            }
+                    @Override
+                    public void onNext(Void aVoid) {
 
-            @Override
-            public void failure(RetrofitError error) {
-                new SnackBar.Builder(mActivity)
-                        .withMessage("Error al editar " + newCategory.getName())
-                        .withTextColorId(R.color.primary_text_light)
-                        .withActionMessage("Retry")
-                        .withOnClickListener(putSnackbarClickListener)
-                        .withStyle(SnackBar.Style.ALERT)
-                        .show();
-            }
-        };
-
-        service.editCategory(newCategoryId.toString(), newCategory, callbackPut);
+                    }
+                });
     }
 
     private void doCreate() {
@@ -211,54 +172,42 @@ public class AddCategoryActivity extends AppCompatActivity {
         newCategory.setId(newCategoryId);
         newCategory.setName(newCategoryNameEditText.getText().toString());
 
-        RequestInterceptor requestInterceptor = new RequestInterceptor() {
-            @Override
-            public void intercept(RequestFacade request) {
-                request.addHeader("Content-Type", "application/json");
-                request.addHeader("Authorization", "Basic " + Base64.encodeToString("dsp-server:6842ldCC$".getBytes(), Base64.NO_WRAP));
-            }
-        };
+        mCategoryClient.postNewCategory(mSharedPreferences.getString(AppConstants.PREFERENCES_KEY_USER_TOKEN, ""),
+                mAppGlobals.getLabLink(), newCategory)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Void>() {
+                    @Override
+                    public void onStart() {
+                        Log.d(TAG, "Task post category started");
+                    }
 
-        RestAdapter restAdapter = new RestAdapter
-                .Builder()
-                .setEndpoint(ENDPOINT)
-                .setRequestInterceptor(requestInterceptor)
-                .build();
+                    @Override
+                    public void onCompleted() {
+                        Log.d(TAG, "Task post category completed");
 
-        CategoryService service = restAdapter.create(CategoryService.class);
+                        Snackbar.make(findViewById(R.id.activity_add_category), getString(R.string.add_category_post_ok), Snackbar.LENGTH_SHORT)
+                                .setCallback(new Snackbar.Callback() {
+                                    @Override
+                                    public void onDismissed(Snackbar snackbar, int event) {
+                                        super.onDismissed(snackbar, event);
+                                        finish();
+                                    }
+                                }).show();
+                    }
 
-        Callback<Response> callbackPost = new Callback<Response>() {
-            @Override
-            public void success(Response result, Response response) {
-                new SnackBar.Builder(mActivity)
-                        .withMessage(newCategory.getName() + " fué agregada.")
-                        .withTextColorId(R.color.primary_text_light)
-                        .withVisibilityChangeListener(new SnackBar.OnVisibilityChangeListener() {
-                            @Override
-                            public void onShow(int i) {
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(TAG, "Task post category error: " + e.getMessage());
 
-                            }
+                        Snackbar.make(findViewById(R.id.activity_add_category), getString(R.string.add_category_post_error), Snackbar.LENGTH_SHORT)
+                                .show();
+                    }
 
-                            @Override
-                            public void onHide(int i) {
-                                finish();
-                            }
-                        })
-                        .show();
-            }
+                    @Override
+                    public void onNext(Void aVoid) {
 
-            @Override
-            public void failure(RetrofitError error) {
-                new SnackBar.Builder(mActivity)
-                        .withMessage("Error al agregar " + newCategory.getName())
-                        .withTextColorId(R.color.primary_text_light)
-                        .withActionMessage("Retry")
-                        .withOnClickListener(postSnackbarClickListener)
-                        .withStyle(SnackBar.Style.ALERT)
-                        .show();
-            }
-        };
-
-        service.postNewCategory(newCategory, callbackPost);
+                    }
+                });
     }
 }

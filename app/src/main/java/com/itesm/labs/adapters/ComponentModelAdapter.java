@@ -21,9 +21,8 @@ public class ComponentModelAdapter extends BaseAdapter {
 
     private ArrayList<Component> DATA = new ArrayList<>();
 
-    public ComponentModelAdapter(Context context, ArrayList<Component> data) {
+    public ComponentModelAdapter(Context context) {
         this.context = context;
-        this.DATA = data;
     }
 
     @Override
@@ -71,7 +70,15 @@ public class ComponentModelAdapter extends BaseAdapter {
         return convertView;
     }
 
+    public void refresh(ArrayList<Component> newData) {
+        DATA = newData;
+        notifyDataSetChanged();
+    }
+
     static class ViewHolder {
-        TextView component_name, component_note, component_total, component_available;
+        TextView component_name;
+        TextView component_note;
+        TextView component_total;
+        TextView component_available;
     }
 }

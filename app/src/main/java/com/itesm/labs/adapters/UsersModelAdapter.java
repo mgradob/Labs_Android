@@ -78,6 +78,11 @@ public class UsersModelAdapter extends BaseAdapter {
         return convertView;
     }
 
+    public void refreshList(ArrayList<User> newData) {
+        DATA = newData;
+        notifyDataSetChanged();
+    }
+
     static class ViewHolder {
         TextView user_initial;
         TextView user_name;

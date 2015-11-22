@@ -76,6 +76,11 @@ public class RequestsModelAdapter extends BaseAdapter {
         return convertView;
     }
 
+    public void refreshList(ArrayList<Cart> newData) {
+        DATA = newData;
+        notifyDataSetChanged();
+    }
+
     static class ViewHolder {
         ImageView requestImage;
         TextView requestUserName;

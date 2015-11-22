@@ -22,6 +22,9 @@ public class Admin {
     @SerializedName("labs")
     private ArrayList<String> allowedLabs;
 
+    public Admin() {
+    }
+
     public Admin(String adminId, String adminName, String adminLastName1, String adminLastName2, String adminMail, ArrayList<String> allowedLabs) {
         this.adminId = adminId;
         this.adminName = adminName;

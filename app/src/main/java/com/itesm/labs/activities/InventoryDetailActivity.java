@@ -1,238 +1,165 @@
 package com.itesm.labs.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.graphics.Palette;
-import android.transition.Transition;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
+import android.util.Log;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.itesm.labs.R;
 import com.itesm.labs.adapters.ComponentModelAdapter;
-import com.itesm.labs.async_tasks.GetComponentsInfo;
+import com.itesm.labs.application.AppConstants;
+import com.itesm.labs.bases.LabsAppBaseActivity;
+import com.itesm.labs.rest.clients.ComponentClient;
 import com.itesm.labs.rest.models.Component;
-import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
 
-public class InventoryDetailActivity extends AppCompatActivity {
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnItemLongClick;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
-    private View mBackground;
-    private ImageView mCategoryIcon;
-    private TextView mCategoryName;
-    private ListView mCategoryComponentList;
-    private FloatingActionButton mFab;
 
-    private Context mContext;
+public class InventoryDetailActivity extends LabsAppBaseActivity {
 
-    private String ENDPOINT;
-    private String CATEGORY_NAME;
-    private int CATEGORY_ID;
-    private ArrayList<Component> componentsData;
-
+    private final static String TAG = InventoryDetailActivity.class.getSimpleName();
     private final static int ADD_COMPONENT_REQUEST = 1;
+
+    @Bind(R.id.activity_inventory_detail_image)
+    ImageView mDetailImage;
+    @Bind(R.id.activity_inventory_detail_name)
+    TextView mDetailName;
+    @Bind(R.id.activity_inventory_detail_background)
+    LinearLayout mDetailBackground;
+    @Bind(R.id.activity_inventory_detail_list)
+    ListView mDetailList;
+    @Bind(R.id.activity_inventory_detail_fab)
+    FloatingActionButton mDetailFab;
+
+    @Inject
+    ComponentClient mComponentClient;
+
+    private String mCategoryName;
+    private int mCategoryId;
+
+    private ComponentModelAdapter mAdapter;
+
+    private ArrayList<Component> mComponentsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inventory_detail);
 
-        mBackground = findViewById(R.id.activity_inventory_detail_background);
-        mCategoryIcon = (ImageView) findViewById(R.id.activity_inventory_detail_image);
-        mCategoryName = (TextView) findViewById(R.id.activity_inventory_detail_name);
-        mCategoryComponentList = (ListView) findViewById(R.id.activity_inventory_detail_list);
-        mFab = (FloatingActionButton) findViewById(R.id.activity_inventory_detail_fab);
-        mFab.attachToListView(mCategoryComponentList);
+        ButterKnife.bind(this);
 
-        mContext = getApplicationContext();
-        Intent callingIntent = getIntent();
-        ENDPOINT = callingIntent.getStringExtra("ENDPOINT");
+        setupWithIntent(getIntent());
 
-        mCategoryIcon.setImageDrawable(getResources().getDrawable(
-                callingIntent.getIntExtra("CATEGORYICON", R.drawable.ic_dummy_category)
-        ));
-        CATEGORY_NAME = callingIntent.getStringExtra("CATEGORYTITLE");
-        mCategoryName.setText(CATEGORY_NAME);
-
-        Bitmap iconBitmap = BitmapFactory.decodeResource(
-                getResources(),
-                callingIntent.getIntExtra("CATEGORYICON", R.drawable.ic_dummy_category)
-        );
-        Palette palette = Palette.generate(iconBitmap);
-
-        mBackground.setBackgroundColor(palette.getVibrantColor(getResources().getColor(R.color.primary)));
-
-        mFab.setBackgroundColor(palette.getVibrantColor(getResources().getColor(R.color.accent)));
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, AddComponentActivity.class);
-                intent.putExtra("ENDPOINT", ENDPOINT);
-                intent.putExtra("INDEX", componentsData.get(componentsData.size()-1).getId()+1);
-                intent.putExtra("ISEDIT", false);
-                intent.putExtra("COMPONENTCATEGORY", CATEGORY_NAME);
-                startActivityForResult(intent, ADD_COMPONENT_REQUEST);
-            }
-        });
-
-        Window window = getWindow();
-        window.setStatusBarColor(palette.getDarkVibrantColor(getResources().getColor(R.color.primary_dark)));
-
-        CATEGORY_ID = callingIntent.getIntExtra("CATEGORYID", -1);
-
-        GetComponentsInfo componentsInfo = new GetComponentsInfo() {
-            @Override
-            protected void onPostExecute(ArrayList<Component> components) {
-                super.onPostExecute(components);
-                componentsData = components;
-                mCategoryComponentList.setAdapter(new ComponentModelAdapter(mContext, componentsData));
-            }
-        };
-        componentsInfo.execute(ENDPOINT, "" + CATEGORY_ID);
-        mCategoryComponentList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(mContext, AddComponentActivity.class);
-
-                intent.putExtra("ENDPOINT", ENDPOINT);
-                intent.putExtra("INDEX", componentsData.get(position).getId());
-                intent.putExtra("ISEDIT", true);
-                intent.putExtra("COMPONENTNAME", componentsData.get(position).getName());
-                intent.putExtra("COMPONENTNOTE", componentsData.get(position).getNote());
-                intent.putExtra("COMPONENTTOTAL", componentsData.get(position).getTotal());
-                intent.putExtra("COMPONENTAV", componentsData.get(position).getAvailable());
-                intent.putExtra("COMPONENTCATEGORY", CATEGORY_NAME);
-                startActivityForResult(intent, ADD_COMPONENT_REQUEST);
-
-                return true;
-            }
-        });
-
-        window.getEnterTransition().addListener(new Transition.TransitionListener() {
-            @Override
-            public void onTransitionStart(Transition transition) {
-                mBackground.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_in_from_top));
-                mFab.setVisibility(View.INVISIBLE);
-                mCategoryComponentList.setVisibility(View.INVISIBLE);
-            }
-
-            @Override
-            public void onTransitionEnd(Transition transition) {
-                Animation fabAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_in_from_bottom);
-                fabAnim.setStartOffset(500);
-                mFab.startAnimation(fabAnim);
-                mFab.setVisibility(View.VISIBLE);
-                mCategoryComponentList.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.grow_from_top));
-                mCategoryComponentList.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onTransitionCancel(Transition transition) {
-
-            }
-
-            @Override
-            public void onTransitionPause(Transition transition) {
-
-            }
-
-            @Override
-            public void onTransitionResume(Transition transition) {
-
-            }
-        });
+        setupDetailList();
     }
 
     @Override
-    public void onBackPressed() {
-        mFab.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_out_to_bottom));
-        mFab.setVisibility(View.INVISIBLE);
-        Animation listAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_out_to_top);
-        listAnim.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
+    protected void onResume() {
+        super.onResume();
 
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                mCategoryComponentList.setVisibility(View.INVISIBLE);
-
-                Animation bkgAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_out_to_top);
-                bkgAnim.setAnimationListener(new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        mBackground.setVisibility(View.INVISIBLE);
-                        finish();
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-
-                    }
-                });
-                mBackground.startAnimation(bkgAnim);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-        mCategoryComponentList.startAnimation(listAnim);
+        getComponents();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_inventory_detail, menu);
+    private void setupWithIntent(Intent callingIntent) {
+        mCategoryId = callingIntent.getIntExtra("CATEGORYID", 0);
+
+        mDetailImage.setImageDrawable(getDrawable(callingIntent.getIntExtra("CATEGORYICON", R.drawable.ic_dummy_category)));
+
+        mCategoryName = callingIntent.getStringExtra("CATEGORYTITLE");
+        mDetailName.setText(mCategoryName);
+
+        Bitmap iconBitmap = BitmapFactory.decodeResource(getResources(), callingIntent.getIntExtra("CATEGORYICON", R.drawable.ic_dummy_category));
+        Palette palette = Palette.from(iconBitmap).generate();
+
+        mDetailBackground.setBackgroundColor(palette.getVibrantColor(getColor(R.color.primary)));
+
+        mDetailFab.setBackgroundColor(palette.getVibrantColor(getColor(R.color.accent)));
+    }
+
+    private void setupDetailList() {
+        mAdapter = new ComponentModelAdapter(mContext);
+        mDetailList.setAdapter(mAdapter);
+    }
+
+    @OnClick(R.id.activity_inventory_detail_fab)
+    void onFabClick() {
+        Intent intent = new Intent(mContext, AddComponentActivity.class);
+        intent.putExtra("INDEX", mComponentsList.get(mComponentsList.size() - 1).getId() + 1);
+        intent.putExtra("ISEDIT", false);
+        intent.putExtra("COMPONENTCATEGORY", mCategoryName);
+        startActivityForResult(intent, ADD_COMPONENT_REQUEST);
+    }
+
+    @OnItemLongClick(R.id.activity_inventory_detail_list)
+    boolean onComponentLongClick(int position) {
+        Intent intent = new Intent(mContext, AddComponentActivity.class);
+        intent.putExtra("INDEX", mComponentsList.get(position).getId());
+        intent.putExtra("ISEDIT", true);
+        intent.putExtra("COMPONENTNAME", mComponentsList.get(position).getName());
+        intent.putExtra("COMPONENTNOTE", mComponentsList.get(position).getNote());
+        intent.putExtra("COMPONENTTOTAL", mComponentsList.get(position).getTotal());
+        intent.putExtra("COMPONENTAV", mComponentsList.get(position).getAvailable());
+        intent.putExtra("COMPONENTCATEGORY", mCategoryName);
+        startActivityForResult(intent, ADD_COMPONENT_REQUEST);
+
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    private void getComponents() {
+        mComponentClient.getComponents(mSharedPreferences.getString(AppConstants.PREFERENCES_KEY_USER_TOKEN, ""),
+                mAppGlobals.getLabLink(), mCategoryId)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ArrayList<Component>>() {
+                    @Override
+                    public void onStart() {
+                        Log.d(TAG, "Task get components started");
+                    }
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+                    @Override
+                    public void onCompleted() {
+                        Log.d(TAG, "Task get components completed");
 
-        return super.onOptionsItemSelected(item);
+                        mAdapter.refresh(mComponentsList);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(TAG, "Task get components error: " + e.getMessage());
+
+                    }
+
+                    @Override
+                    public void onNext(ArrayList<Component> components) {
+                        if (components == null)
+                            throw new NullPointerException("Components is null");
+
+                        mComponentsList = components;
+                    }
+                });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        GetComponentsInfo componentsInfo = new GetComponentsInfo() {
-            @Override
-            protected void onPostExecute(ArrayList<Component> components) {
-                super.onPostExecute(components);
-                componentsData = components;
-                mCategoryComponentList.setAdapter(new ComponentModelAdapter(mContext, componentsData));
-            }
-        };
-        componentsInfo.execute(ENDPOINT, "" + CATEGORY_ID);
+        getComponents();
     }
 }

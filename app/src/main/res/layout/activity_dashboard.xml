@@ -1,4 +1,5 @@
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/dashboard_drawer_layout"
     android:layout_width="match_parent"
@@ -6,12 +7,12 @@
     tools:context=".DashboardActivity">
 
     <RelativeLayout
-        android:id="@+id/main_layout_dashboard"
+        android:id="@+id/dashboard_main_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_dashboard"
+            android:id="@+id/dashboard_toolbar"
             android:layout_width="fill_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/primary"
@@ -22,13 +23,19 @@
             android:titleTextAppearance="@style/LabsTheme.v21.Light.Text.Title" />
 
         <RelativeLayout
-            android:id="@+id/fragment_container_dashboard"
+            android:id="@+id/dashboard_fragment_container"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_below="@+id/toolbar_dashboard" />
+            android:layout_below="@+id/dashboard_toolbar" />
 
     </RelativeLayout>
 
-    <include layout="@layout/navigation_drawer_dashboard" />
+    <android.support.design.widget.NavigationView
+        android:id="@+id/dashboard_navigation_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/drawer_header"
+        app:menu="@menu/menu_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

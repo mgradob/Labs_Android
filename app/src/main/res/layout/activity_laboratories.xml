@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_laboratories"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LaboratoriesActivity">
@@ -11,7 +12,7 @@
         android:background="@color/primary"
         android:gravity="bottom"
         android:minHeight="?attr/actionBarSize"
-        android:padding="@dimen/abc_action_bar_default_padding_material" />
+        android:padding="16dp" />
 
     <TextView
         style="@style/LabsTheme.v21.Light.Text.Display1"
@@ -28,14 +29,20 @@
         android:layout_height="10dp"
         android:layout_below="@id/laboratories_toolbar" />
 
-    <ListView
-        android:id="@+id/laboratories_list"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/laboratories_swipe_refresh"
         android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/laboratories_toolbar"
-        android:animateLayoutChanges="true"
-        android:gravity="center"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp" />
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/laboratories_toolbar">
+
+        <ListView
+            android:id="@+id/laboratories_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
+            android:gravity="center"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

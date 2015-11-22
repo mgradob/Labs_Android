@@ -40,15 +40,13 @@
         android:paddingLeft="8dp"
         android:paddingRight="8dp" />
 
-    <com.melnykov.fab.FloatingActionButton xmlns:fab="http://schemas.android.com/apk/res-auto"
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/activity_inventory_detail_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/activity_inventory_detail_list"
         android:layout_alignRight="@+id/activity_inventory_detail_list"
         android:layout_margin="16dp"
-        android:src="@drawable/ic_add_white"
-        fab:fab_colorNormal="@color/primary"
-        fab:fab_colorRipple="@color/primary_dark" />
+        android:src="@drawable/ic_add_white" />
 
 </RelativeLayout>

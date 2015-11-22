@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_request_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.itesm.labs.activities.RequestDetailActivity">
@@ -44,15 +45,13 @@
         android:layout_height="fill_parent"
         android:layout_toRightOf="@id/activity_request_detail_background" />
 
-    <com.melnykov.fab.FloatingActionButton xmlns:fab="http://schemas.android.com/apk/res-auto"
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/activity_request_detail_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/activity_request_detail_list"
         android:layout_alignRight="@id/activity_request_detail_list"
         android:layout_margin="16dp"
-        android:src="@drawable/ic_done_white"
-        fab:fab_colorNormal="@color/primary"
-        fab:fab_colorRipple="@color/primary_dark" />
+        android:src="@drawable/ic_done_white" />
 
 </RelativeLayout>

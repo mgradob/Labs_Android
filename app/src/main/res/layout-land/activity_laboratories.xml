@@ -11,7 +11,7 @@
         android:background="@color/primary"
         android:gravity="bottom"
         android:minHeight="?attr/actionBarSize"
-        android:padding="@dimen/abc_action_bar_default_padding_material"
+        android:padding="16dp"
         android:paddingBottom="16dp"
         app:title="@string/laboratories_activity"
         app:titleTextAppearance="@style/LabsTheme.v21.Light.Text.Display1" />

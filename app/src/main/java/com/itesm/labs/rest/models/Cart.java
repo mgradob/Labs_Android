@@ -13,6 +13,9 @@ public class Cart {
     private ArrayList<CartItem> cartList;
     private boolean isReady;
 
+    public Cart() {
+    }
+
     public Cart(String userName, String userId, String cartDate, ArrayList<CartItem> cartList, boolean isReady) {
         this.userName = userName;
         this.userId = userId;
