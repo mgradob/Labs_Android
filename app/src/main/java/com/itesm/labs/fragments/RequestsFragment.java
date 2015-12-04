@@ -46,9 +46,6 @@ public class RequestsFragment extends LabsAppBaseFragment {
     private final static int REQUEST_DETAIL_REQUEST = 1;
     private final String TAG = RequestsFragment.class.getSimpleName();
 
-    @Bind(R.id.fragment_requests_progressbar)
-    ProgressBar mProgressBar;
-
     @Bind(R.id.fragment_requests_list)
     ListView mListView;
 
@@ -84,7 +81,7 @@ public class RequestsFragment extends LabsAppBaseFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_requests, container, false);
-        ButterKnife.bind(view);
+        ButterKnife.bind(this, view);
         return view;
     }
 
@@ -118,29 +115,14 @@ public class RequestsFragment extends LabsAppBaseFragment {
         getRequests();
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_request, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.fragment_users_menu_reload:
-                cartsList.clear();
-                getRequests();
-                break;
-        }
-
-        return true;
-    }
-
     @OnItemClick(R.id.fragment_requests_list)
     void onCartClicked(int position) {
         mAppGlobals.setCart(cartsList.get(position));
 
         Intent intent = new Intent(mContext, RequestDetailActivity.class);
+        intent.putExtra("USERNAME", cartsList.get(position).getUserName());
+        intent.putExtra("USERID", cartsList.get(position).getUserId());
+        intent.putExtra("REQUESTSTATUS", cartsList.get(position).isReady());
         startActivityForResult(intent, REQUEST_DETAIL_REQUEST);
     }
 
@@ -162,34 +144,20 @@ public class RequestsFragment extends LabsAppBaseFragment {
         });
     }
 
-    private void progressBarEvent(boolean show) {
-        if (show) {
-            mProgressBar.setIndeterminate(true);
-            mProgressBar.setVisibility(View.VISIBLE);
-        } else {
-            mProgressBar.setIndeterminate(false);
-            mProgressBar.setVisibility(View.INVISIBLE);
-
-            mSwipeRefreshLayout.setRefreshing(false);
-        }
-    }
-
     private void getRequests() {
         mCartClient.getCarts(mSharedPreferences.getString(AppConstants.PREFERENCES_KEY_USER_TOKEN, ""),
                 mAppGlobals.getLabLink())
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ArrayList<CartItem>>() {
+                .subscribe(new Subscriber<ArrayList<Cart>>() {
                     @Override
                     public void onStart() {
                         Log.d(TAG, "Task get requests started");
-                        progressBarEvent(true);
                     }
 
                     @Override
                     public void onCompleted() {
                         Log.d(TAG, "Task get requests completed");
-                        progressBarEvent(false);
 
                         mAdapter.refreshList(cartsList);
                     }
@@ -197,50 +165,15 @@ public class RequestsFragment extends LabsAppBaseFragment {
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "Task get requests error" + e.getMessage());
-                        progressBarEvent(false);
                     }
 
                     @Override
-                    public void onNext(ArrayList<CartItem> cartItems) {
-                        if (cartItems == null)
+                    public void onNext(ArrayList<Cart> carts) {
+                        if (carts == null)
                             throw new NullPointerException("CartItems was null");
 
-                        // Obtain all users from carts
-                        ArrayList<String> userIds = new ArrayList<String>();
-                        for (CartItem item : cartItems) {
-                            if (!userIds.contains(item.getStudentId()))
-                                userIds.add(item.getStudentId());
-                        }
-
-                        // Clear carts list
                         cartsList.clear();
-
-                        // Create a cart for each user in list
-                        for (String userId : userIds) {
-                            Cart cart = new Cart();
-
-                            cart.setUserId(userId);
-                            cart.setUserName(mUserService
-                                    .getUser(mSharedPreferences.getString(AppConstants.PREFERENCES_KEY_USER_TOKEN, ""), userId)
-                                    .getFullName());
-
-                            ArrayList<CartItem> userItems = new ArrayList<>();
-                            for (CartItem item : cartItems) {
-                                if (item.getStudentId().equals(userId))
-                                    userItems.add(item);
-                            }
-                            cart.setCartList(userItems);
-                            cart.setCartDate(userItems.get(userItems.size() - 1).getDateCheckout());
-
-                            for (CartItem item : cart.getCartList()) {
-                                cart.setReady(item.isReady());
-
-                                if (!item.isReady())
-                                    break;
-                            }
-
-                            cartsList.add(cart);
-                        }
+                        cartsList = carts;
                     }
                 });
     }

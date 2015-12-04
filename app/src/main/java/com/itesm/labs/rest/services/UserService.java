@@ -1,11 +1,13 @@
 package com.itesm.labs.rest.services;
 
 import com.itesm.labs.rest.models.Admin;
-import com.itesm.labs.rest.models.LoginUser;
+import com.itesm.labs.rest.models.LoginAdmin;
+import com.itesm.labs.rest.models.TokenWrapper;
 import com.itesm.labs.rest.models.User;
 
 import java.util.ArrayList;
 
+import retrofit.client.Response;
 import retrofit.http.Body;
 import retrofit.http.DELETE;
 import retrofit.http.GET;
@@ -20,7 +22,7 @@ import retrofit.http.Path;
 public interface UserService {
 
     @POST("/auth/login/")
-    String loginAdmin(@Body LoginUser admin);
+    TokenWrapper loginAdmin(@Body LoginAdmin admin);
 
     @GET("/admins/{admin_id}")
     Admin getAdmin(@Header("Authorization") String token,
@@ -38,15 +40,15 @@ public interface UserService {
     ArrayList<User> getUsers(@Header("Authorization") String token);
 
     @POST("/students/")
-    void postNewUser(@Header("Authorization") String token,
+    Response postNewUser(@Header("Authorization") String token,
                      @Body User body);
 
     @PUT("/students/{user_id}/")
-    void editUser(@Header("Authorization") String token,
+    Response editUser(@Header("Authorization") String token,
                   @Path("user_id") String userId,
                   @Body User body);
 
     @DELETE("/students/{user_id}/")
-    void deleteUser(@Header("Authorization") String token,
+    Response deleteUser(@Header("Authorization") String token,
                     @Path("user_id") String userId);
 }

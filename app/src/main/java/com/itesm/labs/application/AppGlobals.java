@@ -19,6 +19,7 @@ public class AppGlobals {
     public AppGlobals() {
         admin = new Admin();
         laboratory = new Laboratory();
+        user = new User();
         cart = new Cart();
         labLink = "";
     }

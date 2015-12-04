@@ -12,15 +12,7 @@
         android:background="@color/primary"
         android:elevation="3dp"
         app:contentInsetStart="72dp"
-        app:title="Users"
         app:titleTextAppearance="@style/LabsTheme.v21.Light.Text.Display1" />
-
-    <ProgressBar
-        android:id="@+id/fragment_requests_progressbar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="10dp"
-        android:layout_below="@id/fragment_requests_subtoolbar" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/fragment_requests_refresh_layout"

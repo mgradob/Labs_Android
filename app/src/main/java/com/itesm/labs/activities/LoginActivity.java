@@ -13,7 +13,8 @@ import com.itesm.labs.application.AppConstants;
 import com.itesm.labs.bases.LabsAppBaseActivity;
 import com.itesm.labs.rest.clients.UserClient;
 import com.itesm.labs.rest.models.Admin;
-import com.itesm.labs.rest.models.LoginUser;
+import com.itesm.labs.rest.models.LoginAdmin;
+import com.itesm.labs.rest.models.User;
 
 import javax.inject.Inject;
 
@@ -81,7 +82,7 @@ public class LoginActivity extends LabsAppBaseActivity {
     }
 
     void getToken() {
-        mUserClient.loginAdmin(new LoginUser(mAdminId, mAdminPass))
+        mUserClient.loginAdmin(new LoginAdmin(mAdminId, mAdminPass))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<String>() {
@@ -115,18 +116,18 @@ public class LoginActivity extends LabsAppBaseActivity {
                             throw new NullPointerException("Token is null");
 
                         mSharedPreferences.edit()
-                                .putString(AppConstants.PREFERENCES_KEY_USER_TOKEN, s)
+                                .putString(AppConstants.PREFERENCES_KEY_USER_TOKEN, "Token " + s)
                                 .apply();
                     }
                 });
     }
 
     void loginAdmin() {
-        mUserClient.getAdmin(mSharedPreferences.getString(AppConstants.PREFERENCES_KEY_USER_TOKEN, ""),
+        mUserClient.getUser(mSharedPreferences.getString(AppConstants.PREFERENCES_KEY_USER_TOKEN, ""),
                 mAdminId)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Admin>() {
+                .subscribe(new Subscriber<User>() {
                     @Override
                     public void onStart() {
                         Log.d(TAG, "Login task started");
@@ -154,11 +155,11 @@ public class LoginActivity extends LabsAppBaseActivity {
                     }
 
                     @Override
-                    public void onNext(Admin admin) {
+                    public void onNext(User admin) {
                         if (admin == null)
                             throw new NullPointerException("User was null");
 
-                        mAppGlobals.setAdmin(admin);
+                        mAppGlobals.setUser(admin);
                     }
                 });
     }

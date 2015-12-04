@@ -99,8 +99,8 @@ public class AppModule {
     //region Rest Clients
     @Provides
     @Singleton
-    CartClient providesCartClient(CartService cartService, CategoryService categoryService, ComponentService componentService) {
-        return new CartClient(cartService, categoryService, componentService);
+    CartClient providesCartClient(CartService cartService, CategoryService categoryService, ComponentService componentService, UserService userService) {
+        return new CartClient(cartService, categoryService, componentService, userService);
     }
 
     @Provides

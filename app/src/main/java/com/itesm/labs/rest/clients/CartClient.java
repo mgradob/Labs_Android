@@ -5,6 +5,7 @@ import com.itesm.labs.rest.models.CartItem;
 import com.itesm.labs.rest.services.CartService;
 import com.itesm.labs.rest.services.CategoryService;
 import com.itesm.labs.rest.services.ComponentService;
+import com.itesm.labs.rest.services.UserService;
 
 import java.util.ArrayList;
 
@@ -19,20 +20,55 @@ public class CartClient {
     private CartService mCartService;
     private CategoryService mCategoryService;
     private ComponentService mComponentService;
+    private UserService mUserService;
 
-    public CartClient(CartService mCartService, CategoryService mCategoryService, ComponentService mComponentService) {
+    public CartClient(CartService mCartService, CategoryService mCategoryService, ComponentService mComponentService, UserService mUserService) {
         this.mCartService = mCartService;
         this.mCategoryService = mCategoryService;
         this.mComponentService = mComponentService;
+        this.mUserService = mUserService;
     }
 
-    public Observable<ArrayList<CartItem>> getCarts(final String token, final String lab) {
-        return Observable.create(new Observable.OnSubscribe<ArrayList<CartItem>>() {
+    public Observable<ArrayList<Cart>> getCarts(final String token, final String lab) {
+        return Observable.create(new Observable.OnSubscribe<ArrayList<Cart>>() {
             @Override
-            public void call(Subscriber<? super ArrayList<CartItem>> subscriber) {
+            public void call(Subscriber<? super ArrayList<Cart>> subscriber) {
                 ArrayList<CartItem> cartItems = mCartService.getCartsItems(token, lab);
 
-                subscriber.onNext(cartItems);
+                ArrayList<String> userIds = new ArrayList<String>();
+                for (CartItem item : cartItems) {
+                    if (!userIds.contains(item.getStudentId()))
+                        userIds.add(item.getStudentId());
+                }
+
+                // Create a cart for each user in list
+                ArrayList<Cart> carts = new ArrayList<Cart>();
+                for (String userId : userIds) {
+                    Cart cart = new Cart();
+
+                    cart.setUserId(userId);
+                    cart.setUserName(mUserService.getUser(token, userId)
+                            .getFullName());
+
+                    ArrayList<CartItem> userItems = new ArrayList<>();
+                    for (CartItem item : cartItems) {
+                        if (item.getStudentId().equals(userId))
+                            userItems.add(item);
+                    }
+                    cart.setCartList(userItems);
+                    cart.setCartDate(userItems.get(userItems.size() - 1).getDateCheckout());
+
+                    for (CartItem item : cart.getCartList()) {
+                        cart.setReady(item.isReady());
+
+                        if (!item.isReady())
+                            break;
+                    }
+
+                    carts.add(cart);
+                }
+
+                subscriber.onNext(carts);
                 subscriber.onCompleted();
             }
         });

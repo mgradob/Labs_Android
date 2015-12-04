@@ -21,11 +21,11 @@
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/signup_name_til"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 app:hintTextAppearance="@color/md_divider_white">
 
-                <TextView
+                <EditText
                     android:id="@+id/signup_name"
                     style="@style/LabsTheme.v21.Light.Text.Display1"
                     android:layout_width="match_parent"
@@ -38,11 +38,11 @@
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/signup_last_name_1_til"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/signup_name_til">
 
-                <TextView
+                <EditText
                     android:id="@+id/signup_last_name_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -52,11 +52,11 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/signup_last_name_1_til">
 
-                <TextView
+                <EditText
                     android:id="@+id/signup_last_name_2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

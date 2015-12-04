@@ -45,7 +45,7 @@ public class Component {
     }
 
     public String getNote() {
-        return note;
+        return note == null || note.equals("null") ? "" : note;
     }
 
     public void setNote(String note) {

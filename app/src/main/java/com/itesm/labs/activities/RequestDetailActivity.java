@@ -117,7 +117,7 @@ public class RequestDetailActivity extends LabsAppBaseActivity implements UidCal
     }
 
     private void setupStatusBar() {
-        getWindow().setStatusBarColor(getColor(R.color.primary_dark));
+        getWindow().setStatusBarColor(getResources().getColor(R.color.primary_dark));
     }
 
     private void setupFab() {

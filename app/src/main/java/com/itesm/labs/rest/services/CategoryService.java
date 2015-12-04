@@ -4,6 +4,7 @@ import com.itesm.labs.rest.models.Category;
 
 import java.util.ArrayList;
 
+import retrofit.client.Response;
 import retrofit.http.Body;
 import retrofit.http.DELETE;
 import retrofit.http.GET;
@@ -27,18 +28,18 @@ public interface CategoryService {
                          @Path("id_category") int category);
 
     @POST("/{lab}/category/")
-    void postNewCategory(@Header("Authorization") String token,
+    Response postNewCategory(@Header("Authorization") String token,
                          @Path("lab") String lab,
                          @Body Category body);
 
     @PUT("/{lab}/category/{category_id}/")
-    void editCategory(@Header("Authorization") String token,
+    Response editCategory(@Header("Authorization") String token,
                       @Path("lab") String lab,
                       @Path("category_id") int catId,
                       @Body Category body);
 
     @DELETE("/{lab}/category/{category_id}/")
-    void deleteCategory(@Header("Authorization") String token,
+    Response deleteCategory(@Header("Authorization") String token,
                         @Path("lab") String lab,
                         @Path("category_id") int catId);
 }

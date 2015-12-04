@@ -3,29 +3,26 @@ package com.itesm.labs.rest.models;
 /**
  * Created by mgradob on 11/3/15.
  */
-public class LoginUser {
+public class LoginAdmin {
 
-    private String username;
+    private String id_student;
     private String password;
 
-    public LoginUser() {
-    }
-
-    public LoginUser(String username, String password) {
-        this.username = username;
+    public LoginAdmin(String id_student, String password) {
+        this.id_student = id_student;
         this.password = password;
     }
 
     @Override
     public String toString() {
         return "LoginUser{" +
-                "username='" + username + '\'' +
+                "id_student='" + id_student + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setId_student(String id_student) {
+        this.id_student = id_student;
     }
 
     public void setPassword(String password) {

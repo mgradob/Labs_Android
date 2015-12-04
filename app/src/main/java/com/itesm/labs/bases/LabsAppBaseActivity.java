@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.itesm.labs.application.AppGlobals;
 import com.itesm.labs.application.LabsAdminApp;
 
@@ -30,6 +31,4 @@ public abstract class LabsAppBaseActivity extends AppCompatActivity {
 
         LabsAdminApp.get().inject(this);
     }
-
-
 }

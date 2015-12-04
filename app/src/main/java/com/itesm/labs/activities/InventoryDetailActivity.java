@@ -88,9 +88,11 @@ public class InventoryDetailActivity extends LabsAppBaseActivity {
         Bitmap iconBitmap = BitmapFactory.decodeResource(getResources(), callingIntent.getIntExtra("CATEGORYICON", R.drawable.ic_dummy_category));
         Palette palette = Palette.from(iconBitmap).generate();
 
-        mDetailBackground.setBackgroundColor(palette.getVibrantColor(getColor(R.color.primary)));
+        getWindow().setStatusBarColor(palette.getDarkVibrantColor(getResources().getColor(R.color.primary)));
 
-        mDetailFab.setBackgroundColor(palette.getVibrantColor(getColor(R.color.accent)));
+        mDetailBackground.setBackgroundColor(palette.getVibrantColor(getResources().getColor(R.color.primary)));
+
+        mDetailFab.setBackgroundColor(palette.getVibrantColor(getResources().getColor(R.color.accent)));
     }
 
     private void setupDetailList() {

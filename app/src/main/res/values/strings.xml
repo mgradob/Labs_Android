@@ -17,7 +17,7 @@
     <string name="app_name">Laboratories</string>
     <string name="activity_login_dialog_login_title">Signing in</string>
     <string name="activity_login_dialog_login_content">Please wait…</string>
-    <string name="activity_login_snackbar_login_error">Error, wrong username or password.</string>
+    <string name="activity_login_snackbar_login_error">Error, wrong id_student or password.</string>
 
     <!-- Laboratories Activity -->
     <string name="laboratories_activity">Laboratories</string>
@@ -39,6 +39,10 @@
     <string name="requests_update_error">Error updating the request.</string>
     <string name="requests_invalid_id">This ID is invalid.</string>
     <string name="request_item_list_item_quantity">Quantity:</string>
+    <string name="request_get_dialog_title">Getting requests</string>
+    <string name="request_get_dialog_body">Please wait…</string>
+    <string name="request_get_dialog_error_title">Error</string>
+    <string name="request_get_dialog_error_body">Couldn\'t get the requests.</string>
     <!-- Requests Transition Names -->
     <string name="requests_fragment_transition_name">USER_NAME</string>
     <string name="requests_fragment_transition_id">USER_ID</string>
@@ -84,6 +88,9 @@
     <string name="users_activity_available_material">Available</string>
     <string name="title_activity_inventory_detail">InventoryDetailActivity</string>
     <string name="menu_inventory_add_category">Add category</string>
+    <!-- UserDetailActivity-->
+    <string name="users_put_history_ok">Item updated</string>
+    <string name="users_put_history_error">Error, couldn\'t update item</string>
 
     <!-- SignupActivity -->
     <string name="signup_activity">SignupActivity</string>
@@ -96,7 +103,6 @@
     <string name="signup_put_error">Couldn\'t edit user.</string>
     <string name="signup_delete_ok">User deleted.</string>
     <string name="signup_delete_error">Couldn\'t delete user.</string>
-
 
     <!-- AddCategoryActivity -->
     <string name="title_activity_add_category">AddCategoryActivity</string>

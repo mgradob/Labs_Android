@@ -88,21 +88,25 @@ public class AddUserActivity extends LabsAppBaseActivity implements NfcHandler.U
 
     private void setupWithIntent(Intent callingIntent) {
         mIsEditting = callingIntent.getBooleanExtra("ISEDIT", false);
-        if (mIsEditting)
+        if (mIsEditting) {
             deleteButton.setVisibility(View.VISIBLE);
+
+            userNameEditText.setText(mAppGlobals.getUser().getUserName());
+            userLastName1EditText.setText(mAppGlobals.getUser().getUserLastName1());
+            userLastName2EditText.setText(mAppGlobals.getUser().getUserLastName2());
+            userIdEditText.setText(mAppGlobals.getUser().getUserId());
+            userCareerEditText.setText(mAppGlobals.getUser().getUserCareer());
+            userIdEditText.setText("" + mAppGlobals.getUser().getUserUid());
+        }
         else
             deleteButton.setVisibility(View.INVISIBLE);
-
-        userNameEditText.setText(mAppGlobals.getUser().getUserName());
-        userLastName1EditText.setText(mAppGlobals.getUser().getUserLastName1());
-        userLastName2EditText.setText(mAppGlobals.getUser().getUserLastName2());
-        userIdEditText.setText(mAppGlobals.getUser().getUserId());
-        userCareerEditText.setText(mAppGlobals.getUser().getUserCareer());
-        userIdEditText.setText("" + mAppGlobals.getUser().getUserUid());
     }
 
     private void setupAllowesLabs() {
-        allowedLabsList = mAppGlobals.getUser().getAllowedLabs();
+        if(mAppGlobals.getUser() != null)
+            allowedLabsList = mAppGlobals.getUser().getAllowedLabs();
+        else
+            allowedLabsList.add(mAppGlobals.getLabLink());
 
         mAdapter = new AllowedLabsModelAdapter(mContext);
         allowedLabs.setAdapter(mAdapter);

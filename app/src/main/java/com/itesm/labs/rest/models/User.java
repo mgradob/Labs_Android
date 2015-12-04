@@ -27,6 +27,9 @@ public class User {
     private ArrayList<String> allowedLabs;
     private Integer userColor;
 
+    public User() {
+    }
+
     public User(String userName, String userLastName1, String userLastName2, String userId, String userCareer, long userUid, String userMail, ArrayList<String> allowedLabs) {
         this.userName = userName;
         this.userLastName1 = userLastName1;

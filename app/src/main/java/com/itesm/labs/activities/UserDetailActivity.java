@@ -2,6 +2,7 @@ package com.itesm.labs.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -19,7 +20,13 @@ import com.itesm.labs.rest.clients.DetailHistoryClient;
 import com.itesm.labs.rest.models.History;
 import com.itesm.labs.utils.SwipeDetector;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
+import java.util.zip.DataFormatException;
 
 import javax.inject.Inject;
 
@@ -68,6 +75,13 @@ public class UserDetailActivity extends LabsAppBaseActivity {
         setupDetailList();
 
         setupSwipeDetector();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        getUserHistory();
     }
 
     private void setupWithIntent(Intent callingIntent) {
@@ -141,6 +155,44 @@ public class UserDetailActivity extends LabsAppBaseActivity {
     }
 
     private void updateHistoryItem(final History item) {
-        // TODO: 11/17/15 checar como hacer update a un item sin enviar fecha.
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+        df.setTimeZone(TimeZone.getTimeZone("UTC"));
+        String date = df.format(new Date());
+
+        item.setDateIn(date);
+
+        mDetailHistoryClient.putDetailHistoryItem(mSharedPreferences.getString(AppConstants.PREFERENCES_KEY_USER_TOKEN, ""),
+                mAppGlobals.getLabLink(), item.getHistoryId(), item)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Void>() {
+                    @Override
+                    public void onStart() {
+                        Log.d(TAG, "Task put user history started");
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        Log.d(TAG, "Task put user history completed");
+
+                        Snackbar.make(findViewById(R.id.activity_user_detail), getString(R.string.users_put_history_ok), Snackbar.LENGTH_SHORT)
+                                .show();
+
+//                        getUserHistory();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(TAG, "Task put user history error: " + e.getMessage());
+
+                        Snackbar.make(findViewById(R.id.activity_user_detail), getString(R.string.users_put_history_error), Snackbar.LENGTH_SHORT)
+                                .show();
+                    }
+
+                    @Override
+                    public void onNext(Void aVoid) {
+
+                    }
+                });
     }
 }

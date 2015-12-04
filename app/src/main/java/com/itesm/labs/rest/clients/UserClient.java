@@ -1,7 +1,8 @@
 package com.itesm.labs.rest.clients;
 
 import com.itesm.labs.rest.models.Admin;
-import com.itesm.labs.rest.models.LoginUser;
+import com.itesm.labs.rest.models.LoginAdmin;
+import com.itesm.labs.rest.models.TokenWrapper;
 import com.itesm.labs.rest.models.User;
 import com.itesm.labs.rest.services.UserService;
 
@@ -21,13 +22,13 @@ public class UserClient {
         this.mUserService = mUserService;
     }
 
-    public Observable<String> loginAdmin(final LoginUser admin) {
+    public Observable<String> loginAdmin(final LoginAdmin admin) {
         return Observable.create(new Observable.OnSubscribe<String>() {
             @Override
             public void call(Subscriber<? super String> subscriber) {
-                String token = mUserService.loginAdmin(admin);
+                TokenWrapper wrapper = mUserService.loginAdmin(admin);
 
-                subscriber.onNext(token);
+                subscriber.onNext(wrapper.getToken());
                 subscriber.onCompleted();
             }
         });

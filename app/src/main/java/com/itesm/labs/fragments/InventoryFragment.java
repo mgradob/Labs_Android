@@ -77,7 +77,7 @@ public class InventoryFragment extends LabsAppBaseFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_inventory, container, false);
-        ButterKnife.bind(view);
+        ButterKnife.bind(this, view);
         return view;
     }
 
@@ -163,7 +163,7 @@ public class InventoryFragment extends LabsAppBaseFragment {
                 intent.putExtra("INDEX", mCategoriesData.size());
                 startActivity(intent);
                 break;
-            case R.id.inventory_menu_settings:
+            default:
                 break;
         }
         return true;

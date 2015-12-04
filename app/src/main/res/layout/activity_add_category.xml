@@ -62,7 +62,7 @@
         android:text="@string/signup_activity_delete"
         android:textColor="@color/primary_dark" />
 
-    <candroid.support.design.widget.FloatingActionButton
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/activity_add_category_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

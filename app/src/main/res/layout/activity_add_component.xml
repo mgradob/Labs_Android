@@ -36,9 +36,7 @@
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:hint="Nombre"
-                android:maxLines="1"
-                android:textColor="@color/primary_text_light"
-                android:textColorHint="@color/primary_text_light" />
+                android:maxLines="1" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -67,12 +65,11 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            app:hintTextAppearance="@color/primary_dark">
+            android:layout_marginBottom="8dp">
 
             <EditText
                 android:id="@+id/activity_add_component_note"
-                style="@style/LabsTheme.v21.Text.Body1"
+                style="@style/LabsTheme.EditText.Dark"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:hint="Descripción" />
@@ -82,12 +79,11 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            app:hintTextAppearance="@color/primary_dark">
+            android:layout_marginBottom="8dp">
 
             <EditText
                 android:id="@+id/activity_add_component_total"
-                style="@style/LabsTheme.v21.Text.Body1"
+                style="@style/LabsTheme.EditText.Dark"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:hint="Cantidad total"
@@ -98,12 +94,11 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            app:hintTextAppearance="@color/primary_dark">
+            android:layout_marginBottom="8dp">
 
             <EditText
                 android:id="@+id/activity_add_component_av"
-                style="@style/LabsTheme.v21.Text.Body1"
+                style="@style/LabsTheme.EditText.Dark"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:hint="Disponibles"

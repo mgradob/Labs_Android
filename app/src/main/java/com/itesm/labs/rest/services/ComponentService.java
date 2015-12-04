@@ -4,6 +4,7 @@ import com.itesm.labs.rest.models.Component;
 
 import java.util.ArrayList;
 
+import retrofit.client.Response;
 import retrofit.http.Body;
 import retrofit.http.DELETE;
 import retrofit.http.GET;
@@ -33,18 +34,18 @@ public interface ComponentService {
                            @Path("id_component") int componentId);
 
     @POST("/{lab}/component/")
-    void postComponent(@Header("Authorization") String token,
+    Response postComponent(@Header("Authorization") String token,
                        @Path("lab") String lab,
                        @Body Component item);
 
     @PUT("/{lab}/component/{component_id}/")
-    void putComponent(@Header("Authorization") String token,
+    Response putComponent(@Header("Authorization") String token,
                       @Path("lab") String lab,
                       @Path("component_id") int componentId,
                       @Body Component body);
 
     @DELETE("/{lab}/component/{component_id}/")
-    void deleteComponent(@Header("Authorization") String token,
+    Response deleteComponent(@Header("Authorization") String token,
                          @Path("lab") String lab,
                          @Path("component_id") int componentId);
 }

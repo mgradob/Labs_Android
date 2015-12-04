@@ -4,6 +4,7 @@ import com.itesm.labs.rest.models.CartItem;
 
 import java.util.ArrayList;
 
+import retrofit.client.Response;
 import retrofit.http.Body;
 import retrofit.http.DELETE;
 import retrofit.http.GET;
@@ -27,13 +28,13 @@ public interface CartService {
                                        @Query("id_student_fk") String userId);
 
     @PUT("/{lab}/detailcart/{id_cart}/")
-    void editCartItem(@Header("Authorization") String token,
+    Response editCartItem(@Header("Authorization") String token,
                       @Path("lab") String lab,
                       @Path("id_cart") int cartId,
                       @Body CartItem cartItemBody);
 
     @DELETE("/{lab}/detailcart/{id_cart}/")
-    void deleteCartItem(@Header("Authorization") String token,
+    Response deleteCartItem(@Header("Authorization") String token,
                         @Path("lab") String lab,
                         @Path("id_cart") int cartId);
 }

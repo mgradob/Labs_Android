@@ -83,7 +83,7 @@ public class UsersFragment extends LabsAppBaseFragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_users, container, false);
-        ButterKnife.bind(view);
+        ButterKnife.bind(this, view);
         return view;
     }
 
@@ -135,6 +135,7 @@ public class UsersFragment extends LabsAppBaseFragment {
 
     @OnItemLongClick(R.id.fragment_users_list)
     boolean onItemLongClick(int position) {
+        mAppGlobals.setUser(mUsersList.get(position));
         Intent intent = new Intent(mContext, AddUserActivity.class);
         intent.putExtra("ISEDIT", true);
         intent.putExtra("USERNAME", mUsersList.get(position).getUserName());
@@ -163,8 +164,7 @@ public class UsersFragment extends LabsAppBaseFragment {
                 intent.putExtra("ISEDIT", false);
                 startActivityForResult(intent, SIGNUP_USER_REQUEST);
                 break;
-            case R.id.fragment_users_menu_reload:
-                getUsersInfo();
+            default:
                 break;
         }
 

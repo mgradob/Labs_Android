@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.itesm.labs.application.AppGlobals;
 import com.itesm.labs.application.LabsAdminApp;
 
